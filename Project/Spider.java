@@ -27,8 +27,11 @@ public class Spider extends Actor
             ySpeed = 0;
             
             if(Greenfoot.isKeyDown("up") || Greenfoot.isKeyDown("space")){
-                hasJumped = true;
-                jump();
+            	if(!hasJumped)
+            	{
+	                hasJumped = true;
+	                jump();
+            	}
             } else {
                 hasJumped = false;
             }
