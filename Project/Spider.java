@@ -22,6 +22,9 @@ public class Spider extends Actor
 
     /** whether the spider is in the air or standing on something. Used to prevent jumping in mid-air. **/
     private boolean inAir = true;
+
+    /** whether the player has jumped and not released the button **/
+    private boolean jumpButtonReady = true;
     
     /**
      * Act - do whatever the Spider wants to do. This method is called whenever
@@ -49,9 +52,14 @@ public class Spider extends Actor
                 ySpeed++;
             }
         }
-        if(!inAir && Greenfoot.isKeyDown("space")){
-            inAir = true;
-            ySpeed = -JUMP_STRENGTH;
+        if(Greenfoot.isKeyDown("space")){
+            if(!inAir && jumpButtonReady){
+                inAir = true;
+                jumpButtonReady = false;
+                ySpeed = -JUMP_STRENGTH;
+            }
+        } else {
+            jumpButtonReady = true;
         }
         setLocation(getX(), getY()+ySpeed);
 
