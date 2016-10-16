@@ -26,7 +26,7 @@ public class Spider extends Actor
         if(onGround()){
             ySpeed = 0;
             
-            if(Greenfoot.isKeyDown("up")){
+            if(Greenfoot.isKeyDown("up") || Greenfoot.isKeyDown("space")){
                 hasJumped = true;
                 jump();
             } else {
@@ -39,9 +39,9 @@ public class Spider extends Actor
             setLocation(getX(), getY()+ySpeed);
         }
 
-        if(Greenfoot.isKeyDown("right")){
+        if(Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d")){
             moveHorizontally(X_SPEED);
-        } else if(Greenfoot.isKeyDown("left")){
+        } else if(Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("a")){
             moveHorizontally(-X_SPEED);
         }
     }
