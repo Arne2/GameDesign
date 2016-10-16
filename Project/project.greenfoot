@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Fri Oct 14 17:07:51 CEST 2016
+#Sun Oct 16 13:10:38 CEST 2016
 readme.name=@README
 target2.name=Spider
 simulation.speed=49
@@ -19,8 +19,9 @@ package.numTargets=3
 dependency3.to=Platform
 target1.height=50
 dependency2.type=UsesDependency
-editor.swing.0.y=98
-editor.swing.0.x=390
+dependency4.type=UsesDependency
+editor.swing.0.y=64
+editor.swing.0.x=331
 target1.y=70
 target2.height=50
 target1.x=70
@@ -42,21 +43,23 @@ mainWindow.width=974
 dependency2.from=MyWorld
 target2.width=80
 target1.width=80
-mainWindow.y=0
-mainWindow.height=1057
+mainWindow.y=30
+mainWindow.height=956
 target3.width=80
-mainWindow.x=-1927
+dependency4.from=Spider
+mainWindow.x=-1549
 class.Platform.superclass=greenfoot.Actor
+dependency4.to=MyWorld
 editor.fx.0.y=0
 editor.fx.0.x=0
 readme.width=47
 target3.showInterface=false
 target2.type=ClassTarget
 world.lastInstantiated=MyWorld
-editor.swing.0.height=881
+editor.swing.0.height=930
 dependency1.type=UsesDependency
 version=2.8.0
-package.numDependencies=3
+package.numDependencies=4
 dependency3.type=UsesDependency
 project.charset=UTF-8
 readme.height=58
