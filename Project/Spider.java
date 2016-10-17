@@ -24,6 +24,9 @@ public class Spider extends Actor
     /** whether the spider is in the air or standing on something. Used to prevent jumping in mid-air. **/
     private boolean inAir = true;
 
+    /** the platform the spider is currently standing on **/
+    private Platform ground = null;
+
     /** whether the player has jumped and not released the button **/
     private boolean jumpButtonReady = true;
     
@@ -36,6 +39,13 @@ public class Spider extends Actor
         // TODO: implement death and game-over mechanic.
         if(isDead()){
             Greenfoot.setWorld(new MyWorld());
+        }
+        
+        // horizontal movement
+        if(Greenfoot.isKeyDown("right")){
+            moveRight();
+        } else if(Greenfoot.isKeyDown("left")){
+            moveLeft();
         }
 
         // gravity
@@ -53,13 +63,6 @@ public class Spider extends Actor
             }
         } else {
             jumpButtonReady = true;
-        }
-        
-        // horizontal movement
-        if(Greenfoot.isKeyDown("right")){
-            moveRight();
-        } else if(Greenfoot.isKeyDown("left")){
-            moveLeft();
         }
         
         moveVertically(ySpeed);
@@ -101,8 +104,11 @@ public class Spider extends Actor
      * Checks for collisions with platforms afterwards.
      */
     public void moveRight(){
-        // set inAir to true to allow falling of platforms.
-        inAir = true;
+        // Check, if the spider falls
+        if(ground != null && getX()-ground.getX() > (ground.getImage().getWidth()+getImage().getWidth())/2){
+            inAir = true;
+            ground = null;
+        }
         setLocation(getX()+X_SPEED, getY());
         
         List<Actor> intersecting = getIntersectingObjects(Actor.class);
@@ -122,8 +128,11 @@ public class Spider extends Actor
      * Checks for collisions with platforms afterwards.
      */
     public void moveLeft(){
-        // set inAir to true to allow falling of platforms.
-        inAir = true;
+        // Check, if the spider falls
+        if(ground != null && ground.getX()-getX() > (ground.getImage().getWidth()+getImage().getWidth())/2){
+            inAir = true;
+            ground = null;
+        }
         setLocation(getX()-X_SPEED, getY());
         
         List<Actor> intersecting = getIntersectingObjects(Actor.class);
@@ -144,6 +153,7 @@ public class Spider extends Actor
     public void setToGround(Actor ground){
         ySpeed = 0;
         inAir = false;
+        this.ground = (Platform)ground;
         setLocation(getX(), ground.getY() - (ground.getImage().getHeight()+getImage().getHeight())/2);
     }
     
@@ -159,7 +169,7 @@ public class Spider extends Actor
      * Places the spider left of the given Actor. Does not move the spider vertically.
      */
     public void setToRightWall(Actor wall){
-        setLocation(wall.getX() - (wall.getImage().getWidth()+getImage().getWidth())/2, getY());
+        setLocation(wall.getX() - (wall.getImage().getWidth()+getImage().getWidth())/2 - 1, getY());
     }
     
     /**
