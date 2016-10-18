@@ -42,9 +42,9 @@ public class Spider extends Actor
         }
         
         // horizontal movement
-        if(Greenfoot.isKeyDown("right")){
+        if(Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d")){
             moveRight();
-        } else if(Greenfoot.isKeyDown("left")){
+        } else if(Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("a")){
             moveLeft();
         }
 
