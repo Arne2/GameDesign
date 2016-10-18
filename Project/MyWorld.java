@@ -1,6 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.awt.Color;
 
 /**
  * Write a description of class MyWorld here.
@@ -10,9 +13,16 @@ import java.util.ArrayList;
  */
 public class MyWorld extends World
 {
+    private static final int PLATFORM_WIDTH = new Platform(0,0).getImage().getWidth();
+    private static final int PLATFORM_HEIGHT = new Platform(0,0).getImage().getHeight();
+    
     private final Collection<Platform> platforms = new ArrayList<>();
     
     private int xPosition, yPosition;
+    
+    private final Spider spider = new Spider();
+    
+    private int worldHeight;
     
     /**
      * Constructor for objects of class MyWorld.
@@ -65,49 +75,42 @@ public class MyWorld extends World
      */
     private void prepare()
     {
-        Spider spider = new Spider();
         addObject(spider,getWidth()/2, getHeight()/2);
         
-        platforms.add(new Platform(210,280));
-        platforms.add(new Platform(210,300));
-        platforms.add(new Platform(230,300));
-        platforms.add(new Platform(250,300));
-        platforms.add(new Platform(270,300));
-        platforms.add(new Platform(290,300));
-        platforms.add(new Platform(310,300));
-        platforms.add(new Platform(330,300));
-        platforms.add(new Platform(350,300));
-        platforms.add(new Platform(370,300));
-        platforms.add(new Platform(390,300));
+        loadFromImage(new WorldMap());
+    }
+    
+    private void loadFromImage(Actor map){
+        GreenfootImage img = map.getImage();
         
-        platforms.add(new Platform(510,300));
-        platforms.add(new Platform(530,300));
-        platforms.add(new Platform(550,300));
-        platforms.add(new Platform(570,300));
-        platforms.add(new Platform(590,300));
+        worldHeight = img.getHeight()*PLATFORM_HEIGHT;
         
-        platforms.add(new Platform(710,300));
-        platforms.add(new Platform(730,300));
-        platforms.add(new Platform(750,300));
-        platforms.add(new Platform(770,300));
-        platforms.add(new Platform(790,300));
-        
-        platforms.add(new Platform(910,300));
-        platforms.add(new Platform(930,300));
-        platforms.add(new Platform(950,300));
-        platforms.add(new Platform(970,300));
-        platforms.add(new Platform(990,300));
-        
-        platforms.add(new Platform(1110,250));
-        platforms.add(new Platform(1130,250));
-        platforms.add(new Platform(1150,250));
-        platforms.add(new Platform(1170,250));
-        platforms.add(new Platform(1190,250));
-        
-        platforms.add(new Platform(1310,200));
-        platforms.add(new Platform(1330,200));
-        platforms.add(new Platform(1350,200));
-        platforms.add(new Platform(1370,200));
-        platforms.add(new Platform(1390,200));
+        Platform next;
+        for(int x = 0; x<img.getWidth(); x++) {
+            for(int y = 0; y<img.getHeight(); y++) {
+                next = getPlatform(img.getColorAt(x, y), x*PLATFORM_WIDTH+PLATFORM_WIDTH/2, y*PLATFORM_HEIGHT+PLATFORM_HEIGHT/2);
+                if(next!=null){
+                    platforms.add(next);
+                }
+            }
+        }
+    }
+    
+    public static Platform getPlatform(Color color, int x, int y){
+        if(color.equals(Color.WHITE)){
+            return null;
+        } else if(color.equals(Color.BLACK)){
+            return new Platform(x, y);
+        } else {
+            throw new IllegalArgumentException("Unknown Color");
+        }
+    }
+    
+    private int getWorldHeight(){
+        return worldHeight;
+    }
+    
+    public boolean hasSpiderFallen(){
+        return yPosition > worldHeight;
     }
 }

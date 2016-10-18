@@ -192,6 +192,6 @@ public class Spider extends Actor
     }
 
     public boolean isDead(){
-        return ((MyWorld)getWorld()).getYPosition() > getWorld().getHeight();
+        return ((MyWorld)getWorld()).hasSpiderFallen();
     }
 }
