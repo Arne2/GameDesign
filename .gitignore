@@ -5,3 +5,5 @@
 *.iml
 *.greenfoot
 *.idea/*
+/standalone.properties
+/.classpath
