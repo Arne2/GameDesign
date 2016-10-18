@@ -77,18 +77,16 @@ public class MyWorld extends World
     {
         addObject(spider,getWidth()/2, getHeight()/2);
         
-        loadFromImage(new WorldMap());
+        loadFromImage(new GreenfootImage("Map.png"));
     }
     
-    private void loadFromImage(Actor map){
-        GreenfootImage img = map.getImage();
-        
-        worldHeight = img.getHeight()*PLATFORM_HEIGHT;
+    private void loadFromImage(GreenfootImage map){
+        worldHeight = map.getHeight()*PLATFORM_HEIGHT;
         
         Platform next;
-        for(int x = 0; x<img.getWidth(); x++) {
-            for(int y = 0; y<img.getHeight(); y++) {
-                next = getPlatform(img.getColorAt(x, y), x*PLATFORM_WIDTH+PLATFORM_WIDTH/2, y*PLATFORM_HEIGHT+PLATFORM_HEIGHT/2);
+        for(int x = 0; x<map.getWidth(); x++) {
+            for(int y = 0; y<map.getHeight(); y++) {
+                next = getPlatform(map.getColorAt(x, y), x*PLATFORM_WIDTH+PLATFORM_WIDTH/2, y*PLATFORM_HEIGHT+PLATFORM_HEIGHT/2);
                 if(next!=null){
                     platforms.add(next);
                 }
