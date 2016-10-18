@@ -38,6 +38,7 @@ public class Spider extends Actor
     {
         // TODO: implement death and game-over mechanic.
         if(isDead()){
+            ySpeed = 0;
             Greenfoot.setWorld(new MyWorld());
         }
         
@@ -66,6 +67,17 @@ public class Spider extends Actor
         }
         
         moveVertically(ySpeed);
+        
+        updateWorld();
+    }
+    
+    public void updateWorld(){
+        int dx = getX() - getWorld().getWidth()/2;
+        int dy = getY() - getWorld().getHeight()/2;
+        
+        setLocation(getX()-dx, getY()-dy);
+        ((MyWorld)getWorld()).movePosition(dx, dy);
+        ((MyWorld)getWorld()).update();
     }
     
     /**
@@ -180,6 +192,6 @@ public class Spider extends Actor
     }
 
     public boolean isDead(){
-        return getY() >= getWorld().getHeight();
+        return ((MyWorld)getWorld()).getYPosition() > getWorld().getHeight();
     }
 }
