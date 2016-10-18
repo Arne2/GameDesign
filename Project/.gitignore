@@ -1,0 +1,6 @@
+/ Ignore all the class files
+*.class
+*.ctxt
+*.greenfoot
+/standalone.properties
+/.classpath
