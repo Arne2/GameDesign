@@ -4,7 +4,7 @@ Title page - game name, group, semester, course, maybe date?
 
 ### Slide 2
 Game idea: explain that we had 2 ideas - one about the game type being a platformer, the other one about the main actor being a spider able to shoot webs
-So we combined both and got <game name>
+So we combined both and got this game
 ->Stefan
 
 ### Slide 3
