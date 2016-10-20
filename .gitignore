@@ -2,5 +2,8 @@
 *.class
 *.ctxt
 *.greenfoot
+*.iml
+*.greenfoot
+*.idea/*
 /standalone.properties
 /.classpath
