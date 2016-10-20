@@ -128,14 +128,19 @@ public class Spider extends Actor
             Platform wall = null;
             for(Actor next : intersecting){
                 if(next instanceof Platform &&
-                    (wall == null || next.getX()-next.getImage().getWidth()/2 < wall.getX()-wall.getImage().getWidth()/2))
+                    (wall == null || next.getX()-next.getImage().getWidth()/2 < wall.getX()-wall.getImage().getWidth()/2) ||
+                    (next.getX()-next.getImage().getWidth()/2 == wall.getX()-wall.getImage().getWidth()/2) && next.getY()-next.getImage().getHeight()/2 < wall.getY()-wall.getImage().getHeight()/2)
                     wall = (Platform)next;
             }
-            setToRightWall(wall);
+            if(!inAir && wall.getY()-wall.getImage().getHeight()/2 > getY()-10){
+            	walkUpRightWall(wall);
+            } else {
+            	setToRightWall(wall);
+            }
         }
     }
-    
-    /**
+
+	/**
      * Moves the spider to the left by X_SPEED pixels.
      * Checks for collisions with platforms afterwards.
      */
@@ -152,14 +157,27 @@ public class Spider extends Actor
             Platform wall = null;
             for(Actor next : intersecting){
                 if(next instanceof Platform &&
-                    (wall == null || next.getX()+next.getImage().getWidth()/2 < wall.getX()+wall.getImage().getWidth()/2))
+                    (wall == null || next.getX()+next.getImage().getWidth()/2 < wall.getX()+wall.getImage().getWidth()/2) ||
+                    (next.getX()+next.getImage().getWidth()/2 == wall.getX()+wall.getImage().getWidth()/2) && next.getY()-next.getImage().getHeight()/2 < wall.getY()-wall.getImage().getHeight()/2)
                     wall = (Platform)next;
             }
-            setToLeftWall(wall);
+            if(!inAir && wall.getY()-wall.getImage().getHeight()/2 > getY()-10){
+            	walkUpLeftWall(wall);
+            } else {
+            	setToLeftWall(wall);
+            }
         }
     }
+    
+    private void walkUpRightWall(Platform wall) {
+    	setLocation(wall.getX() - (wall.getImage().getWidth()+getImage().getWidth())/2 -1, wall.getY()-(wall.getImage().getHeight()+getImage().getHeight())/2);
+    }
 
-    /**
+    private void walkUpLeftWall(Platform wall) {
+        setLocation(wall.getX() + (wall.getImage().getWidth()+getImage().getWidth())/2 -1, wall.getY()-(wall.getImage().getHeight()+getImage().getHeight())/2);
+	}
+
+	/**
      * Places the spider above the given Actor. Does not move the spider horizontally.
      */
     public void setToGround(Actor ground){

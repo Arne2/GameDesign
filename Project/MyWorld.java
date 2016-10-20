@@ -1,8 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.Collection;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 import java.awt.Color;
 
 /**
@@ -102,10 +100,6 @@ public class MyWorld extends World
         } else {
             throw new IllegalArgumentException("Unknown Color");
         }
-    }
-    
-    private int getWorldHeight(){
-        return worldHeight;
     }
     
     public boolean hasSpiderFallen(){
