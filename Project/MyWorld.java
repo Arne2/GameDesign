@@ -97,6 +97,10 @@ public class MyWorld extends World
             return null;
         } else if(color.equals(Color.BLACK)){
             return new Platform(x, y);
+        } else if(color.equals(Color.GREEN)){
+            return new Grass(x, y);
+        } else if(color.equals(Color.LIGHT_GRAY)){
+            return new Dirt(x, y);
         } else {
             throw new IllegalArgumentException("Unknown Color");
         }
