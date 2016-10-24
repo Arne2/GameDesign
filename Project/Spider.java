@@ -39,6 +39,7 @@ public class Spider extends Actor
         // TODO: implement death and game-over mechanic.
         if(isDead()){
             ySpeed = 0;
+            // Game mechanic won't work this way. It leaves all items like music intact and unaccessable.
             Greenfoot.setWorld(new MyWorld());
         }
         
@@ -58,6 +59,7 @@ public class Spider extends Actor
         // jumping
         if(Greenfoot.isKeyDown("space")){
             if(!inAir && jumpButtonReady){
+                Greenfoot.playSound("jump02.wav");
                 ySpeed = -JUMP_STRENGTH;
                 inAir = true;
                 jumpButtonReady = false;
@@ -181,6 +183,11 @@ public class Spider extends Actor
      * Places the spider above the given Actor. Does not move the spider horizontally.
      */
     public void setToGround(Actor ground){
+        //TODO:
+        // Currently the problem that if you move inAir will always be set true 
+        // and the ySpeed will be greater 0. Therefore this method will be called.
+        // This results in overstraining, which will create lagging and stopping the backround music.
+        //Greenfoot.playSound("landing01.wav");
         ySpeed = 0;
         inAir = false;
         this.ground = (Platform)ground;

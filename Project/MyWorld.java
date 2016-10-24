@@ -23,12 +23,17 @@ public class MyWorld extends World
     private int worldHeight;
     
     /**
+     * The background music
+     */
+    private GreenfootSound music = new GreenfootSound("Constance.mp3");
+    
+    /**
      * Constructor for objects of class MyWorld.
      */
     public MyWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1, false); 
+        super(600, 400, 1, false);
         prepare();
         update();
     }
@@ -65,6 +70,10 @@ public class MyWorld extends World
     
     public int getYPosition(){
         return yPosition;
+    }
+    
+    public GreenfootSound getBackgroundMusic(){
+        return music;
     }
 
     /**
@@ -108,5 +117,15 @@ public class MyWorld extends World
     
     public boolean hasSpiderFallen(){
         return yPosition > worldHeight;
+    }
+    
+    @Override
+    public void started(){
+        music.playLoop();
+    }
+    
+    @Override
+    public void stopped(){
+        music.stop();
     }
 }
