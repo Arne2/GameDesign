@@ -40,7 +40,7 @@ public class Spider extends Actor
         if(isDead()){
             ySpeed = 0;
             // Game mechanic won't work this way. It leaves all items like music intact and unaccessable.
-            Greenfoot.setWorld(new MyWorld());
+            Greenfoot.setWorld(new StartLevel());
         }
         
         // horizontal movement
@@ -78,8 +78,8 @@ public class Spider extends Actor
         int dy = getY() - getWorld().getHeight()/2;
         
         setLocation(getX()-dx, getY()-dy);
-        ((MyWorld)getWorld()).movePosition(dx, dy);
-        ((MyWorld)getWorld()).update();
+        ((Level)getWorld()).movePosition(dx, dy);
+        ((Level)getWorld()).update();
     }
     
     /**
@@ -217,6 +217,6 @@ public class Spider extends Actor
     }
 
     public boolean isDead(){
-        return ((MyWorld)getWorld()).hasSpiderFallen();
+        return ((Level)getWorld()).hasSpiderFallen();
     }
 }
