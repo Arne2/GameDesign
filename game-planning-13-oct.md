@@ -35,8 +35,6 @@ Two Categories:
 
 Those Spots determine if the spider is able to shoot a web at the Platform. (==> Web Mechanics)
 
----
-
 ### Enemy/Danger Encounter:
 Two Categories:
 
@@ -48,8 +46,6 @@ Two Categories:
   - small bugs (no danger - only food)
   - defeatably enemies (predators trying to eat the spider but it is also able to prevail)
   - impossible foes (Huge enemies, Situational Dangers -> Woman throwing newspaper at the spider)
-  
----
   
 ### Resources:
 The spider is able to collect fuel for it´s web shooting by eating bugs and obtaining Collectables.
