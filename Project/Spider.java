@@ -173,10 +173,12 @@ public class Spider extends Actor
     
     private void walkUpRightWall(Platform wall) {
     	setLocation(wall.getX() - (wall.getImage().getWidth()+getImage().getWidth())/2 -1, wall.getY()-(wall.getImage().getHeight()+getImage().getHeight())/2);
+    	ground = wall;
     }
 
     private void walkUpLeftWall(Platform wall) {
         setLocation(wall.getX() + (wall.getImage().getWidth()+getImage().getWidth())/2 -1, wall.getY()-(wall.getImage().getHeight()+getImage().getHeight())/2);
+    	ground = wall;
 	}
 
 	/**
