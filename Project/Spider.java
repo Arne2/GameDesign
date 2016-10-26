@@ -8,12 +8,12 @@ import java.util.List;
  * @version (a version number or a date)
  */
 public class Spider extends Actor
-{
+{ 
     /** Speed when moving in X-direction in pixels per frame. **/
     private final int X_SPEED = 4;
 
     /** Maximum falling speed in pixels per frame. **/
-    private final int Y_SPEED_MAX = 8;
+    private final int Y_SPEED_MAX = 10;
 
     /** Jumping acceleration in pixels per frame. **/
     private final int JUMP_STRENGTH = 13;

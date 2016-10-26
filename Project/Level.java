@@ -22,9 +22,9 @@ public class Level extends World
     
     private int worldHeight;
     
-    private int spawnX;
+    private int spawnX = 100;
     
-    private int spawnY;
+    private int spawnY = 100;
     
     /**
      * The background music
@@ -48,9 +48,9 @@ public class Level extends World
         
         this.map = "levels" + File.separatorChar + map;
         if(spider != null)
-        this.spider = spider;
+            this.spider = spider;
         else
-        this.spider = new Spider();
+            this.spider = new Spider();
         
         prepare();
         update();
@@ -102,10 +102,11 @@ public class Level extends World
      */
     private void prepare()
     {
-        
         loadFromImage(new GreenfootImage(map));
         
-        addObject(spider,spawnX, spawnY);
+        addObject(spider, getWidth()/2, getHeight()/2);
+        
+        movePosition(-getWidth()/2+spawnX, -getHeight()/2+spawnY);
     }
     
     private void loadFromImage(GreenfootImage map){

@@ -9,25 +9,12 @@ public class StartLevel extends Level
     
     public StartLevel(Spider spider)
     {
-        super("start.png", spider);
+        super("level1.png", spider);
     }
     
     public StartLevel()
     {    
         this(null);
-
     }
-  
-    @Override
-    public void update()
-    {
-        super.update();
-        
-        //example world loading
-        int x = getXPosition();     
-        if(x > 200)
-        {
-            loadLevel(LevelID.LEVEL1);
-        }
-    }
+    
 }
