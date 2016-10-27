@@ -33,9 +33,6 @@ public class Spider extends Actor
 
     /** The platform the spider is currently standing on. Null if the player is in the air. **/
     private Platform ground = null;
-    
-    /** How many frames the spider has been in the air. **/
-    private int inAir = 0;
 
     /** Whether the player has jumped and not released the button. **/
     private boolean jumpButtonReady = true;
@@ -114,8 +111,6 @@ public class Spider extends Actor
      */
     public void moveVertically(int ySpeed){
         if(ySpeed != 0){
-	        inAir++;
-        	
         	// the actual movement
 	    	setLocation(getX(), getY()+ySpeed);
 	        
@@ -257,12 +252,9 @@ public class Spider extends Actor
      * When the spider is falling this is the only method that will stop it from falling.
      */
     public void setToGround(Actor ground){
-    	System.out.println(inAir);
-    	if(inAir > FALLING_SOUND_THRESHOLD){
+    	if(ySpeed >= Y_SPEED_MAX){
     		Greenfoot.playSound("landing01.wav");
     	}
-    	
-    	inAir = 0;
     	
         ySpeed = 0;
         this.ground = (Platform)ground;
