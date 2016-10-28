@@ -6,13 +6,34 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Platform extends Actor
+public class Platform extends LevelActor
 {
-    private final int xWorldPosition, yWorldPosition;
+	public static final int SIZE = 32;
     
-    public Platform(int x, int y){
-        this.xWorldPosition = x;
-        this.yWorldPosition = y;
+    public enum Type{
+    	GRASS("GrassBlock_128x128.png", true),
+    	DIRT("DirtBlock_128x128.png", true),
+    	BRICK("Bricks_128x128.png", true);
+    	
+    	private final String image;
+    	private final boolean sticky;
+    	
+    	private Type(String image, boolean sticky){
+    		this.image = image;
+    		this.sticky = sticky;
+    	}
+    	
+    	public boolean isSticky(){
+    		return sticky;
+    	}
+    }
+    
+    public Platform(Type type, int x, int y){
+    	super(x, y);
+        
+        GreenfootImage image = new GreenfootImage(type.image);
+        image.scale(SIZE, SIZE);
+        setImage(image);
     }
     
     /**
@@ -22,13 +43,5 @@ public class Platform extends Actor
     public void act() 
     {
         // Add your action code here.
-    }
-    
-    public int getXWorldPosition(){
-        return xWorldPosition;
-    }
-    
-    public int getYWorldPosition(){
-        return yWorldPosition;
     }
 }

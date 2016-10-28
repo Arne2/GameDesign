@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
 import java.util.Collection;
 import java.util.ArrayList;
 import java.awt.Color;
@@ -11,10 +12,7 @@ import java.io.File;
  */
 public class Level extends World
 {
-    private static final int PLATFORM_WIDTH = new Platform(0,0).getImage().getWidth();
-    private static final int PLATFORM_HEIGHT = new Platform(0,0).getImage().getHeight();
-    
-    private final Collection<Platform> platforms = new ArrayList<>();
+    private final Collection<LevelActor> actors = new ArrayList<>();
     
     private int xPosition, yPosition;
     
@@ -44,7 +42,7 @@ public class Level extends World
     public Level(String map, Spider spider)
     {
                 // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1, false);
+        super(1200, 800, 1, false);
         
         this.map = "levels" + File.separatorChar + map;
         if(spider != null)
@@ -64,16 +62,27 @@ public class Level extends World
         int xMax = xPosition + getWidth();
         int yMax = yPosition + getHeight();
         
-        for(Platform next : platforms){
+        for(LevelActor next : actors){
             removeObject(next);
-            if(next.getXWorldPosition()+next.getImage().getWidth()/2 > xPosition &&
-                next.getXWorldPosition() < xMax+next.getImage().getWidth()/2 &&
-                next.getYWorldPosition()+next.getImage().getHeight()/2 > yPosition && 
-                next.getYWorldPosition() < yMax+next.getImage().getHeight()/2){
-                addObject(next, next.getXWorldPosition()-xPosition, next.getYWorldPosition()-yPosition);
+            if(next.getLevelX()+next.getImage().getWidth()/2 > xPosition &&
+                next.getLevelX() < xMax+next.getImage().getWidth()/2 &&
+                next.getLevelY()+next.getImage().getHeight()/2 > yPosition && 
+                next.getLevelY() < yMax+next.getImage().getHeight()/2){
+                addObject(next, next.getLevelX()-xPosition, next.getLevelY()-yPosition);
             }
         }
 
+    }
+    
+    public void addLevelActor(LevelActor actor, int x, int y){
+    	addObject(actor, x, y);
+    	actors.add(actor);
+    	actor.updatePosition();
+    }
+    
+    public void removeLevelActor(LevelActor actor){
+    	removeObject(actor);
+    	actors.remove(actor);
     }
     
     /**
@@ -110,14 +119,14 @@ public class Level extends World
     }
     
     private void loadFromImage(GreenfootImage map){
-        worldHeight = map.getHeight()*PLATFORM_HEIGHT;
+        worldHeight = map.getHeight()*Platform.SIZE;
         
         Platform next;
         for(int x = 0; x<map.getWidth(); x++) {
             for(int y = 0; y<map.getHeight(); y++) {
-                next = getPlatform(map.getColorAt(x, y), x*PLATFORM_WIDTH+PLATFORM_WIDTH/2, y*PLATFORM_HEIGHT+PLATFORM_HEIGHT/2);
+                next = getPlatform(map.getColorAt(x, y), x*Platform.SIZE+Platform.SIZE/2, y*Platform.SIZE+Platform.SIZE/2);
                 if(next!=null){
-                    platforms.add(next);
+                    actors.add(next);
                 }
             }
         }
@@ -127,11 +136,11 @@ public class Level extends World
         if(color.equals(Color.WHITE)){
             return null;
         } else if(color.equals(Color.BLACK)){
-            return new Platform(x, y);
+            return new Platform(Platform.Type.BRICK, x, y);
         } else if(color.equals(Color.GREEN)){
-            return new Grass(x, y);
+            return new Platform(Platform.Type.GRASS, x, y);
         } else if(color.equals(Color.LIGHT_GRAY)){
-            return new Dirt(x, y);
+            return new Platform(Platform.Type.DIRT, x, y);
         } else if(color.equals(Color.YELLOW)){
             spawnX = x;
             spawnY = y;
