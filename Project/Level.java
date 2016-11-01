@@ -10,7 +10,7 @@ import java.io.File;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Level extends World
+public abstract class Level extends World
 {
     private final Collection<LevelActor> actors = new ArrayList<>();
     
@@ -75,14 +75,14 @@ public class Level extends World
     }
     
     public void addLevelActor(LevelActor actor, int x, int y){
-    	addObject(actor, x, y);
-    	actors.add(actor);
-    	actor.updatePosition();
+        addObject(actor, x, y);
+        actors.add(actor);
+        actor.updatePosition();
     }
     
     public void removeLevelActor(LevelActor actor){
-    	removeObject(actor);
-    	actors.remove(actor);
+        removeObject(actor);
+        actors.remove(actor);
     }
     
     /**
@@ -146,7 +146,9 @@ public class Level extends World
             spawnY = y;
         } else if(color.equals(Color.RED)){
             actors.add(new EnemySpawner(EnemyID.TEST_ENEMY, x, y));
-        } else {
+        } else if(color.equals(Color.ORANGE)){
+            actors.add(new Goal( x, y));
+        }else {
             throw new IllegalArgumentException("Unknown Color");
         }
         
@@ -165,6 +167,12 @@ public class Level extends World
     @Override
     public void stopped(){
         music.stop();
+    }
+    
+    public void loadNextLevel()
+    {
+        if(getNextLevel() !=  null)
+            loadLevel(getNextLevel());
     }
     
     public void loadLevel(LevelID levelID)
@@ -187,6 +195,6 @@ public class Level extends World
     }
     
 
-    
+    public abstract LevelID getNextLevel();
 
 }

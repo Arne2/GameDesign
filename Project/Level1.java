@@ -19,4 +19,8 @@ public class Level1 extends Level
         this(null);
     }
     
+    public LevelID getNextLevel()
+    {
+        return LevelID.LEVEL1;
+    }
 }
