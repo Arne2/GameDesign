@@ -9,7 +9,7 @@ public class StartLevel extends Level
     
     public StartLevel(Spider spider)
     {
-        super("level1.png", spider);
+        super("start.png", spider);
     }
     
     public StartLevel()

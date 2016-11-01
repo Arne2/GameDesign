@@ -144,6 +144,8 @@ public class Level extends World
         } else if(color.equals(Color.YELLOW)){
             spawnX = x;
             spawnY = y;
+        } else if(color.equals(Color.RED)){
+            actors.add(new EnemySpawner(EnemyID.TEST_ENEMY, x, y));
         } else {
             throw new IllegalArgumentException("Unknown Color");
         }
@@ -183,6 +185,7 @@ public class Level extends World
     {
         return spider;
     }
+    
 
     
 
