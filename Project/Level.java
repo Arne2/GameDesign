@@ -172,20 +172,34 @@ public abstract class Level extends World
     public void loadNextLevel()
     {
         if(getNextLevel() !=  null)
+        {
+            
             loadLevel(getNextLevel());
+            
+        }
+            
     }
     
     public void loadLevel(LevelID levelID)
     {
+        
+        Level l = null;
         switch(levelID)
         {
             case START:
-                Greenfoot.setWorld(new StartLevel(spider));
+                l = new StartLevel();
                 break;
             case LEVEL1:
-                Greenfoot.setWorld(new Level1(spider));
+                l = new Level1();
                 break;
             
+        }
+        
+        if(l != null)
+        {
+            stopped();
+            Greenfoot.setWorld(l);
+            l.started();
         }
     }
     
