@@ -20,7 +20,7 @@ public class Spider extends Actor
 	private final int			HEIGHT				= 23;
 
 	/** Downwards acceleration in pixels per frame per frame. **/
-	public static final float	GRAVITY				= 1.5f;
+	public static final double	GRAVITY				= 1.5f;
 
 	/** Pixels the spider can walk up, when colliding right or left. **/
 	private static final int	WALK_UP_LIMIT		= Platform.SIZE + 4;
@@ -37,14 +37,14 @@ public class Spider extends Actor
 	private static final int	JUMP_STRENGTH		= 20;
 
 	/** Current speed in the X-direction in pixels per frame. **/
-	private float				xSpeed				= 0;
+	private double				xSpeed				= 0;
 	/** Movement in x direction, that was not executed the last frame due to pixel precision. **/
-	private float				xMoveRemaining;
+	private double				xMoveRemaining;
 
 	/** Current speed in the Y-direction in pixels per frame. **/
-	private float				ySpeed				= 0;
+	private double				ySpeed				= 0;
 	/** Movement in y direction, that was not executed the last frame due to pixel precision. **/
-	private float				yMoveRemaining;
+	private double				yMoveRemaining;
 
 	/** The platform the spider is currently standing on. Null if the player is in the air. **/
 	private Platform			ground				= null;
@@ -232,7 +232,7 @@ public class Spider extends Actor
 		movementFrame++;
 	}
 
-	private void lowerXSpeed(float amount)
+	private void lowerXSpeed(double amount)
 	{
 		if (xSpeed > 0)
 		{
