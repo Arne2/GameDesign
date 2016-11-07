@@ -72,9 +72,6 @@ public class Spider extends Actor
 	 */
 	public void act()
 	{
-		xSpeed += xMoveRemaining;
-		ySpeed += yMoveRemaining;
-
 		// TODO: implement death and game-over mechanic.
 		if (isDead())
 		{
@@ -163,10 +160,10 @@ public class Spider extends Actor
 			blob.turnTowards(mi.getX(), mi.getY());
 		}
 
-		int xMove = (int) xSpeed;
-		int yMove = (int) ySpeed;
-		xMoveRemaining = xSpeed - xMove;
-		yMoveRemaining = ySpeed - yMove;
+		int xMove = (int) (xSpeed+xMoveRemaining);
+		int yMove = (int) (ySpeed+yMoveRemaining);
+		xMoveRemaining = (xSpeed+xMoveRemaining) - xMove;
+		yMoveRemaining = (ySpeed+yMoveRemaining) - yMove;
 
 		// --- MOVEMENT
 		moveHorizontally(xMove);
