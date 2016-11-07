@@ -6,10 +6,13 @@ public abstract class Enemy extends LevelActor
     private int damage = 1;
     
     private boolean activated = false;
+
+    private int damageTimer= 0;
     
     public Enemy(int x, int y)
     {
         super(x, y);
+        
     }
 
     /**
@@ -20,6 +23,8 @@ public abstract class Enemy extends LevelActor
         if(activated)     
         {
             checkSpiderCollision();
+            
+
         }
         
     }
@@ -31,9 +36,18 @@ public abstract class Enemy extends LevelActor
        s = (Spider) getOneIntersectingObject(Spider.class);
        if(s != null)
        {
-           s.decreaseHealth(damage);
+           if(damageTimer == 0)
+           {
+               s.decreaseHealth(damage);
+               damageTimer = 100;
+           }
+           
        }
-        
+       
+       if(damageTimer > 0)
+       {
+           damageTimer--;
+        }
     }
     
     public void setActivated(boolean b)

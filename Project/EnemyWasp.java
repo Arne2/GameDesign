@@ -8,6 +8,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class EnemyWasp extends Enemy
 {
+    
+        
+    private int tickCounter = 0;
+    
+    private int currentFrame = 1;
+    
+    
     public EnemyWasp(int x, int y)
     {
         super(x,y);
@@ -20,6 +27,33 @@ public class EnemyWasp extends Enemy
      */
     public void act() 
     {
-        // Add your action code here.
+        super.act();
+        
+        animate();
     }    
+    
+    private void animate()    
+    {
+        tickCounter++;
+       if(tickCounter > 5)
+       {
+           
+           tickCounter = 0;
+           currentFrame++;
+           if(currentFrame > 2)
+           {
+               currentFrame = 1;
+           }
+           switch(currentFrame)
+           {
+               case 1:
+               setImage("wasp1_64.png");
+               break;
+               case 2:
+               setImage("wasp2_64.png");
+               break;
+           }
+       }
+    }
+            
 }

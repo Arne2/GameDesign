@@ -145,7 +145,7 @@ public abstract class Level extends World
             spawnX = x;
             spawnY = y;
         } else if(color.equals(Color.RED)){
-            actors.add(new EnemySpawner(EnemyID.TEST_ENEMY, x, y));
+            actors.add(new EnemySpawner(EnemyID.WASP, x, y));
         } else if(color.equals(Color.ORANGE)){
             actors.add(new Goal( x, y));
         }else {
