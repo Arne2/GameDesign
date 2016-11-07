@@ -53,12 +53,14 @@ public class Spider extends Actor
 	private boolean				jumpButtonReady		= true;
 
 	private WebBlob				blob				= null;
-	private int					webLength			= -1;
+	private double				webLength			= -1;
 
 	private int					movementFrame;
 	private int					currentMovementFrame;
 	private static final int	FRAMES_PER_PICTURE	= 10;
 	private static final int	FRAMES_BEFORE_IDLE	= 25;
+	
+	private static final double WEB_LENGTH_CHANGE = 2;
 
 	public Spider()
 	{
@@ -152,6 +154,7 @@ public class Spider extends Actor
             } 
 			else if(webLength>0)
             {
+				adjustWebLength();
             	calculateWebForce();
             }
 		}
@@ -235,11 +238,28 @@ public class Spider extends Actor
 		movementFrame++;
 	}    
 	
+	/**
+	 * Lets the User adjust the web length.
+	 */
+	private void adjustWebLength() {
+		if(Greenfoot.isKeyDown("w") || Greenfoot.isKeyDown("up")){
+			webLength -= WEB_LENGTH_CHANGE;
+		} else if(Greenfoot.isKeyDown("s") || Greenfoot.isKeyDown("down")){
+			webLength += WEB_LENGTH_CHANGE;
+		}
+	}
+
+	/**
+	 * Removes its webblob from this spider.
+	 */
 	private void removeBlob(){
     	blob = null;
     	webLength = -1;
     }
     
+	/**
+	 * If the web is taut, sets the speed accordingly.
+	 */
     private void calculateWebForce() {
 		double nextX = getX()+xSpeed;
 		double nextY = getY()+ySpeed;
@@ -275,6 +295,9 @@ public class Spider extends Actor
 		}
 	}
 
+    /**
+     * Lowers the speed in x-direction by amount.
+     */
 	private void lowerXSpeed(double amount)
 	{
 		if (xSpeed > 0)
