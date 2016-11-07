@@ -11,10 +11,20 @@ public class EnemySpawner extends LevelActor
     
     private EnemyID enemy;
     
+    private boolean loop;
+    
+    private boolean spawned = false;
+    
     public EnemySpawner(EnemyID enemy, int x, int y)
+    {
+        this(enemy, x, y, false);
+    }
+    
+    public EnemySpawner(EnemyID enemy, int x, int y, boolean loop)
     {
         super(x, y);
         this.enemy = enemy;
+        this.loop = loop;
     }
     
     
@@ -26,7 +36,19 @@ public class EnemySpawner extends LevelActor
     {
         if(Greenfoot.getRandomNumber(1000) < 10)
         {
-            spawnEnemy(getEnemy());
+            if(isLoop())
+            {
+                spawnEnemy(getEnemy());
+            }
+            else
+            {
+                if(!spawned)
+                {
+                    spawnEnemy(getEnemy());
+                    spawned = true;
+                }
+            }
+            
         }
     }    
     
@@ -36,6 +58,7 @@ public class EnemySpawner extends LevelActor
         {
             Level level = (Level) getWorld();
             level.addLevelActor(enemy,this.getX(), this.getY());
+            enemy.setActivated(true);
         }
         
     }
@@ -48,7 +71,21 @@ public class EnemySpawner extends LevelActor
             case TEST_ENEMY:
                 ret = new TestEnemy(this.getX(), this.getY());
                 break;
+            case WASP:
+                ret = new EnemyWasp(this.getX(), this.getY());
+                break;
+            case SPIDER:
+                ret = new EnemySpider(this.getX(), this.getY());
+                break;
+            case SCORPION:
+                ret = new EnemyScorpion(this.getX(), this.getY());
+                break;
         }
         return ret;
+    }
+    
+    public boolean isLoop()
+    {
+        return loop;
     }
 }

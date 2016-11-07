@@ -1,4 +1,7 @@
 public enum EnemyID
 {
-	TEST_ENEMY
+    TEST_ENEMY,
+    WASP,
+    SCORPION,
+    SPIDER
 }
