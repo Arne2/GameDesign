@@ -96,7 +96,7 @@ public class Spider extends Actor
 				xSpeed = Math.max(-X_SPEED_MAX, xSpeed - X_SPEED_MAX);
 			}
 		}
-		else if (webLength < 0)
+		else
 		{
 			lowerXSpeed(GRAVITY);
 		}
@@ -140,14 +140,20 @@ public class Spider extends Actor
 			if (Greenfoot.mouseClicked(null))
 			{
 				((Level) getWorld()).removeLevelActor(blob);
-				blob = null;
-				webLength = -1;
+				removeBlob();
 			}
 			else if (blob.getWorld() == null)
 			{
-				blob = null;
-				webLength = -1;
-			}
+				removeBlob();
+			} 
+			else if(blob.isStationary() && webLength<0)
+			{
+            	webLength = (int)Math.hypot((double)(getX()-blob.getX()), (double)(getY()-blob.getY()))+5;
+            } 
+			else if(webLength>0)
+            {
+            	calculateWebForce();
+            }
 		}
 		else if (Greenfoot.mouseClicked(null))
 		{
@@ -227,6 +233,46 @@ public class Spider extends Actor
 		}
 
 		movementFrame++;
+	}    
+	
+	private void removeBlob(){
+    	blob = null;
+    	webLength = -1;
+    }
+    
+    private void calculateWebForce() {
+		double nextX = getX()+xSpeed;
+		double nextY = getY()+ySpeed;
+
+		double nextDistance = Math.hypot(blob.getX()-nextX, blob.getY()-nextY);
+		if(nextDistance>webLength){
+			nextX = blob.getX()*(1-webLength/nextDistance)+nextX*(webLength/nextDistance);
+			nextY = blob.getY()*(1-webLength/nextDistance)+nextY*(webLength/nextDistance);
+
+			double remainingSpeed =  Math.hypot(xSpeed,  ySpeed) - Math.hypot(getX()-nextX, getY()-nextY);
+			
+			double prevAngle = Math.atan2(blob.getY()-getY(), blob.getX()-getX());
+			double nextAngle = Math.atan2(blob.getY()-nextY, blob.getX()-nextX);
+			
+			double remainingAngle = remainingSpeed/webLength;
+			
+			if(prevAngle>nextAngle){
+				nextAngle -= remainingAngle;
+			} else {
+				nextAngle += remainingAngle;
+			}
+			nextX = blob.getX()-Math.cos(nextAngle)*webLength;
+			nextY = blob.getY()-Math.sin(nextAngle)*webLength;
+			
+			nextDistance = Math.hypot(blob.getX()-nextX, blob.getY()-nextY);
+				
+			xSpeed = nextX-getX();
+			ySpeed = nextY-getY();
+			
+			if(Math.abs(xSpeed)<GRAVITY && Math.abs(blob.getX()-getX())<GRAVITY){
+				xSpeed = blob.getX()-getX();
+			}
+		}
 	}
 
 	private void lowerXSpeed(double amount)
@@ -352,10 +398,10 @@ public class Spider extends Actor
 				if (xSpeed > 0)
 				{
 					// move right
-					// find the leftmost highest wall
+					// find the leftmost wall
 					for (Actor next : intersecting)
 					{
-						if (next instanceof Platform && ((wall == null || next.getX() - next.getImage().getWidth() / 2 < wall.getX() - wall.getImage().getWidth() / 2) || (next.getX() - next.getImage().getWidth() / 2 == wall.getX() - wall.getImage().getWidth() / 2) && next.getY() - next.getImage().getHeight() / 2 < wall.getY() - wall.getImage().getHeight() / 2))
+						if (next instanceof Platform && ((wall == null || next.getX() - next.getImage().getWidth() / 2 < wall.getX() - wall.getImage().getWidth() / 2)))
 							wall = (Platform) next;
 					}
 
@@ -366,12 +412,8 @@ public class Spider extends Actor
 					}
 
 					// react to collision
-					if (ground != null && (getY() + getImage().getHeight() / 2) - (wall.getY() - wall.getImage().getHeight() / 2) < WALK_UP_LIMIT)
-					{
-						setToGround(wall);
-					}
-					else
-					{
+
+					if(ground==null || !trySetToGround(wall)){
 						setToRightWall(wall);
 					}
 				}
@@ -382,7 +424,7 @@ public class Spider extends Actor
 					for (Actor next : intersecting)
 					{
 
-						if (next instanceof Platform && ((wall == null || next.getX() + next.getImage().getWidth() / 2 < wall.getX() + wall.getImage().getWidth() / 2) || (next.getX() + next.getImage().getWidth() / 2 == wall.getX() + wall.getImage().getWidth() / 2) && next.getY() - next.getImage().getHeight() / 2 < wall.getY() - wall.getImage().getHeight() / 2))
+						if (next instanceof Platform && ((wall == null || next.getX() + next.getImage().getWidth() / 2 < wall.getX() + wall.getImage().getWidth() / 2)))
 							wall = (Platform) next;
 					}
 
@@ -393,16 +435,33 @@ public class Spider extends Actor
 					}
 
 					// react to collision
-					if (ground != null && (getY() + getImage().getHeight() / 2) - (wall.getY() - wall.getImage().getHeight() / 2) < WALK_UP_LIMIT)
-					{
-						setToGround(wall);
-					}
-					else
-					{
+					if(ground==null || !trySetToGround(wall)){
 						setToLeftWall(wall);
 					}
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Places the spider above the given Actor if it does fit there. Does not move the spider horizontally. This also stops the spider from falling. When the spider is falling this is the only method that will stop it from falling.
+	 */
+	public boolean trySetToGround(Actor ground)
+	{
+		if (ySpeed >= Y_SPEED_MAX)
+		{
+			Greenfoot.playSound("landing01.wav");
+		}
+
+		int yOld = getY();
+		setLocation(getX(), ground.getY() - (ground.getImage().getHeight() + getImage().getHeight()) / 2 -1);
+		if(!getIntersectingObjects(Platform.class).isEmpty()){
+			setLocation(getX(), yOld);
+			return false;
+		} else {
+			ySpeed = 0;
+			this.ground = (Platform) ground;
+			return true;
 		}
 	}
 
@@ -418,7 +477,7 @@ public class Spider extends Actor
 
 		ySpeed = 0;
 		this.ground = (Platform) ground;
-		setLocation(getX(), ground.getY() - (ground.getImage().getHeight() + getImage().getHeight()) / 2);
+		setLocation(getX(), ground.getY() - (ground.getImage().getHeight() + getImage().getHeight()) / 2 -1);
 	}
 
 	/**
