@@ -64,6 +64,11 @@ public class Spider extends Actor
 
     private int healthPoints = 3;
     
+    private int damage = 1;
+    
+    /** After how many ticks can the spider attack again. */
+    private int hitInterval = 50;
+    
     public Spider()
     {
         GreenfootImage image = getImage();
@@ -536,7 +541,7 @@ public class Spider extends Actor
     // TODO
     public boolean isDead()
     {
-        return ((Level) getWorld()).hasSpiderFallen() || healthPoints < 0;
+        return ((Level) getWorld()).hasSpiderFallen() || healthPoints <= 0;
     }
     
     public int getHealth()
@@ -547,9 +552,24 @@ public class Spider extends Actor
     public void decreaseHealth(int count)
     {
         this.healthPoints -= count;
-        if(this.healthPoints < 0)
+        if(this.healthPoints <= 0)
         {
             Greenfoot.setWorld(new StartLevel());
         }
+    }
+    
+    public int getDamage()
+    {
+        return damage;
+    }
+    
+    public void knockback()
+    {
+        //TODO knockback mechanic when spider gets damaged
+    }
+    
+    public int getHitInterval()
+    {
+        return hitInterval;
     }
 }

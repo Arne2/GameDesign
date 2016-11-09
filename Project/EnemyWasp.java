@@ -14,10 +14,14 @@ public class EnemyWasp extends Enemy
     
     private int currentFrame = 1;
     
+    private int ticksShowHit = -1;
+    
     
     public EnemyWasp(int x, int y)
     {
         super(x,y);
+        
+        setHealthPoints(3);
         
     }  
     
@@ -32,9 +36,40 @@ public class EnemyWasp extends Enemy
         animate();
     }    
     
+    @Override
+    public void setStunned()
+    {
+        super.setStunned();
+        setImage("wasp_stunned_64.png");  
+    }
+    
+    @Override
+    public void onDamaged()
+    {
+        ticksShowHit = 40;
+        setImage("wasp_hit_64.png");
+    }
+    
     private void animate()    
     {
-        tickCounter++;
+        
+        if(isStunned())
+        {
+            if(ticksShowHit > 0)
+            {
+                ticksShowHit--;
+                if(ticksShowHit == 0)
+                {
+                    setImage("wasp_stunned_64.png");  
+                }
+                
+            }
+
+               return;
+        }
+            
+            
+       tickCounter++;
        if(tickCounter > 5)
        {
            

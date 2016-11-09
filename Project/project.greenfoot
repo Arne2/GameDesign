@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Mon Nov 07 18:35:44 CET 2016
+#Wed Nov 09 13:06:40 CET 2016
 target16.name=TimerBar
 class.Bar.superclass=LevelActor
 editor.swing.0.y=0
@@ -289,5 +289,5 @@ class.EnemyWasp.image=wasp1_64.png
 target18.typeParameters=
 target19.showInterface=false
 target1.height=50
-target4.typeParameters=
 mainWindow.width=1938
+target4.typeParameters=
