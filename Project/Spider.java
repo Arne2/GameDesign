@@ -34,7 +34,7 @@ public class Spider extends Actor
     private static final int    Y_SPEED_MAX         = 16;
 
     /** Jumping acceleration in pixels per frame. **/
-    private static final int    JUMP_STRENGTH       = 20;
+    private static final int    JUMP_STRENGTH       = 30;
 
     /** Current speed in the X-direction in pixels per frame. **/
     private double              xSpeed              = 0;
