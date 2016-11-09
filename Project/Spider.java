@@ -245,7 +245,9 @@ public class Spider extends Actor
      */
     private void adjustWebLength() {
         if(Greenfoot.isKeyDown("w") || Greenfoot.isKeyDown("up")){
-            webLength -= WEB_LENGTH_CHANGE;
+            if(webLength > WEB_LENGTH_CHANGE){
+                webLength -= WEB_LENGTH_CHANGE;
+            }
         } else if(Greenfoot.isKeyDown("s") || Greenfoot.isKeyDown("down")){
             webLength += WEB_LENGTH_CHANGE;
         }
@@ -460,6 +462,7 @@ public class Spider extends Actor
                     }
 
                     // react to collision
+                    
                     if(ground==null || !trySetToGround(wall)){
                         setToLeftWall(wall);
                     }
