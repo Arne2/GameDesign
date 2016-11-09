@@ -15,6 +15,7 @@ public class EnemySpawner extends LevelActor
     
     private boolean spawned = false;
     
+    
     public EnemySpawner(EnemyID enemy, int x, int y)
     {
         this(enemy, x, y, false);
@@ -34,11 +35,13 @@ public class EnemySpawner extends LevelActor
      */
     public void act() 
     {
-        if(Greenfoot.getRandomNumber(1000) < 10)
-        {
+
             if(isLoop())
             {
-                spawnEnemy(getEnemy());
+                if(Greenfoot.getRandomNumber(1000) < 10)
+                {
+                    spawnEnemy(getEnemy());
+                }
             }
             else
             {
@@ -49,7 +52,7 @@ public class EnemySpawner extends LevelActor
                 }
             }
             
-        }
+
     }    
     
     public void spawnEnemy(Enemy enemy)

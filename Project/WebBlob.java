@@ -19,6 +19,12 @@ public class WebBlob extends LevelActor{
 			if(platform!=null){
 				stationary = true;
 			}
+			
+			Actor enemyActor = getOneObjectAtOffset(0, 0, Enemy.class);
+			if(enemyActor != null && enemyActor instanceof Enemy){
+			    Enemy enemy = (Enemy) enemyActor;
+			    enemy.setStunned();
+			 }
 		}
 		
 		if(isAtEdge()){
