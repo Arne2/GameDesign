@@ -13,7 +13,13 @@ public class Platform extends LevelActor
     public enum Type{
     	GRASS("GrassBlock_128x128.png", true),
     	DIRT("DirtBlock_128x128.png", true),
-    	BRICK("Bricks_128x128.png", true);
+    	BRICK("Bricks_128x128.png", true),
+        SPIKES("Spikes32x32.png", true),
+        SAND("Sand32x32.png", true),
+        CACTUS("Cactus32x32.png", true),
+        COBBLE("Cobblestone32x32.png", true),
+        STONE("Stone32x32.png", true),
+        LEAVES("Leaves32x32.png", true);
     	
     	private final String image;
     	private final boolean sticky;

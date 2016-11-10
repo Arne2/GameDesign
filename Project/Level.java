@@ -135,12 +135,24 @@ public abstract class Level extends World
     public Platform getPlatform(Color color, int x, int y){
         if(color.equals(Color.WHITE)){
             return null;
-        } else if(color.equals(Color.BLACK)){
+        } else if(color.equals(new Color(246,150,121))){
             return new Platform(Platform.Type.BRICK, x, y);
         } else if(color.equals(Color.GREEN)){
             return new Platform(Platform.Type.GRASS, x, y);
         } else if(color.equals(Color.LIGHT_GRAY)){
             return new Platform(Platform.Type.DIRT, x, y);
+        } else if(color.equals(new Color(151,149,92))){
+            return new Platform(Platform.Type.SAND, x, y);
+        } else if(color.equals(new Color(246,49,121))){
+            return new Platform(Platform.Type.SPIKES, x, y);
+        } else if(color.equals(new Color(17,149,92))){
+            return new Platform(Platform.Type.CACTUS, x, y);
+        } else if(color.equals(new Color(125,125,125))){
+            return new Platform(Platform.Type.COBBLE, x, y);
+        } else if(color.equals(new Color(81,81,81))){
+            return new Platform(Platform.Type.STONE, x, y);
+        } else if(color.equals(new Color(0,78,0))){
+            return new Platform(Platform.Type.LEAVES, x, y);
         } else if(color.equals(Color.YELLOW)){
             spawnX = x;
             spawnY = y;
@@ -149,7 +161,7 @@ public abstract class Level extends World
         } else if(color.equals(Color.ORANGE)){
             actors.add(new Goal( x, y));
         }else {
-            throw new IllegalArgumentException("Unknown Color");
+            throw new IllegalArgumentException("Unknown Color" + color.toString() + " " + x + " " + y);
         }
         
         return null;
