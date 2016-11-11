@@ -131,7 +131,7 @@ public abstract class Level extends World
             }
         }
     }
-    
+    // Recognize colors in the level to create blocks. 
     public Platform getPlatform(Color color, int x, int y){
         if(color.equals(Color.WHITE)){
             return null;
