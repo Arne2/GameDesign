@@ -34,7 +34,7 @@ public class Spider extends Actor
     private static final int    Y_SPEED_MAX         = 16;
 
     /** Jumping acceleration in pixels per frame. **/
-    private static final int    JUMP_STRENGTH       = 30;
+    private static final int    JUMP_STRENGTH       = 20;
 
     /** Current speed in the X-direction in pixels per frame. **/
     private double              xSpeed              = 0;
@@ -62,12 +62,18 @@ public class Spider extends Actor
     
     private static final double WEB_LENGTH_CHANGE = 2;
 
-    private int healthPoints = 3;
+    private int healthPoints = 5;
     
     private int damage = 1;
     
     /** After how many ticks can the spider attack again. */
     private int hitInterval = 50;
+    
+    private int knockbackX = 0;
+    
+    private int knockbackY = 0;
+    
+    private int knockbackCounter = 0;
     
     public Spider()
     {
@@ -89,6 +95,8 @@ public class Spider extends Actor
             Greenfoot.setWorld(new StartLevel());
         }
 
+       
+        
         // --- INPUTS
         // horizontal movement
         if (Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d"))
@@ -109,7 +117,8 @@ public class Spider extends Actor
         {
             lowerXSpeed(GRAVITY);
         }
-
+        
+        
         // gravity
         if (ground == null)
         {
@@ -182,10 +191,24 @@ public class Spider extends Actor
         yMoveRemaining = (ySpeed+yMoveRemaining) - yMove;
 
         // --- MOVEMENT
-        moveHorizontally(xMove);
+
+
+        if(knockbackCounter > 0)
+        {
+            System.out.println(getLevelX() + " " + getLevelY());
+            moveHorizontally(knockbackX);
+            moveVertically(knockbackY);
+            knockbackCounter--;
+            System.out.println(getLevelX() + " " + getLevelY());
+        }
+        else
+        {
+                    moveHorizontally(xMove);
 
         moveVertically(yMove);
-
+        }
+        
+        
         updateWorld();
 
         if (xMove > 0 && ((movementFrame = movementFrame % FRAMES_PER_PICTURE) == 0) && yMove == 0)
@@ -555,21 +578,51 @@ public class Spider extends Actor
         if(this.healthPoints <= 0)
         {
             Greenfoot.setWorld(new StartLevel());
+            return;
         }
+        
     }
     
     public int getDamage()
     {
         return damage;
     }
-    
-    public void knockback()
-    {
-        //TODO knockback mechanic when spider gets damaged
-    }
+
     
     public int getHitInterval()
     {
         return hitInterval;
+    }
+    
+    public void knockback(int x, int y)
+    {
+        int spiderX = getLevelX();
+        int spiderY = getLevelY();
+        
+        int diffX = x - spiderX;
+        int diffY = y - spiderY;
+        
+        
+        knockbackX = -diffX / 5;
+        knockbackY = -diffY / 2;
+
+        knockbackCounter = 10;
+    }
+    
+    public int getLevelX()
+    {
+        Level l = getCurrentLevel();
+        return l.getXPosition() + l.getWidth() / 2;
+    }
+    
+    public int getLevelY()
+    {
+        Level l = getCurrentLevel();
+        return l.getYPosition() + l.getHeight() / 2;
+    }
+    
+    public Level getCurrentLevel()
+    {
+        return (Level) getWorld();
     }
 }
