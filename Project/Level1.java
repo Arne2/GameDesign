@@ -11,16 +11,11 @@ public class Level1 extends Level
 
     public Level1(Spider spider)
     {
-        super("level1.png", spider);
+        super(spider);
     }
     
     public Level1()
     {    
         this(null);
-    }
-    
-    public LevelID getNextLevel()
-    {
-        return LevelID.LEVEL1;
     }
 }

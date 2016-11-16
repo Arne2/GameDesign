@@ -10,7 +10,7 @@ import java.io.File;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class Level extends World
+public abstract class Level extends SplorrtWorld
 {
     private final Collection<LevelActor> actors = new ArrayList<>();
     
@@ -29,22 +29,19 @@ public abstract class Level extends World
      */
     private GreenfootSound music = new GreenfootSound("Constance.mp3");
     
-    private String map;
+    private String map = null;
     
     /**
      * Constructor.
      */
-    public Level(String map)
+    public Level()
     {    
-        this(map, null);
+        this(null);
     }
     
-    public Level(String map, Spider spider)
+    public Level(Spider spider)
     {
-                // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(1200, 800, 1, false);
-        
-        this.map = "levels" + File.separatorChar + map;
+        this.map = "levels" + File.separatorChar + getClass().getName().toLowerCase()+".png";
         if(spider != null)
             this.spider = spider;
         else
@@ -52,7 +49,19 @@ public abstract class Level extends World
         
         prepare();
         update();
+    }
+    
+    public Level(Spider spider, boolean loadFromImage)
+    {
+    	if(loadFromImage)
+    		this.map = "levels" + File.separatorChar + getClass().getName().toLowerCase()+".png";
+        if(spider != null)
+            this.spider = spider;
+        else
+            this.spider = new Spider();
         
+        prepare();
+        update();
     }
     
     /**
@@ -72,6 +81,12 @@ public abstract class Level extends World
             }
         }
 
+    }
+    
+    public void addLevelActor(LevelActor actor){
+        addObject(actor, actor.getLevelX()-xPosition, actor.getLevelY()-yPosition);
+        actors.add(actor);
+        actor.updatePosition();
     }
     
     public void addLevelActor(LevelActor actor, int x, int y){
@@ -111,11 +126,18 @@ public abstract class Level extends World
      */
     private void prepare()
     {
-        loadFromImage(new GreenfootImage(map));
+    	if(map!=null){
+    		loadFromImage(new GreenfootImage(map));
+    	}
         
         addObject(spider, getWidth()/2, getHeight()/2);
         
         movePosition(-getWidth()/2+spawnX, -getHeight()/2+spawnY);
+    }
+    
+    private void removeAll(){
+    	actors.clear();
+    	removeObjects(getObjects(Actor.class));
     }
     
     private void loadFromImage(GreenfootImage map){
@@ -131,6 +153,7 @@ public abstract class Level extends World
             }
         }
     }
+    
     // Recognize colors in the level to create blocks. 
     public Platform getPlatform(Color color, int x, int y){
         if(color.equals(Color.WHITE)){
@@ -159,7 +182,7 @@ public abstract class Level extends World
         } else if(color.equals(Color.RED)){
             actors.add(new EnemySpawner(EnemyID.WASP, x, y));
         } else if(color.equals(Color.ORANGE)){
-            actors.add(new Goal( x, y));
+            actors.add(new Goal(x, y, getNextLevel()));
         }else {
             throw new IllegalArgumentException("Unknown Color" + color.toString() + " " + x + " " + y);
         }
@@ -181,39 +204,39 @@ public abstract class Level extends World
         music.stop();
     }
     
-    public void loadNextLevel()
-    {
-        if(getNextLevel() !=  null)
-        {
-            
-            loadLevel(getNextLevel());
-            
-        }
-            
-    }
-    
-    public void loadLevel(LevelID levelID)
-    {
-        
-        Level l = null;
-        switch(levelID)
-        {
-            case START:
-                l = new StartLevel();
-                break;
-            case LEVEL1:
-                l = new Level1();
-                break;
-            
-        }
-        
-        if(l != null)
-        {
-            stopped();
-            Greenfoot.setWorld(l);
-            l.started();
-        }
-    }
+//    public void loadNextLevel()
+//    {
+//        if(getNextLevel() !=  null)
+//        {
+//            
+//            loadLevel(getNextLevel());
+//            
+//        }
+//            
+//    }
+//    
+//    public void loadLevel(LevelID levelID)
+//    {
+//        
+//        Level l = null;
+//        switch(levelID)
+//        {
+//            case START:
+//                l = new StartLevel();
+//                break;
+//            case LEVEL1:
+//                l = new Level1();
+//                break;
+//            
+//        }
+//        
+//        if(l != null)
+//        {
+//            stopped();
+//            Greenfoot.setWorld(l);
+//            l.started();
+//        }
+//    }
     
     public Spider getSpider()
     {
@@ -221,6 +244,11 @@ public abstract class Level extends World
     }
     
 
-    public abstract LevelID getNextLevel();
+    /**
+     * Override this to change the default Screen(SplorrtWorld) for loaded goal-tiles.
+     */
+    public Class<? extends SplorrtWorld> getNextLevel(){
+    	return SplorrtWorld.DEFAULT_WORLD;
+    }
 
 }
