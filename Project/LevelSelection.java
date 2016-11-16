@@ -4,16 +4,29 @@ import java.util.List;
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class LevelSelection here.
+ * Level to allow choosing a Level.
+ * Will have a wall on either side and a walkway between.
+ * Above the walkway there are Blocks that will load a Level, when clicked on.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author maximilian-zollbrecht
+ * @version 16.11.2016
  */
 public class LevelSelection extends Level
 {
 	private static final int SIDE_HEIGHT = 10;
 	private static final int PLATFORMS_PER_LEVEL = 7;
-	private final List<Class<? extends SplorrtWorld>> levels = new ArrayList<>();
+	private final List<LevelInfo> levels = new ArrayList<>();
+	
+	private class LevelInfo{
+		private final Platform.Type type;
+		private final Class<? extends SplorrtWorld> world;
+		
+		private LevelInfo(Platform.Type type, Class<? extends SplorrtWorld> world) {
+			super();
+			this.type = type;
+			this.world = world;
+		}
+	}
 	
     /**
      * Constructor for objects of class LevelSelection.
@@ -24,8 +37,8 @@ public class LevelSelection extends Level
     	super(null, false);
     	
     	// add all the levels, that are supposed to be selectable here.
-    	levels.add(Level1.class);
-    	levels.add(StartLevel.class);
+    	levels.add(new LevelInfo(Platform.Type.GRASS, Level1.class));
+    	levels.add(new LevelInfo(Platform.Type.GRASS, StartLevel.class));
     	
     	for(int i = 0; i<SIDE_HEIGHT; i++){
     		Platform left = new Platform(Platform.Type.BRICK, 0, i*Platform.SIZE);
@@ -36,11 +49,12 @@ public class LevelSelection extends Level
     	
     	int y = SIDE_HEIGHT*Platform.SIZE;
     	for(int i = 0; i<levels.size(); i++){
+    		Platform.Type type = levels.get(i).type;
     		for(int j = 0; j<PLATFORMS_PER_LEVEL; j++){
-    			Platform next = new Platform(Platform.Type.BRICK, PLATFORMS_PER_LEVEL*Platform.SIZE*i+(j+1)*Platform.SIZE, y);
+    			Platform next = new Platform(type, PLATFORMS_PER_LEVEL*Platform.SIZE*i+(j+1)*Platform.SIZE, y);
     			addLevelActor(next);
     		}
-    		LevelSelector selector = new LevelSelector(PLATFORMS_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(PLATFORMS_PER_LEVEL/2+1), 0, levels.get(i));
+    		LevelSelectorClickPlatform selector = new LevelSelectorClickPlatform(type, PLATFORMS_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(PLATFORMS_PER_LEVEL/2+1), 0, levels.get(i).world);
     		addLevelActor(selector);
     	}
     }

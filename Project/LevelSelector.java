@@ -1,30 +1,24 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class LevelSelector here.
+ * Basic Actor that loads a SplorrtWorld when clicked on.
  * 
  * @author maximilian-zollbrecht
  * @version 16.11.2016
  */
-public class LevelSelector extends LevelActor
+public class LevelSelector extends Actor
 {
-	
 	private final Class<? extends SplorrtWorld> worldToLoad;
 	
-	public LevelSelector(Class<? extends SplorrtWorld> worldToLoad){
-		this(0, 0, worldToLoad);
-	}
-	
-	public LevelSelector(int levelX, int levelY, Class<? extends SplorrtWorld> worldToLoad){
-		super(levelX, levelY);
+    public LevelSelector(Class<? extends SplorrtWorld> worldToLoad) {
+		super();
 		this.worldToLoad = worldToLoad;
 	}
-	
-    /**
-     * Act - do whatever the LevelSelector wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+
+	/**
+     * Loads a SplorrtWorld when clicked on.
      */
-    public void act() 
+	public void act() 
     {
         if(Greenfoot.mouseClicked(this)){
         	World world = getWorld();
@@ -32,5 +26,5 @@ public class LevelSelector extends LevelActor
          	   ((SplorrtWorld)world).loadWorld(SplorrtWorld.getWorld(worldToLoad));
             }
         }
-    }    
+    }   
 }
