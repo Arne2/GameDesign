@@ -25,4 +25,14 @@ public abstract class LevelActor extends Actor {
     public int getLevelY(){
     	return levelY;
     }
+    
+    public void setLevelX(int x)
+    {
+        this.levelX = x;
+    }
+    
+    public void setLevelY(int y)
+    {
+        this.levelY= y;
+    }
 }

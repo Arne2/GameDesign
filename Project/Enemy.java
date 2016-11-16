@@ -18,6 +18,7 @@ public abstract class Enemy extends LevelActor
     /** After how many ticks can the enemy attack again. */
     private int hitInterval = 50;
     
+    private int spiderKnockbackTimer = 0;
     
     public Enemy(int x, int y)
     {
@@ -34,7 +35,7 @@ public abstract class Enemy extends LevelActor
         {
             checkSpiderCollision();
             checkStunned();
-            
+            //checkMovement();
         }
         
     }
@@ -80,7 +81,7 @@ public abstract class Enemy extends LevelActor
                    {
                        s.decreaseHealth(damage);
                        enemyDamageTimer = getHitInterval();
-                       s.knockback();
+                       s.knockback(getLevelX(), getLevelY());
                    }
                
                 }
@@ -88,8 +89,10 @@ public abstract class Enemy extends LevelActor
                 {
                    if(spiderDamageTimer == 0)
                    {
+                       
                        decreaseHealth(s.getDamage());
                        spiderDamageTimer = s.getHitInterval();
+                       spiderKnockbackTimer = 10;
                    }
                    
 
@@ -121,6 +124,15 @@ public abstract class Enemy extends LevelActor
                 
             else
                 stunnedTicksLeft--;
+        }
+    }
+    
+    private void checkMovement()
+    {
+        if(spiderKnockbackTimer > 0)
+        {
+            spiderKnockbackTimer--;
+            setLevelX(getLevelX() + 5);
         }
     }
     
