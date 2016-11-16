@@ -1,6 +1,5 @@
 / Ignore all the class files
 *.class
-*.ctxt
 *.greenfoot
 *.iml
 *.greenfoot
