@@ -19,7 +19,7 @@ public class EnemyWasp extends Enemy
     
     public EnemyWasp(int x, int y)
     {
-        super(x,y);
+        super(x,y,true,true);
         
         setHealthPoints(3);
         

@@ -83,6 +83,9 @@ public class EnemySpawner extends LevelActor
             case SCORPION:
                 ret = new EnemyScorpion(this.getX(), this.getY());
                 break;
+            case SPIKES:
+                ret = new Spikes(this.getX(), this.getY());
+                break;
         }
         return ret;
     }

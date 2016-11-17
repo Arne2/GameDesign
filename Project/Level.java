@@ -167,7 +167,7 @@ public abstract class Level extends SplorrtWorld
         } else if(color.equals(new Color(151,149,92))){
             return new Platform(Platform.Type.SAND, x, y);
         } else if(color.equals(new Color(246,49,121))){
-            return new Platform(Platform.Type.SPIKES, x, y);
+            actors.add(new EnemySpawner(EnemyID.SPIKES, x, y));
         } else if(color.equals(new Color(17,149,92))){
             return new Platform(Platform.Type.CACTUS, x, y);
         } else if(color.equals(new Color(125,125,125))){

@@ -10,7 +10,7 @@ public class EnemyScorpion extends Enemy
 {
     public EnemyScorpion(int x, int y)
     {
-        super(x,y);
+        super(x,y,true,true);
         
     }  
     

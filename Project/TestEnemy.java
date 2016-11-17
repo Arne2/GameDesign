@@ -10,7 +10,7 @@ public class TestEnemy extends Enemy
 {
     public TestEnemy(int x, int y)
     {
-        super(x,y);
+        super(x,y,true,true);
         
     }  
     /**

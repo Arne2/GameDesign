@@ -14,7 +14,7 @@ public class Platform extends LevelActor
     	GRASS("GrassBlock_128x128.png", true),
     	DIRT("DirtBlock_128x128.png", true),
     	BRICK("Bricks_128x128.png", true),
-        SPIKES("Spikes32x32.png", true),
+        //SPIKES("Spikes32x32.png", true),
         SAND("Sand32x32.png", true),
         CACTUS("Cactus32x32.png", true),
         COBBLE("Cobblestone32x32.png", true),

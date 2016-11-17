@@ -20,10 +20,17 @@ public abstract class Enemy extends LevelActor
     
     private int spiderKnockbackTimer = 0;
     
-    public Enemy(int x, int y)
+    /** Boolean if enemy is affected by web*/
+    protected boolean stunnable;
+    
+    /** Boolean if Enemy is defeatable*/
+    protected boolean defeatable;
+    
+    public Enemy(int x, int y, boolean stunnable, boolean defeatable)
     {
         super(x, y);
-        
+        this.stunnable = stunnable;
+        this.defeatable = defeatable;
     }
 
     /**
@@ -34,7 +41,9 @@ public abstract class Enemy extends LevelActor
         if(activated)     
         {
             checkSpiderCollision();
-            checkStunned();
+            if(stunnable){
+                checkStunned();
+            }
             //checkMovement();
         }
         
@@ -48,22 +57,27 @@ public abstract class Enemy extends LevelActor
     
     public void decreaseHealth()
     {
-        healthPoints--;
-        onDamaged();
-        
+        if(defeatable){
+            healthPoints--;
+            onDamaged();
+        }
     }
     
     public void decreaseHealth(int i)
     {
-        healthPoints -= i;
-        onDamaged();
-        checkDead();
+        if(defeatable){
+            healthPoints -= i;
+            onDamaged();
+            checkDead();
+        }
     }
     
     protected void setHealthPoints(int healthPoints)
     {
-        this.healthPoints = healthPoints;
-        checkDead();
+        if(defeatable){
+            this.healthPoints = healthPoints;
+            checkDead();
+        }
     }
     
     private void checkSpiderCollision()
@@ -74,11 +88,12 @@ public abstract class Enemy extends LevelActor
            if(sA != null && sA instanceof Spider)
            {
                Spider s = (Spider) sA;
-               if(!isStunned())
+               if(!stunnable || !isStunned())
                {
     
                    if(enemyDamageTimer == 0)
                    {
+                       
                        s.decreaseHealth(damage);
                        enemyDamageTimer = getHitInterval();
                        s.knockback(getLevelX(), getLevelY());
