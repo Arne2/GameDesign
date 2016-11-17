@@ -13,7 +13,7 @@ public abstract class SplorrtWorld extends World
 	public static final int WIDTH = 1200;
 	public static final int HEIGHT = 800;
 	
-	public static final Class<? extends SplorrtWorld> DEFAULT_WORLD = StartLevel.class;
+	public static final Class<? extends SplorrtWorld> DEFAULT_WORLD = StartScreen.class;
 
     /**
      * Constructor for objects of class SplorrtWorld.

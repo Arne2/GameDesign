@@ -12,7 +12,5 @@ public class Spikes extends Enemy
     
     public Spikes (int x, int y){
         super(x,y, false, false);
-        
-        
     }
 }
