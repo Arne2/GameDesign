@@ -14,6 +14,8 @@ import greenfoot.MouseInfo;
  */
 public class Spider extends Actor
 {
+    private static boolean DEBUG = false;
+    
     /** Width of the spider in pixels **/
     private final int           WIDTH               = 64;
     /** Height of the spider in pixels **/
@@ -195,11 +197,15 @@ public class Spider extends Actor
 
         if(knockbackCounter > 0)
         {
-            System.out.println(getLevelX() + " " + getLevelY());
+            if(DEBUG){
+                System.out.println(getLevelX() + " " + getLevelY());
+            }
             moveHorizontally(knockbackX);
             moveVertically(knockbackY);
             knockbackCounter--;
-            System.out.println(getLevelX() + " " + getLevelY());
+            if(DEBUG){
+                System.out.println(getLevelX() + " " + getLevelY());
+            }
         }
         else
         {
