@@ -5,6 +5,7 @@ import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
+import greenfoot.World;
 
 /**
  * Write a description of class Spider here.
@@ -94,7 +95,11 @@ public class Spider extends Actor
         {
             ySpeed = 0;
             // Game mechanic won't work this way. It leaves all items like music intact and unaccessible.
-            Greenfoot.setWorld(new StartLevel());
+            World world = getWorld();
+            if(world != null && world instanceof SplorrtWorld){
+         	   ((SplorrtWorld)world).loadWorld(SplorrtWorld.getWorld(EndScreen.class));
+            }
+            return;
         }
 
        
@@ -581,12 +586,6 @@ public class Spider extends Actor
     public void decreaseHealth(int count)
     {
         this.healthPoints -= count;
-        if(this.healthPoints <= 0)
-        {
-            Greenfoot.setWorld(new StartLevel());
-            return;
-        }
-        
     }
     
     public int getDamage()
