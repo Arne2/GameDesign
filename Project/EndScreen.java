@@ -8,6 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class EndScreen extends SplorrtWorld
 {
+	
+	private int delay = 25;
 
     /**
      * Constructor for objects of class EndScreen.
@@ -18,7 +20,11 @@ public class EndScreen extends SplorrtWorld
     }
     @Override
     public void act() {
-    	if(Greenfoot.mouseClicked(null)) {
+    	if(delay>0){
+    		delay--;
+    	}
+    	
+    	if(delay<=0 && (Greenfoot.getKey()!=null || Greenfoot.mouseClicked(null))) {
     		loadWorld(SplorrtWorld.getWorld(Level1.class));
     	}
     }
