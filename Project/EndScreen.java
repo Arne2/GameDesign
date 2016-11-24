@@ -32,7 +32,7 @@ public class EndScreen extends SplorrtWorld
 		}
 		else if (delay <= 0 && (Greenfoot.getKey() != null || Greenfoot.mouseClicked(null)))
 		{
-			loadWorld(SplorrtWorld.getWorld(Level1.class));
+			loadWorld(SplorrtWorld.getWorld(Level1_1.class));
 		}
 	}
 }

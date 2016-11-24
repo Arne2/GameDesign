@@ -1,5 +1,6 @@
 public enum LevelID
 {
 	START,
-	LEVEL1
+	LEVEL1_1,
+	LEVEL1_2
 }

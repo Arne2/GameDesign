@@ -142,7 +142,6 @@ public abstract class Level extends SplorrtWorld
     
     private void loadFromImage(GreenfootImage map){
         worldHeight = map.getHeight()*Platform.SIZE;
-        
         Platform next;
         for(int x = 0; x<map.getWidth(); x++) {
             for(int y = 0; y<map.getHeight(); y++) {
@@ -184,7 +183,7 @@ public abstract class Level extends SplorrtWorld
         } else if(color.equals(Color.ORANGE)){
             actors.add(new Goal(x, y, getNextLevel()));
         }else {
-            throw new IllegalArgumentException("Unknown Color" + color.toString() + " " + x + " " + y);
+            throw new IllegalArgumentException("Unknown Color: " + color.toString() + " " + x + " " + y);
         }
         
         return null;

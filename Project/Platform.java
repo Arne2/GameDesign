@@ -9,6 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Platform extends LevelActor
 {
 	public static final int SIZE = 32;
+	private final Type type;
     
     public enum Type{
     	GRASS("GrassBlock_128x128.png", true),
@@ -19,7 +20,7 @@ public class Platform extends LevelActor
         CACTUS("Cactus32x32.png", true),
         COBBLE("Cobblestone32x32.png", true),
         STONE("Stone32x32.png", true),
-        LEAVES("Leaves32x32.png", true);
+        LEAVES("Leaves32x32.png", false);
     	
     	private final String image;
     	private final boolean sticky;
@@ -37,9 +38,14 @@ public class Platform extends LevelActor
     public Platform(Type type, int x, int y){
     	super(x, y);
         
+    	this.type = type;
         GreenfootImage image = new GreenfootImage(type.image);
         image.scale(SIZE, SIZE);
         setImage(image);
+    }
+    
+    public Type getType(){
+        return type;
     }
     
     /**

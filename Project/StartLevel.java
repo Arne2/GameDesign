@@ -20,7 +20,7 @@ public class StartLevel extends Level
 
 	@Override
 	public Class<? extends SplorrtWorld> getNextLevel() {
-		return Level1.class;
+		return Level1_1.class;
 	}
     
 }
