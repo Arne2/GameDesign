@@ -12,14 +12,17 @@ public class EndScreen extends SplorrtWorld
 {
 
 	private int delay = 10;
+	
+	private final Class<? extends SplorrtWorld> level;
 
 	/**
 	 * Constructor for objects of class EndScreen.
 	 * 
 	 */
-	public EndScreen()
+	public EndScreen(Class<? extends SplorrtWorld> level)
 	{
 		setBackground("EndScreen.jpg");
+		this.level = level;
 	}
 
 	@Override
@@ -32,7 +35,7 @@ public class EndScreen extends SplorrtWorld
 		}
 		else if (delay <= 0 && (Greenfoot.getKey() != null || Greenfoot.mouseClicked(null)))
 		{
-			loadWorld(SplorrtWorld.getWorld(Level1_1.class));
+			loadWorld(SplorrtWorld.getWorld(level));
 		}
 	}
 }

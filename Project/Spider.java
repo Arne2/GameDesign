@@ -99,10 +99,10 @@ public class Spider extends Actor
 		{
 			ySpeed = 0;
 			// Game mechanic won't work this way. It leaves all items like music intact and unaccessible.
-			World world = getWorld();
+			SplorrtWorld world = (SplorrtWorld) getWorld();
 			if (world != null && world instanceof SplorrtWorld)
 			{
-				((SplorrtWorld) world).loadWorld(SplorrtWorld.getWorld(EndScreen.class));
+				((SplorrtWorld) world).loadWorld(new EndScreen(world.getClass()));
 			}
 			return;
 		}

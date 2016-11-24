@@ -38,7 +38,7 @@ public class LevelSelection extends Level
     	
     	// add all the levels, that are supposed to be selectable here.
     	levels.add(new LevelInfo(Platform.Type.GRASS, Level1_1.class));
-    	levels.add(new LevelInfo(Platform.Type.GRASS, StartLevel.class));
+    	levels.add(new LevelInfo(Platform.Type.GRASS, Level1_2.class));
     	
     	for(int i = 0; i<SIDE_HEIGHT; i++){
     		Platform left = new Platform(Platform.Type.BRICK, 0, i*Platform.SIZE);
