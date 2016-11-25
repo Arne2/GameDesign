@@ -9,6 +9,9 @@ public class Animation {
 	private int framesLeft;
 	private int currentImage;
 	private boolean changed;
+	
+	private GreenfootImage specialImage;
+	private int framesForSpecialImage = 0;
 
 	private List<GreenfootImage> images = new ArrayList<>();
 	
@@ -26,8 +29,16 @@ public class Animation {
 		images.add(img);
 	}
 	
+	public void addImageForFrames(GreenfootImage img, int frames){
+		specialImage = img;
+		framesForSpecialImage = frames;
+		changed = true;
+	}
+	
 	public GreenfootImage getImage(){
-		if(getImages().size()>0){
+		if(framesForSpecialImage>0){
+			return specialImage;
+		} else if(getImages().size()>0){
 			return getImages().get(currentImage);
 		} else {
 			return null;
@@ -44,7 +55,12 @@ public class Animation {
 	}
 	
 	public void next(){
-		if(getImages().size()>0){
+		if(framesForSpecialImage>0){
+			framesForSpecialImage--;
+			if(framesForSpecialImage<=0){
+				changed = true;
+			}
+		} else if(getImages().size()>1){
 			framesLeft--;
 			
 			if(framesLeft<=0){
@@ -65,6 +81,7 @@ public class Animation {
 	
 	public void reset(){
 		currentImage = 0;
+		framesForSpecialImage = 0;
 		this.framesLeft = framesPerImage;
 	}
 	

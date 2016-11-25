@@ -236,12 +236,16 @@ public class Spider extends Actor
 
 		updateWorld();
 		
-		if(xMove > 1)
+		animate();
+	}
+	
+	private void animate() {
+		if(xSpeed > 1)
 		{
 			images.useSet("right");
 			idleFrames = 0;
 		}
-		else if (xMove<-1)
+		else if (xSpeed<-1)
 		{
 			images.useSet("left");
 			idleFrames = 0;
@@ -249,11 +253,12 @@ public class Spider extends Actor
 		else
 		{
 			if(idleFrames>FRAMES_BEFORE_IDLE){
-				images.useSet("idle");
+				images.useSet(SetAnimation.DEFAULT_SET);
 			} else {
 				idleFrames++;
 			}
 		}
+		
 		images.next();
 		
 		if(images.hasChanged()){

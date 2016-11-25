@@ -1,22 +1,27 @@
+import greenfoot.GreenfootImage;
+
 /**
  * Write a description of class EnemyWasp here.
  * 
  * @author (your name)
  * @version (a version number or a date)
  */
-public class EnemyWasp extends Enemy
-{
-
-	private int	tickCounter		= 0;
-
-	private int	currentFrame	= 1;
+public class EnemyWasp extends Enemy {
 
 	private int	ticksShowHit	= -1;
+	
+	
+	private static final int   	FRAMES_PER_PICTURE	= 5;
+	private final SetAnimation 	images = new SetAnimation(FRAMES_PER_PICTURE);
 
 	public EnemyWasp(int x, int y)
 	{
 		super(x, y, true, true);
 
+		images.addImage(new GreenfootImage("wasp1_64.png"));
+		images.addImage(new GreenfootImage("wasp2_64.png"));
+		images.addImage("stunned", new GreenfootImage("wasp_stunned_64.png"));
+		
 		setHealthPoints(3);
 		setImage("wasp1_64.png");
 	}
@@ -35,53 +40,25 @@ public class EnemyWasp extends Enemy
 	public void setStunned()
 	{
 		super.setStunned();
-		setImage("wasp_stunned_64.png");
+		images.useSet("stunned");
 	}
 
 	@Override
 	public void onDamaged()
 	{
-		ticksShowHit = 40;
-		setImage("wasp_hit_64.png");
+		images.addImageForFrames(new GreenfootImage("wasp_hit_64.png"), 40);
 	}
 
 	private void animate()
 	{
-
-		if (isStunned())
-		{
-			if (ticksShowHit > 0)
-			{
-				ticksShowHit--;
-				if (ticksShowHit == 0)
-				{
-					setImage("wasp_stunned_64.png");
-				}
-
-			}
-
-			return;
+		if (!isStunned()) {
+			images.useSet(SetAnimation.DEFAULT_SET);
 		}
-
-		tickCounter++;
-		if (tickCounter > 5)
-		{
-
-			tickCounter = 0;
-			currentFrame++;
-			if (currentFrame > 2)
-			{
-				currentFrame = 1;
-			}
-			switch (currentFrame)
-			{
-				case 1:
-					setImage("wasp1_64.png");
-					break;
-				case 2:
-					setImage("wasp2_64.png");
-					break;
-			}
+		
+		images.next();
+		
+		if(images.hasChanged()){
+			setImage(images.getImage());
 		}
 	}
 
