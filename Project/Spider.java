@@ -58,10 +58,10 @@ public class Spider extends Actor
 	private WebBlob				blob				= null;
 	private double				webLength			= -1;
 
-	private int					movementFrame;
-	private int					currentMovementFrame;
 	private static final int	FRAMES_PER_PICTURE	= 10;
 	private static final int	FRAMES_BEFORE_IDLE	= 25;
+	private int 				idleFrames			= 0; 		
+	private final SetAnimation 	images 				= new SetAnimation(FRAMES_PER_PICTURE);
 
 	private static final double	WEB_LENGTH_CHANGE	= 2;
 
@@ -86,6 +86,18 @@ public class Spider extends Actor
 //		setImage(image);
 
 		// for front view as start image
+		GreenfootImage right1 = new GreenfootImage("side1_64x23.png");
+		right1.mirrorHorizontally();
+		GreenfootImage right2 = new GreenfootImage("side2_64x23.png");
+		right2.mirrorHorizontally();
+
+		images.addImage("right", right1);
+		images.addImage("right", right2);
+		images.addImage("left", new GreenfootImage("side1_64x23.png"));
+		images.addImage("left", new GreenfootImage("side2_64x23.png"));
+		images.addImage(new GreenfootImage("front1_64x23.png"));
+		images.addImage(new GreenfootImage("front2_64x23.png"));
+		
 		setImage("front1_64x23.png");
 	}
 
@@ -223,62 +235,30 @@ public class Spider extends Actor
 		}
 
 		updateWorld();
-
-		if (xMove > 0 && ((movementFrame = movementFrame % FRAMES_PER_PICTURE) == 0) && yMove == 0)
+		
+		if(xMove > 1)
 		{
-			if (currentMovementFrame == 1)
-			{
-				currentMovementFrame = 0;
-				// set image to image 1
-				GreenfootImage image = new GreenfootImage("side1_64x23.png");
-				image.mirrorHorizontally();
-				setImage(image);
-			}
-			else if (currentMovementFrame == 0)
-			{
-				currentMovementFrame = 1;
-				// set image to image 2
-				GreenfootImage image = new GreenfootImage("side2_64x23.png");
-				image.mirrorHorizontally();
-				setImage(image);
+			images.useSet("right");
+			idleFrames = 0;
+		}
+		else if (xMove<-1)
+		{
+			images.useSet("left");
+			idleFrames = 0;
+		} 
+		else
+		{
+			if(idleFrames>FRAMES_BEFORE_IDLE){
+				images.useSet("idle");
+			} else {
+				idleFrames++;
 			}
 		}
-		else if (xMove < 0 && ((movementFrame = movementFrame % FRAMES_PER_PICTURE) == 0) && yMove == 0)
-		{
-			if (currentMovementFrame == 1)
-			{
-				currentMovementFrame = 0;
-				// set image to image 1
-				GreenfootImage image = new GreenfootImage("side1_64x23.png");
-				setImage(image);
-			}
-			else if (currentMovementFrame == 0)
-			{
-				currentMovementFrame = 1;
-				// set image to image 2
-				GreenfootImage image = new GreenfootImage("side2_64x23.png");
-				setImage(image);
-			}
+		images.next();
+		
+		if(images.hasChanged()){
+			setImage(images.getImage());
 		}
-		else if (xMove == 0 && yMove == 0 && ((movementFrame = movementFrame % FRAMES_BEFORE_IDLE) == 0))
-		{
-			if (currentMovementFrame == 1)
-			{
-				currentMovementFrame = 0;
-				// set image to image 1
-				GreenfootImage image = new GreenfootImage("front1_64x23.png");
-				setImage(image);
-			}
-			else if (currentMovementFrame == 0)
-			{
-				currentMovementFrame = 1;
-				// set image to image 2
-				GreenfootImage image = new GreenfootImage("front2_64x23.png");
-				setImage(image);
-			}
-		}
-
-		movementFrame++;
 	}
 
 	/**

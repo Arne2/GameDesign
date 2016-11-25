@@ -8,6 +8,7 @@ public class Animation {
 	private final int framesPerImage;
 	private int framesLeft;
 	private int currentImage;
+	private boolean changed;
 
 	private List<GreenfootImage> images = new ArrayList<>();
 	
@@ -26,16 +27,36 @@ public class Animation {
 	}
 	
 	public GreenfootImage getImage(){
-		return getImages().get(currentImage);
+		if(getImages().size()>0){
+			return getImages().get(currentImage);
+		} else {
+			return null;
+		}
+	}
+	
+	public boolean hasChanged(){
+		if(changed){
+			changed = false;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public void next(){
-		framesLeft--;
-		
-		if(framesLeft<=0){
-			framesLeft = framesPerImage;
-			currentImage = (currentImage+1) % getImages().size();
+		if(getImages().size()>0){
+			framesLeft--;
+			
+			if(framesLeft<=0){
+				framesLeft = framesPerImage;
+				currentImage = (currentImage+1) % getImages().size();
+				changed = true;
+			}
 		}
+	}
+	
+	protected void setChanged(boolean changed){
+		this.changed = changed;
 	}
 	
 	public int getCurrentIndex(){
