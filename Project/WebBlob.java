@@ -5,9 +5,11 @@ public class WebBlob extends LevelActor{
 
 	private final int speed;
 	private boolean stationary = false;
+	private final int damage;
 	
-	public WebBlob(int speed) {
+	public WebBlob(int speed, int damage) {
 		this.speed = speed;
+		this.damage = damage;
 	}
 	
 	@Override
@@ -28,6 +30,9 @@ public class WebBlob extends LevelActor{
 					
 				    Enemy enemy = (Enemy) enemyActor;
 				    enemy.setStunned();
+				    enemy.decreaseHealth(damage);
+				} else {
+					bar.flash(20);
 				}
 				
 				((Level)getWorld()).removeLevelActor(this);

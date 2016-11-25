@@ -26,11 +26,19 @@ public abstract class Enemy extends LevelActor
     /** Boolean if Enemy is defeatable*/
     protected boolean defeatable;
     
+    private final LevelActor spawnOnDeath;
+    
     public Enemy(int x, int y, boolean stunnable, boolean defeatable)
+    {
+        this(x, y, stunnable, defeatable, null);
+    }
+    
+    public Enemy(int x, int y, boolean stunnable, boolean defeatable, LevelActor spawnOnDeath)
     {
         super(x, y);
         this.stunnable = stunnable;
         this.defeatable = defeatable;
+        this.spawnOnDeath = spawnOnDeath;
     }
 
     /**
@@ -192,6 +200,9 @@ public abstract class Enemy extends LevelActor
         if(healthPoints <= 0)
         {
             Level l = (Level) getWorld();
+            if(spawnOnDeath!=null){
+            	l.addLevelActor(spawnOnDeath, getX(), getY());
+            }
             l.removeLevelActor(this);
             return;
         }

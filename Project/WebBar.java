@@ -41,7 +41,7 @@ public class WebBar extends LevelActor
         GreenfootImage barImg = new GreenfootImage(barWidth + 4, barHeight + 4);
         barImg.setColor(backgroundColor);
         barImg.fill();
-        barImg.setColor(textColor);
+        barImg.setColor(flashFor>0 ? flashColor : textColor);
         barImg.drawRect(0, 0, barImg.getWidth() - 1, barImg.getHeight() - 1);
         if (value > minimumValue)
         {
