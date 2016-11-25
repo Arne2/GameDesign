@@ -1,5 +1,9 @@
 import java.util.List;
 
+
+
+
+
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
@@ -57,6 +61,10 @@ public class Spider extends Actor
 
 	private WebBlob				blob				= null;
 	private double				webLength			= -1;
+	private WebBar				webBar				= new WebBar(1000, 1000);
+	
+	public static final int		ENEMY_STUN_COST		= 50;
+	public static final double	WEB_COST_PER_LENGTH	= 0.5;
 
 	private int					movementFrame;
 	private int					currentMovementFrame;
@@ -161,38 +169,7 @@ public class Spider extends Actor
 			ySpeed *= 0.9;
 		}
 
-		// web
-		if (blob != null)
-		{
-			if (Greenfoot.mouseClicked(null))
-			{
-				((Level) getWorld()).removeLevelActor(blob);
-				removeBlob();
-			}
-			else if (blob.getWorld() == null)
-			{
-				removeBlob();
-			}
-			else if (blob.isStationary() && webLength < 0)
-			{
-				webLength = (int) Math.hypot((double) (getX() - blob.getX()), (double) (getY() - blob.getY())) + 5;
-			}
-			else if (webLength > 0)
-			{
-				adjustWebLength();
-				calculateWebForce();
-			}
-		}
-		else if (Greenfoot.mouseClicked(null))
-		{
-			MouseInfo mi = Greenfoot.getMouseInfo();
-
-			blob = new WebBlob(20);
-
-			((Level) getWorld()).addLevelActor(blob, getX(), getY());
-			((Level) getWorld()).addLevelActor(new WebString(this, blob), getX(), getY());
-			blob.turnTowards(mi.getX(), mi.getY());
-		}
+		webMechanics();
 
 		int xMove = (int) (xSpeed + xMoveRemaining);
 		int yMove = (int) (ySpeed + yMoveRemaining);
@@ -281,6 +258,65 @@ public class Spider extends Actor
 		movementFrame++;
 	}
 
+	private void webMechanics() {
+		// web
+		MouseInfo mi = Greenfoot.getMouseInfo();
+		Platform mouseOverP = mi!=null ? getWorld().getObjectsAt(mi.getX(), mi.getY(), Platform.class).stream().findFirst().orElse(null) : null;
+		Enemy mouseOverE = mi!=null ? getWorld().getObjectsAt(mi.getX(), mi.getY(), Enemy.class).stream().findFirst().orElse(null) : null;
+		
+		if(mouseOverP!=null) {
+			int distance = (int)Math.hypot(getX()-mouseOverP.getX(), getY()-mouseOverP.getY());
+			webBar.setPreviewDelta((int)(distance*WEB_COST_PER_LENGTH));
+		} else if(mouseOverE!=null) {
+			webBar.setPreviewDelta(ENEMY_STUN_COST);
+		} else {
+			webBar.setPreviewDelta(0);
+		}
+		
+		if (blob != null)
+		{
+			if (Greenfoot.mousePressed(null))
+			{
+				// clicking again removes blob
+				((Level) getWorld()).removeLevelActor(blob);
+				removeBlob();
+			}
+			else if (blob.getWorld() == null)
+			{
+				// if the blob reached the edge, or an enemy it will remove itself from the world.
+				removeBlob();
+			}
+			else if (blob.isStationary() && webLength < 0)
+			{
+				double distance = Math.hypot((double) (getX() - blob.getX()), (double) (getY() - blob.getY()));
+				
+				// cost to connect
+				int cost = (int)(distance*WEB_COST_PER_LENGTH);
+				if(cost <= webBar.getValue()){
+					// set webLength -> swing around blob.
+					webBar.subtract(cost);
+					webLength = (int)distance + 5;
+				} else {
+					removeBlob();
+				}
+			}
+			else if (webLength > 0)
+			{
+				adjustWebLength();
+				calculateWebForce();
+			}
+		}
+		else if (Greenfoot.mousePressed(null))
+		{
+			// shoot a new blob
+			blob = new WebBlob(20);
+
+			((Level) getWorld()).addLevelActor(blob, getX(), getY());
+			((Level) getWorld()).addLevelActor(new WebString(this, blob), getX(), getY());
+			blob.turnTowards(mi.getX(), mi.getY());
+		}
+	}
+
 	/**
 	 * Lets the User adjust the web length.
 	 */
@@ -304,6 +340,10 @@ public class Spider extends Actor
 	 */
 	private void removeBlob()
 	{
+		if(blob.getWorld()!=null){
+			((Level)getWorld()).removeLevelActor(blob);
+		}
+		
 		blob = null;
 		webLength = -1;
 	}
@@ -646,5 +686,9 @@ public class Spider extends Actor
 	public Level getCurrentLevel()
 	{
 		return (Level) getWorld();
+	}
+
+	public WebBar getWebBar() {
+		return webBar;
 	}
 }

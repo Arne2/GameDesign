@@ -41,14 +41,7 @@ public abstract class Level extends SplorrtWorld
     
     public Level(Spider spider)
     {
-        this.map = "levels" + File.separatorChar + getClass().getName().toLowerCase()+".png";
-        if(spider != null)
-            this.spider = spider;
-        else
-            this.spider = new Spider();
-        
-        prepare();
-        update();
+        this(spider, true);
     }
     
     public Level(Spider spider, boolean loadFromImage)
@@ -59,6 +52,8 @@ public abstract class Level extends SplorrtWorld
             this.spider = spider;
         else
             this.spider = new Spider();
+        
+        setActOrder(Platform.class, Web.class, Enemy.class, Spider.class);
         
         prepare();
         update();
@@ -131,6 +126,7 @@ public abstract class Level extends SplorrtWorld
     	}
         
         addObject(spider, getWidth()/2, getHeight()/2);
+        addObject(spider.getWebBar(), 100, getHeight()-20);
         
         movePosition(-getWidth()/2+spawnX, -getHeight()/2+spawnY);
     }
@@ -204,45 +200,10 @@ public abstract class Level extends SplorrtWorld
         music.stop();
     }
     
-//    public void loadNextLevel()
-//    {
-//        if(getNextLevel() !=  null)
-//        {
-//            
-//            loadLevel(getNextLevel());
-//            
-//        }
-//            
-//    }
-//    
-//    public void loadLevel(LevelID levelID)
-//    {
-//        
-//        Level l = null;
-//        switch(levelID)
-//        {
-//            case START:
-//                l = new StartLevel();
-//                break;
-//            case LEVEL1:
-//                l = new Level1();
-//                break;
-//            
-//        }
-//        
-//        if(l != null)
-//        {
-//            stopped();
-//            Greenfoot.setWorld(l);
-//            l.started();
-//        }
-//    }
-    
     public Spider getSpider()
     {
         return spider;
     }
-    
 
     /**
      * Override this to change the default Screen(SplorrtWorld) for loaded goal-tiles.

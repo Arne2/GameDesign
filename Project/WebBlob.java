@@ -22,8 +22,16 @@ public class WebBlob extends LevelActor{
 			
 			Actor enemyActor = getOneObjectAtOffset(0, 0, Enemy.class);
 			if(enemyActor != null && enemyActor instanceof Enemy){
-			    Enemy enemy = (Enemy) enemyActor;
-			    enemy.setStunned();
+				WebBar bar = ((Level)getWorld()).getSpider().getWebBar();
+				if(bar.getValue() >= Spider.ENEMY_STUN_COST){
+					bar.subtract(Spider.ENEMY_STUN_COST);
+					
+				    Enemy enemy = (Enemy) enemyActor;
+				    enemy.setStunned();
+				}
+				
+				((Level)getWorld()).removeLevelActor(this);
+				return;
 			 }
 		}
 		
