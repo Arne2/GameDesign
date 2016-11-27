@@ -58,10 +58,11 @@ public class Spider extends Actor
 	private WebBlob				blob				= null;
 	private double				webLength			= -1;
 
-	private static final int	FRAMES_PER_PICTURE	= 10;
-	private static final int	FRAMES_BEFORE_IDLE	= 25;
+	private static final int	FRAMES_PER_PICTURE_MOVE	= 8;
+	private static final int	FRAMES_BEFORE_IDLE		= 24;
+	private static final int	FRAMES_PER_PICTURE_IDLE	= 24;
 	private int 				idleFrames			= 0; 		
-	private final SetAnimation 	images 				= new SetAnimation(FRAMES_PER_PICTURE);
+	private final AnimationSet 	images 				= new AnimationSet(FRAMES_PER_PICTURE_IDLE);
 
 	private static final double	WEB_LENGTH_CHANGE	= 2;
 
@@ -80,25 +81,27 @@ public class Spider extends Actor
 
 	public Spider()
 	{
-		// For side view as start image
-//		GreenfootImage image = new GreenfootImage("side1_64x23.png");
-//		image.mirrorHorizontally();
-//		setImage(image);
-
+		images.addImage(new GreenfootImage("front1_64x23.png"));
+		images.addImage(new GreenfootImage("front2_64x23.png"));
+		
 		// for front view as start image
 		GreenfootImage right1 = new GreenfootImage("side1_64x23.png");
 		right1.mirrorHorizontally();
 		GreenfootImage right2 = new GreenfootImage("side2_64x23.png");
 		right2.mirrorHorizontally();
-
-		images.addImage("right", right1);
-		images.addImage("right", right2);
-		images.addImage("left", new GreenfootImage("side1_64x23.png"));
-		images.addImage("left", new GreenfootImage("side2_64x23.png"));
-		images.addImage(new GreenfootImage("front1_64x23.png"));
-		images.addImage(new GreenfootImage("front2_64x23.png"));
 		
-		setImage("front1_64x23.png");
+		images.useSet("right");
+		images.setFramesPerImage(FRAMES_PER_PICTURE_MOVE);
+		images.addImage(right1);
+		images.addImage(right2);
+		
+		images.useSet("left");
+		images.setFramesPerImage(FRAMES_PER_PICTURE_MOVE);
+		images.addImage(new GreenfootImage("side1_64x23.png"));
+		images.addImage(new GreenfootImage("side2_64x23.png"));
+		
+		images.useSet(AnimationSet.DEFAULT_SET);
+		setImage(images.getImage());
 	}
 
 	/**
@@ -253,14 +256,13 @@ public class Spider extends Actor
 		else
 		{
 			if(idleFrames>FRAMES_BEFORE_IDLE){
-				images.useSet(SetAnimation.DEFAULT_SET);
+				images.useSet(AnimationSet.DEFAULT_SET);
 			} else {
 				idleFrames++;
 			}
 		}
 		
 		images.next();
-		
 		if(images.hasChanged()){
 			setImage(images.getImage());
 		}

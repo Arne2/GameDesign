@@ -12,7 +12,7 @@ public class EnemyWasp extends Enemy {
 	
 	
 	private static final int   	FRAMES_PER_PICTURE	= 5;
-	private final SetAnimation 	images = new SetAnimation(FRAMES_PER_PICTURE);
+	private final AnimationSet 	images = new AnimationSet(FRAMES_PER_PICTURE);
 
 	public EnemyWasp(int x, int y)
 	{
@@ -20,7 +20,6 @@ public class EnemyWasp extends Enemy {
 
 		images.addImage(new GreenfootImage("wasp1_64.png"));
 		images.addImage(new GreenfootImage("wasp2_64.png"));
-		images.addImage("stunned", new GreenfootImage("wasp_stunned_64.png"));
 		
 		setHealthPoints(3);
 		setImage("wasp1_64.png");
@@ -39,22 +38,20 @@ public class EnemyWasp extends Enemy {
 	@Override
 	public void setStunned()
 	{
-		super.setStunned();
-		images.useSet("stunned");
+		if(stunnable){
+			super.setStunned();
+			images.addImageForFrames(new GreenfootImage("wasp_stunned_64.png"), 100, false);
+		}
 	}
 
 	@Override
 	public void onDamaged()
 	{
-		images.addImageForFrames(new GreenfootImage("wasp_hit_64.png"), 40);
+		images.addImageForFrames(new GreenfootImage("wasp_hit_64.png"), 40, false);
 	}
 
 	private void animate()
 	{
-		if (!isStunned()) {
-			images.useSet(SetAnimation.DEFAULT_SET);
-		}
-		
 		images.next();
 		
 		if(images.hasChanged()){

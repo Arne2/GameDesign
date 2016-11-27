@@ -196,7 +196,7 @@ public abstract class Level extends SplorrtWorld
     
     @Override
     public void started(){
-        music.playLoop();
+//        music.playLoop();
     }
     
     @Override

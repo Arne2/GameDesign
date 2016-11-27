@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import greenfoot.GreenfootImage;
@@ -9,11 +10,20 @@ public class Animation implements AnimationInterface{
 	private int framesLeft;
 	private int currentImage;
 	private boolean changed;
-	
-	private GreenfootImage specialImage;
-	private int framesForSpecialImage = 0;
 
+	private class AnimationFrame{
+		private int framesLeft;
+		private GreenfootImage image;
+		
+		private AnimationFrame(int framesLeft, GreenfootImage image) {
+			super();
+			this.framesLeft = framesLeft;
+			this.image = image;
+		}
+	}
+	
 	private List<GreenfootImage> images = new ArrayList<>();
+	private LinkedList<AnimationFrame> frames = new LinkedList<>();
 	
 	public Animation(int framesPerImage) {
 		this.framesPerImage = framesPerImage;
@@ -36,16 +46,23 @@ public class Animation implements AnimationInterface{
 	}
 	
 	@Override
-	public void addImageForFrames(GreenfootImage img, int frames){
-		specialImage = img;
-		framesForSpecialImage = frames;
+	public void addImageForFrames(GreenfootImage img, int frames, boolean delayOthers){
+		this.frames.push(new AnimationFrame(frames, img));
 		changed = true;
+		
+		if(!delayOthers){
+			for(int i = 1; i < this.frames.size(); i++){
+				AnimationFrame next = this.frames.get(i);
+				next.framesLeft -= frames;
+			}
+		}
 	}
 	
 	@Override
 	public GreenfootImage getImage(){
-		if(framesForSpecialImage>0){
-			return specialImage;
+		AnimationFrame special = frames.peek();
+		if(special!=null){
+			return special.image;
 		} else if(getImages().size()>0){
 			return getImages().get(currentImage);
 		} else {
@@ -65,10 +82,13 @@ public class Animation implements AnimationInterface{
 	
 	@Override
 	public void next(){
-		if(framesForSpecialImage>0){
-			framesForSpecialImage--;
-			if(framesForSpecialImage<=0){
-				changed = true;
+		AnimationFrame special = frames.size()==0 ? null : frames.peek();
+		if(special!=null){
+			System.out.print("frames:"+special.framesLeft+" ");
+			if(special.framesLeft-- <= 0)
+			{
+				frames.pop();
+				System.out.println();
 			}
 		} else if(getImages().size()>1){
 			framesLeft--;
@@ -81,23 +101,18 @@ public class Animation implements AnimationInterface{
 		}
 	}
 	
-	protected void setChanged(boolean changed){
+	protected void setChanged(boolean changed) {
 		this.changed = changed;
 	}
 	
-	public int getCurrentIndex(){
-		return currentImage;
-	}
-	
 	@Override
-	public void reset(){
+	public void reset() {
 		currentImage = 0;
-		framesForSpecialImage = 0;
+		
+		while(frames.size()>0){
+			frames.pop();
+		}
+		
 		this.framesLeft = framesPerImage;
-	}
-	
-	protected void setImages(List<GreenfootImage> images) {
-		this.images = images;
-		reset();
 	}
 }
