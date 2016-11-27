@@ -15,6 +15,10 @@ import greenfoot.World;
  */
 public class Spider extends Actor
 {
+	// KEYBINDS - <Key, Functionality>
+//	private HashMap<String, String>	groundKeybinds			= new HashMap<>();
+//	private HashMap<String, String>	webKeybinds			= new HashMap<>();
+
 	private static boolean		DEBUG				= false;
 
 	/** Width of the spider in pixels **/
@@ -80,6 +84,9 @@ public class Spider extends Actor
 
 	public Spider()
 	{
+
+		loadKeybinds();
+
 		// For side view as start image
 //		GreenfootImage image = new GreenfootImage("side1_64x23.png");
 //		image.mirrorHorizontally();
@@ -87,6 +94,12 @@ public class Spider extends Actor
 
 		// for front view as start image
 		setImage("front1_64x23.png");
+	}
+
+	private void loadKeybinds()
+	{
+		// if we want to load keybinds from file
+		// TODO: load keybinds from file
 	}
 
 	/**
@@ -109,14 +122,16 @@ public class Spider extends Actor
 
 		// --- INPUTS
 		// horizontal movement
-		if (Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d"))
+		MouseInfo mi = Greenfoot.getMouseInfo();
+
+		if ((Keybind.MOVE_RIGHT.isMouseAction() && mi != null && mi.getButton() == Keybind.MOVE_RIGHT.getMouseButton()) || (!Keybind.MOVE_RIGHT.isMouseAction() && Greenfoot.isKeyDown(Keybind.MOVE_RIGHT.getKey())))
 		{
 			if (xSpeed < X_SPEED_MAX)
 			{
 				xSpeed = Math.min(X_SPEED_MAX, xSpeed + X_SPEED_MAX);
 			}
 		}
-		else if (Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("a"))
+		else if ((Keybind.MOVE_LEFT.isMouseAction() && mi != null && mi.getButton() == Keybind.MOVE_LEFT.getMouseButton()) || (!Keybind.MOVE_LEFT.isMouseAction() && Greenfoot.isKeyDown(Keybind.MOVE_LEFT.getKey())))
 		{
 			if (xSpeed > -X_SPEED_MAX)
 			{
@@ -137,7 +152,7 @@ public class Spider extends Actor
 			}
 		}
 		// jumping
-		if (Greenfoot.isKeyDown("space"))
+		if ((Keybind.JUMP.isMouseAction() && mi != null && mi.getButton() == Keybind.JUMP.getMouseButton()) || (!Keybind.JUMP.isMouseAction() && Greenfoot.isKeyDown(Keybind.JUMP.getKey())))
 		{
 			if (ground != null && jumpButtonReady)
 			{
@@ -164,7 +179,7 @@ public class Spider extends Actor
 		// web
 		if (blob != null)
 		{
-			if (Greenfoot.mouseClicked(null))
+			if ((Keybind.CANCEL_WEB.isMouseAction() && mi != null && mi.getButton() == Keybind.CANCEL_WEB.getMouseButton()) || (!Keybind.CANCEL_WEB.isMouseAction() && Greenfoot.isKeyDown(Keybind.CANCEL_WEB.getKey())))
 			{
 				((Level) getWorld()).removeLevelActor(blob);
 				removeBlob();
@@ -183,10 +198,8 @@ public class Spider extends Actor
 				calculateWebForce();
 			}
 		}
-		else if (Greenfoot.mouseClicked(null))
+		else if ((Keybind.SHOOT.isMouseAction() && mi != null && mi.getButton() == Keybind.SHOOT.getMouseButton()) || (!Keybind.SHOOT.isMouseAction() && Greenfoot.isKeyDown(Keybind.SHOOT.getKey())))
 		{
-			MouseInfo mi = Greenfoot.getMouseInfo();
-
 			blob = new WebBlob(20);
 
 			((Level) getWorld()).addLevelActor(blob, getX(), getY());
@@ -286,14 +299,14 @@ public class Spider extends Actor
 	 */
 	private void adjustWebLength()
 	{
-		if (Greenfoot.isKeyDown("w") || Greenfoot.isKeyDown("up"))
+		if (Greenfoot.isKeyDown(Keybind.PULL_UP.getKey()))
 		{
 			if (webLength > WEB_LENGTH_CHANGE)
 			{
 				webLength -= WEB_LENGTH_CHANGE;
 			}
 		}
-		else if (Greenfoot.isKeyDown("s") || Greenfoot.isKeyDown("down"))
+		else if (Greenfoot.isKeyDown(Keybind.ROPE_DOWN.getKey()))
 		{
 			webLength += WEB_LENGTH_CHANGE;
 		}
