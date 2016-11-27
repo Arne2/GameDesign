@@ -54,6 +54,7 @@ public class KeybindingActor extends Actor
 		{
 			setImage(new GreenfootImage(text + ":                 assign key now", 18, Color.BLACK, new Color(0, 0, 0, 0)));
 			selected = true;
+			Greenfoot.getKey();
 		}
 		else if (selected)
 		{
