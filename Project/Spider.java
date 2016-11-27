@@ -112,6 +112,7 @@ public class Spider extends Actor
 	 */
 	public void act()
 	{
+		MouseInfo mi = Greenfoot.getMouseInfo();
 		// TODO: implement death and game-over mechanic.
 		if (isDead())
 		{
@@ -127,16 +128,15 @@ public class Spider extends Actor
 
 		// --- INPUTS
 		// horizontal movement
-		MouseInfo mi = Greenfoot.getMouseInfo();
 
-		if ((Keybind.MOVE_RIGHT.isMouseAction() && mi != null && mi.getButton() == Keybind.MOVE_RIGHT.getMouseButton()) || (!Keybind.MOVE_RIGHT.isMouseAction() && Greenfoot.isKeyDown(Keybind.MOVE_RIGHT.getKey())))
+		if (isKeyPressed(Keybind.MOVE_RIGHT))
 		{
 			if (xSpeed < X_SPEED_MAX)
 			{
 				xSpeed = Math.min(X_SPEED_MAX, xSpeed + X_SPEED_MAX);
 			}
 		}
-		else if ((Keybind.MOVE_LEFT.isMouseAction() && mi != null && mi.getButton() == Keybind.MOVE_LEFT.getMouseButton()) || (!Keybind.MOVE_LEFT.isMouseAction() && Greenfoot.isKeyDown(Keybind.MOVE_LEFT.getKey())))
+		else if (isKeyPressed(Keybind.MOVE_LEFT))
 		{
 			if (xSpeed > -X_SPEED_MAX)
 			{
@@ -157,7 +157,7 @@ public class Spider extends Actor
 			}
 		}
 		// jumping
-		if ((Keybind.JUMP.isMouseAction() && mi != null && mi.getButton() == Keybind.JUMP.getMouseButton()) || (!Keybind.JUMP.isMouseAction() && Greenfoot.isKeyDown(Keybind.JUMP.getKey())))
+		if (isKeyPressed(Keybind.JUMP))
 		{
 			if (ground != null && jumpButtonReady)
 			{
@@ -293,7 +293,7 @@ public class Spider extends Actor
 
 		if (blob != null)
 		{
-			if ((Keybind.CANCEL_WEB.isMouseAction() && mi != null && Greenfoot.mousePressed(null) && mi.getButton() == Keybind.CANCEL_WEB.getMouseButton()) || (!Keybind.CANCEL_WEB.isMouseAction() && Greenfoot.isKeyDown(Keybind.CANCEL_WEB.getKey())))
+			if (isKeyPressed(Keybind.CANCEL_WEB))
 			{
 				// clicking again removes blob
 				((Level) getWorld()).removeLevelActor(blob);
@@ -328,7 +328,7 @@ public class Spider extends Actor
 				calculateWebForce();
 			}
 		}
-		else if ((Keybind.SHOOT.isMouseAction() && mi != null && Greenfoot.mousePressed(null) && mi.getButton() == Keybind.SHOOT.getMouseButton()) || (!Keybind.SHOOT.isMouseAction() && Greenfoot.isKeyDown(Keybind.SHOOT.getKey())))
+		else if (isKeyPressed(Keybind.SHOOT))
 		{
 			// shoot a new blob
 			blob = new WebBlob(25, damage);
@@ -344,14 +344,14 @@ public class Spider extends Actor
 	 */
 	private void adjustWebLength()
 	{
-		if (Greenfoot.isKeyDown(Keybind.PULL_UP.getKey()))
+		if (isKeyPressed(Keybind.PULL_UP))
 		{
 			if (webLength > WEB_LENGTH_CHANGE)
 			{
 				webLength -= WEB_LENGTH_CHANGE;
 			}
 		}
-		else if (Greenfoot.isKeyDown(Keybind.ROPE_DOWN.getKey()))
+		else if (isKeyPressed(Keybind.ROPE_DOWN))
 		{
 			webLength += WEB_LENGTH_CHANGE;
 		}
@@ -714,5 +714,13 @@ public class Spider extends Actor
 	public Bar getHealthBar()
 	{
 		return healthBar;
+	}
+
+	public boolean isKeyPressed(Keybind key)
+	{
+		MouseInfo mi = Greenfoot.getMouseInfo();
+		if ((key.isMouseAction() && mi != null && Greenfoot.mousePressed(null) && mi.getButton() == key.getMouseButton()) || (!key.isMouseAction() && Greenfoot.isKeyDown(key.getKey())))
+			return true;
+		return false;
 	}
 }
