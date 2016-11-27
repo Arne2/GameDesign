@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.util.List;
 
+
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
@@ -16,10 +17,6 @@ import greenfoot.World;
  */
 public class Spider extends Actor
 {
-	// KEYBINDS - <Key, Functionality>
-//	private HashMap<String, String>	groundKeybinds			= new HashMap<>();
-//	private HashMap<String, String>	webKeybinds			= new HashMap<>();
-
 	private static boolean		DEBUG				= false;
 
 	/** Width of the spider in pixels **/
@@ -67,10 +64,11 @@ public class Spider extends Actor
 	public static final int		ENEMY_STUN_COST		= 50;
 	public static final double	WEB_COST_PER_LENGTH	= 0.5;
 
-	private int					movementFrame;
-	private int					currentMovementFrame;
-	private static final int	FRAMES_PER_PICTURE	= 10;
-	private static final int	FRAMES_BEFORE_IDLE	= 25;
+	private static final int	FRAMES_PER_PICTURE_MOVE	= 8;
+	private static final int	FRAMES_BEFORE_IDLE		= 24;
+	private static final int	FRAMES_PER_PICTURE_IDLE	= 24;
+	private int 				idleFrames			= 0; 		
+	private final AnimationSet 	images 				= new AnimationSet(FRAMES_PER_PICTURE_IDLE);
 
 	private static final double	WEB_LENGTH_CHANGE	= 4;
 
@@ -89,16 +87,34 @@ public class Spider extends Actor
 
 	public Spider()
 	{
-
 		loadKeybinds();
 
 		healthBar.setTextColor(Color.WHITE);
 		healthBar.setSafeColor(Color.RED);
 		healthBar.setDangerColor(Color.YELLOW);
 		healthBar.setBreakValue(2);
-
+	
+		images.addImage(new GreenfootImage("front1_64x23.png"));
+		images.addImage(new GreenfootImage("front2_64x23.png"));
+		
 		// for front view as start image
-		setImage("front1_64x23.png");
+		GreenfootImage right1 = new GreenfootImage("side1_64x23.png");
+		right1.mirrorHorizontally();
+		GreenfootImage right2 = new GreenfootImage("side2_64x23.png");
+		right2.mirrorHorizontally();
+		
+		images.useSet("right");
+		images.setFramesPerImage(FRAMES_PER_PICTURE_MOVE);
+		images.addImage(right1);
+		images.addImage(right2);
+		
+		images.useSet("left");
+		images.setFramesPerImage(FRAMES_PER_PICTURE_MOVE);
+		images.addImage(new GreenfootImage("side1_64x23.png"));
+		images.addImage(new GreenfootImage("side2_64x23.png"));
+		
+		images.useSet(AnimationSet.DEFAULT_SET);
+		setImage(images.getImage());
 	}
 
 	private void loadKeybinds()
@@ -212,62 +228,34 @@ public class Spider extends Actor
 		}
 
 		updateWorld();
-
-		if (xMove > 0 && ((movementFrame = movementFrame % FRAMES_PER_PICTURE) == 0) && yMove == 0)
+		
+		animate();
+	}
+	
+	private void animate() {
+		if(xSpeed > 1)
 		{
-			if (currentMovementFrame == 1)
-			{
-				currentMovementFrame = 0;
-				// set image to image 1
-				GreenfootImage image = new GreenfootImage("side1_64x23.png");
-				image.mirrorHorizontally();
-				setImage(image);
-			}
-			else if (currentMovementFrame == 0)
-			{
-				currentMovementFrame = 1;
-				// set image to image 2
-				GreenfootImage image = new GreenfootImage("side2_64x23.png");
-				image.mirrorHorizontally();
-				setImage(image);
+			images.useSet("right");
+			idleFrames = 0;
+		}
+		else if (xSpeed<-1)
+		{
+			images.useSet("left");
+			idleFrames = 0;
+		} 
+		else
+		{
+			if(idleFrames>FRAMES_BEFORE_IDLE){
+				images.useSet(AnimationSet.DEFAULT_SET);
+			} else {
+				idleFrames++;
 			}
 		}
-		else if (xMove < 0 && ((movementFrame = movementFrame % FRAMES_PER_PICTURE) == 0) && yMove == 0)
-		{
-			if (currentMovementFrame == 1)
-			{
-				currentMovementFrame = 0;
-				// set image to image 1
-				GreenfootImage image = new GreenfootImage("side1_64x23.png");
-				setImage(image);
-			}
-			else if (currentMovementFrame == 0)
-			{
-				currentMovementFrame = 1;
-				// set image to image 2
-				GreenfootImage image = new GreenfootImage("side2_64x23.png");
-				setImage(image);
-			}
+		
+		images.next();
+		if(images.hasChanged()){
+			setImage(images.getImage());
 		}
-		else if (xMove == 0 && yMove == 0 && ((movementFrame = movementFrame % FRAMES_BEFORE_IDLE) == 0))
-		{
-			if (currentMovementFrame == 1)
-			{
-				currentMovementFrame = 0;
-				// set image to image 1
-				GreenfootImage image = new GreenfootImage("front1_64x23.png");
-				setImage(image);
-			}
-			else if (currentMovementFrame == 0)
-			{
-				currentMovementFrame = 1;
-				// set image to image 2
-				GreenfootImage image = new GreenfootImage("front2_64x23.png");
-				setImage(image);
-			}
-		}
-
-		movementFrame++;
 	}
 
 	private void webMechanics()
