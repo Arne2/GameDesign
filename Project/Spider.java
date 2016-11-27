@@ -1,4 +1,10 @@
+import java.awt.Color;
 import java.util.List;
+
+
+
+
+
 
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Actor;
@@ -57,15 +63,19 @@ public class Spider extends Actor
 
 	private WebBlob				blob				= null;
 	private double				webLength			= -1;
+	private final WebBar		webBar				= new WebBar(1000, 1000);
+	
+	public static final int		ENEMY_STUN_COST		= 50;
+	public static final double	WEB_COST_PER_LENGTH	= 0.5;
 
 	private int					movementFrame;
 	private int					currentMovementFrame;
 	private static final int	FRAMES_PER_PICTURE	= 10;
 	private static final int	FRAMES_BEFORE_IDLE	= 25;
 
-	private static final double	WEB_LENGTH_CHANGE	= 2;
+	private static final double	WEB_LENGTH_CHANGE	= 4;
 
-	private int					healthPoints		= 5;
+	private final Bar			healthBar			= new Bar("Health", "", 5, 5);
 
 	private int					damage				= 1;
 
@@ -80,11 +90,11 @@ public class Spider extends Actor
 
 	public Spider()
 	{
-		// For side view as start image
-//		GreenfootImage image = new GreenfootImage("side1_64x23.png");
-//		image.mirrorHorizontally();
-//		setImage(image);
-
+		healthBar.setTextColor(Color.WHITE);
+		healthBar.setSafeColor(Color.RED);
+		healthBar.setDangerColor(Color.YELLOW);
+		healthBar.setBreakValue(2);
+		
 		// for front view as start image
 		setImage("front1_64x23.png");
 	}
@@ -161,38 +171,7 @@ public class Spider extends Actor
 			ySpeed *= 0.9;
 		}
 
-		// web
-		if (blob != null)
-		{
-			if (Greenfoot.mouseClicked(null))
-			{
-				((Level) getWorld()).removeLevelActor(blob);
-				removeBlob();
-			}
-			else if (blob.getWorld() == null)
-			{
-				removeBlob();
-			}
-			else if (blob.isStationary() && webLength < 0)
-			{
-				webLength = (int) Math.hypot((double) (getX() - blob.getX()), (double) (getY() - blob.getY())) + 5;
-			}
-			else if (webLength > 0)
-			{
-				adjustWebLength();
-				calculateWebForce();
-			}
-		}
-		else if (Greenfoot.mouseClicked(null))
-		{
-			MouseInfo mi = Greenfoot.getMouseInfo();
-
-			blob = new WebBlob(20);
-
-			((Level) getWorld()).addLevelActor(blob, getX(), getY());
-			((Level) getWorld()).addLevelActor(new WebString(this, blob), getX(), getY());
-			blob.turnTowards(mi.getX(), mi.getY());
-		}
+		webMechanics();
 
 		int xMove = (int) (xSpeed + xMoveRemaining);
 		int yMove = (int) (ySpeed + yMoveRemaining);
@@ -281,6 +260,66 @@ public class Spider extends Actor
 		movementFrame++;
 	}
 
+	private void webMechanics() {
+		// web
+		MouseInfo mi = Greenfoot.getMouseInfo();
+		Platform mouseOverP = mi!=null ? getWorld().getObjectsAt(mi.getX(), mi.getY(), Platform.class).stream().findFirst().orElse(null) : null;
+		Enemy mouseOverE = mi!=null ? getWorld().getObjectsAt(mi.getX(), mi.getY(), Enemy.class).stream().findFirst().orElse(null) : null;
+		
+		if(mouseOverP!=null) {
+			int distance = (int)Math.hypot(getX()-mouseOverP.getX(), getY()-mouseOverP.getY());
+			webBar.setPreviewDelta((int)(distance*WEB_COST_PER_LENGTH));
+		} else if(mouseOverE!=null) {
+			webBar.setPreviewDelta(ENEMY_STUN_COST);
+		} else {
+			webBar.setPreviewDelta(0);
+		}
+		
+		if (blob != null)
+		{
+			if (Greenfoot.mousePressed(null))
+			{
+				// clicking again removes blob
+				((Level) getWorld()).removeLevelActor(blob);
+				removeBlob();
+			}
+			else if (blob.getWorld() == null)
+			{
+				// if the blob reached the edge, or an enemy it will remove itself from the world.
+				removeBlob();
+			}
+			else if (blob.isStationary() && webLength < 0)
+			{
+				double distance = Math.hypot((double) (getX() - blob.getX()), (double) (getY() - blob.getY()));
+				
+				// cost to connect
+				int cost = (int)(distance*WEB_COST_PER_LENGTH);
+				if(cost <= webBar.getValue()){
+					// set webLength -> swing around blob.
+					webBar.subtract(cost);
+					webLength = (int)distance + 5;
+				} else {
+					webBar.flash(20);
+					removeBlob();
+				}
+			}
+			else if (webLength > 0)
+			{
+				adjustWebLength();
+				calculateWebForce();
+			}
+		}
+		else if (Greenfoot.mousePressed(null))
+		{
+			// shoot a new blob
+			blob = new WebBlob(25, damage);
+
+			((Level) getWorld()).addLevelActor(blob, getX(), getY());
+			((Level) getWorld()).addLevelActor(new WebString(this, blob), getX(), getY());
+			blob.turnTowards(mi.getX(), mi.getY());
+		}
+	}
+
 	/**
 	 * Lets the User adjust the web length.
 	 */
@@ -304,6 +343,10 @@ public class Spider extends Actor
 	 */
 	private void removeBlob()
 	{
+		if(blob.getWorld()!=null){
+			((Level)getWorld()).removeLevelActor(blob);
+		}
+		
 		blob = null;
 		webLength = -1;
 	}
@@ -349,6 +392,8 @@ public class Spider extends Actor
 			{
 				xSpeed = blob.getX() - getX();
 			}
+			
+			ground = null;
 		}
 	}
 
@@ -594,17 +639,17 @@ public class Spider extends Actor
 	// TODO
 	public boolean isDead()
 	{
-		return ((Level) getWorld()).hasSpiderFallen() || healthPoints <= 0;
+		return ((Level) getWorld()).hasSpiderFallen() || healthBar.getValue() <= 0;
 	}
 
 	public int getHealth()
 	{
-		return healthPoints;
+		return healthBar.getValue();
 	}
 
 	public void decreaseHealth(int count)
 	{
-		this.healthPoints -= count;
+		this.healthBar.subtract(count);
 	}
 
 	public int getDamage()
@@ -647,4 +692,13 @@ public class Spider extends Actor
 	{
 		return (Level) getWorld();
 	}
+
+	public WebBar getWebBar() {
+		return webBar;
+	}
+
+	public Bar getHealthBar() {
+		return healthBar;
+	}
+	
 }
