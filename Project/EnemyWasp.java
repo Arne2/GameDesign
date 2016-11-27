@@ -38,7 +38,7 @@ public class EnemyWasp extends Enemy {
 	@Override
 	public void setStunned()
 	{
-		if(stunnable){
+		if(!isStunned()){
 			super.setStunned();
 			images.addImageForFrames(new GreenfootImage("wasp_stunned_64.png"), 100, false);
 		}

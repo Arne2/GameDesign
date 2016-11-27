@@ -53,7 +53,7 @@ public class Animation implements AnimationInterface{
 		if(!delayOthers){
 			for(int i = 1; i < this.frames.size(); i++){
 				AnimationFrame next = this.frames.get(i);
-				next.framesLeft -= frames;
+				next.framesLeft = next.framesLeft - frames;
 			}
 		}
 	}
@@ -84,11 +84,10 @@ public class Animation implements AnimationInterface{
 	public void next(){
 		AnimationFrame special = frames.size()==0 ? null : frames.peek();
 		if(special!=null){
-			System.out.print("frames:"+special.framesLeft+" ");
 			if(special.framesLeft-- <= 0)
 			{
 				frames.pop();
-				System.out.println();
+				changed = true;
 			}
 		} else if(getImages().size()>1){
 			framesLeft--;
