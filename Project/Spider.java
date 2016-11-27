@@ -362,6 +362,10 @@ public class Spider extends Actor
 	 */
 	private void removeBlob()
 	{
+		if(blob.getWorld()!=null){
+			((Level)getWorld()).removeLevelActor(blob);
+		}
+		
 		blob = null;
 		webLength = -1;
 	}
