@@ -4,8 +4,8 @@ import java.util.List;
 import greenfoot.GreenfootImage;
 
 
-public class Animation {
-	private final int framesPerImage;
+public class Animation implements AnimationInterface{
+	private int framesPerImage;
 	private int framesLeft;
 	private int currentImage;
 	private boolean changed;
@@ -25,16 +25,24 @@ public class Animation {
 		return images;
 	}
 	
+	@Override
 	public void addImage(GreenfootImage img){
 		images.add(img);
 	}
+
+	@Override
+	public void setFramesPerImage(int framesPerImage) {
+		this.framesPerImage = framesPerImage;
+	}
 	
+	@Override
 	public void addImageForFrames(GreenfootImage img, int frames){
 		specialImage = img;
 		framesForSpecialImage = frames;
 		changed = true;
 	}
 	
+	@Override
 	public GreenfootImage getImage(){
 		if(framesForSpecialImage>0){
 			return specialImage;
@@ -45,6 +53,7 @@ public class Animation {
 		}
 	}
 	
+	@Override
 	public boolean hasChanged(){
 		if(changed){
 			changed = false;
@@ -54,6 +63,7 @@ public class Animation {
 		return false;
 	}
 	
+	@Override
 	public void next(){
 		if(framesForSpecialImage>0){
 			framesForSpecialImage--;
@@ -79,6 +89,7 @@ public class Animation {
 		return currentImage;
 	}
 	
+	@Override
 	public void reset(){
 		currentImage = 0;
 		framesForSpecialImage = 0;
