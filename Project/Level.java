@@ -41,14 +41,7 @@ public abstract class Level extends SplorrtWorld
     
     public Level(Spider spider)
     {
-        this.map = "levels" + File.separatorChar + getClass().getName().toLowerCase()+".png";
-        if(spider != null)
-            this.spider = spider;
-        else
-            this.spider = new Spider();
-        
-        prepare();
-        update();
+        this(spider, true);
     }
     
     public Level(Spider spider, boolean loadFromImage)
@@ -60,8 +53,31 @@ public abstract class Level extends SplorrtWorld
         else
             this.spider = new Spider();
         
+        setPaintOrder(Spider.class, Enemy.class, Web.class, WebBar.class, Bar.class, SpiderMenu.class, Platform.class);
+        
         prepare();
         update();
+    }
+
+    /**
+     * Prepare the world for the start of the program.
+     * That is: create the initial objects and add them to the world.
+     */
+    private void prepare()
+    {
+    	if(map!=null){
+    		loadFromImage(new GreenfootImage(map));
+    	}
+        
+        addObject(spider, getWidth()/2, getHeight()/2);
+        
+        SpiderMenu sm = new SpiderMenu();
+        
+        addObject(sm, sm.getImage().getWidth()/2, getHeight()-sm.getImage().getHeight()/2);
+        addObject(spider.getHealthBar(), 107, getHeight()-60);
+        addObject(spider.getWebBar(), 107, getHeight()-20);
+        
+        movePosition(-getWidth()/2+spawnX, -getHeight()/2+spawnY);
     }
     
     /**
@@ -119,21 +135,6 @@ public abstract class Level extends SplorrtWorld
     public GreenfootSound getBackgroundMusic(){
         return music;
     }
-
-    /**
-     * Prepare the world for the start of the program.
-     * That is: create the initial objects and add them to the world.
-     */
-    private void prepare()
-    {
-    	if(map!=null){
-    		loadFromImage(new GreenfootImage(map));
-    	}
-        
-        addObject(spider, getWidth()/2, getHeight()/2);
-        
-        movePosition(-getWidth()/2+spawnX, -getHeight()/2+spawnY);
-    }
     
     private void removeAll(){
     	actors.clear();
@@ -142,10 +143,11 @@ public abstract class Level extends SplorrtWorld
     
     private void loadFromImage(GreenfootImage map){
         worldHeight = map.getHeight()*Platform.SIZE;
-        Platform next;
+        
+        LevelActor next;
         for(int x = 0; x<map.getWidth(); x++) {
             for(int y = 0; y<map.getHeight(); y++) {
-                next = getPlatform(map.getColorAt(x, y), x*Platform.SIZE+Platform.SIZE/2, y*Platform.SIZE+Platform.SIZE/2);
+                next = getActor(map.getColorAt(x, y), x*Platform.SIZE+Platform.SIZE/2, y*Platform.SIZE+Platform.SIZE/2);
                 if(next!=null){
                     actors.add(next);
                 }
@@ -154,9 +156,11 @@ public abstract class Level extends SplorrtWorld
     }
     
     // Recognize colors in the level to create blocks. 
-    public Platform getPlatform(Color color, int x, int y){
+    public LevelActor getActor(Color color, int x, int y){
         if(color.equals(Color.WHITE)){
             return null;
+        } else if(color.equals(new Color(128,0,0))){
+            return new Consumable(Consumable.Type.BUG, x, y);
         } else if(color.equals(new Color(246,150,121))){
             return new Platform(Platform.Type.BRICK, x, y);
         } else if(color.equals(Color.GREEN)){
@@ -166,7 +170,7 @@ public abstract class Level extends SplorrtWorld
         } else if(color.equals(new Color(151,149,92))){
             return new Platform(Platform.Type.SAND, x, y);
         } else if(color.equals(new Color(246,49,121))){
-            actors.add(new EnemySpawner(EnemyID.SPIKES, x, y));
+            return new EnemySpawner(EnemyID.SPIKES, x, y);
         } else if(color.equals(new Color(17,149,92))){
             return new Platform(Platform.Type.CACTUS, x, y);
         } else if(color.equals(new Color(125,125,125))){
@@ -179,11 +183,11 @@ public abstract class Level extends SplorrtWorld
             spawnX = x;
             spawnY = y;
         } else if(color.equals(Color.RED)){
-            actors.add(new EnemySpawner(EnemyID.WASP, x, y));
+        	return new EnemySpawner(EnemyID.WASP, x, y);
         } else if(color.equals(Color.ORANGE)){
-            actors.add(new Goal(x, y, getNextLevel()));
+        	return new Goal(x, y, getNextLevel());
         }else {
-            throw new IllegalArgumentException("Unknown Color: " + color.toString() + " " + x + " " + y);
+            throw new IllegalArgumentException("Unknown Color" + color.toString() + " " + x + " " + y);
         }
         
         return null;
@@ -203,45 +207,10 @@ public abstract class Level extends SplorrtWorld
         music.stop();
     }
     
-//    public void loadNextLevel()
-//    {
-//        if(getNextLevel() !=  null)
-//        {
-//            
-//            loadLevel(getNextLevel());
-//            
-//        }
-//            
-//    }
-//    
-//    public void loadLevel(LevelID levelID)
-//    {
-//        
-//        Level l = null;
-//        switch(levelID)
-//        {
-//            case START:
-//                l = new StartLevel();
-//                break;
-//            case LEVEL1:
-//                l = new Level1();
-//                break;
-//            
-//        }
-//        
-//        if(l != null)
-//        {
-//            stopped();
-//            Greenfoot.setWorld(l);
-//            l.started();
-//        }
-//    }
-    
     public Spider getSpider()
     {
         return spider;
     }
-    
 
     /**
      * Override this to change the default Screen(SplorrtWorld) for loaded goal-tiles.
