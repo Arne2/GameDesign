@@ -16,7 +16,7 @@ public class EnemyWasp extends Enemy {
 
 	public EnemyWasp(int x, int y)
 	{
-		super(x, y, true, true);
+		super(x, y, true, true, new Consumable(Consumable.Type.WASP, x, y));
 
 		images.addImage(new GreenfootImage("wasp1_64.png"));
 		images.addImage(new GreenfootImage("wasp2_64.png"));

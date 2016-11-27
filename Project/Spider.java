@@ -1,4 +1,6 @@
+import java.awt.Color;
 import java.util.List;
+
 
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Actor;
@@ -57,6 +59,10 @@ public class Spider extends Actor
 
 	private WebBlob				blob				= null;
 	private double				webLength			= -1;
+	private final WebBar		webBar				= new WebBar(1000, 1000);
+
+	public static final int		ENEMY_STUN_COST		= 50;
+	public static final double	WEB_COST_PER_LENGTH	= 0.5;
 
 	private static final int	FRAMES_PER_PICTURE_MOVE	= 8;
 	private static final int	FRAMES_BEFORE_IDLE		= 24;
@@ -64,9 +70,9 @@ public class Spider extends Actor
 	private int 				idleFrames			= 0; 		
 	private final AnimationSet 	images 				= new AnimationSet(FRAMES_PER_PICTURE_IDLE);
 
-	private static final double	WEB_LENGTH_CHANGE	= 2;
+	private static final double	WEB_LENGTH_CHANGE	= 4;
 
-	private int					healthPoints		= 5;
+	private final Bar			healthBar			= new Bar("Health", "", 5, 5);
 
 	private int					damage				= 1;
 
@@ -81,6 +87,13 @@ public class Spider extends Actor
 
 	public Spider()
 	{
+		loadKeybinds();
+
+		healthBar.setTextColor(Color.WHITE);
+		healthBar.setSafeColor(Color.RED);
+		healthBar.setDangerColor(Color.YELLOW);
+		healthBar.setBreakValue(2);
+	
 		images.addImage(new GreenfootImage("front1_64x23.png"));
 		images.addImage(new GreenfootImage("front2_64x23.png"));
 		
@@ -104,11 +117,18 @@ public class Spider extends Actor
 		setImage(images.getImage());
 	}
 
+	private void loadKeybinds()
+	{
+		// if we want to load keybinds from file
+		// TODO: load keybinds from file
+	}
+
 	/**
 	 * Act - do whatever the Spider wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.
 	 */
 	public void act()
 	{
+		MouseInfo mi = Greenfoot.getMouseInfo();
 		// TODO: implement death and game-over mechanic.
 		if (isDead())
 		{
@@ -124,14 +144,15 @@ public class Spider extends Actor
 
 		// --- INPUTS
 		// horizontal movement
-		if (Greenfoot.isKeyDown("right") || Greenfoot.isKeyDown("d"))
+
+		if (isKeyPressed(Keybind.MOVE_RIGHT))
 		{
 			if (xSpeed < X_SPEED_MAX)
 			{
 				xSpeed = Math.min(X_SPEED_MAX, xSpeed + X_SPEED_MAX);
 			}
 		}
-		else if (Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("a"))
+		else if (isKeyPressed(Keybind.MOVE_LEFT))
 		{
 			if (xSpeed > -X_SPEED_MAX)
 			{
@@ -152,7 +173,7 @@ public class Spider extends Actor
 			}
 		}
 		// jumping
-		if (Greenfoot.isKeyDown("space"))
+		if (isKeyPressed(Keybind.JUMP))
 		{
 			if (ground != null && jumpButtonReady)
 			{
@@ -176,38 +197,7 @@ public class Spider extends Actor
 			ySpeed *= 0.9;
 		}
 
-		// web
-		if (blob != null)
-		{
-			if (Greenfoot.mouseClicked(null))
-			{
-				((Level) getWorld()).removeLevelActor(blob);
-				removeBlob();
-			}
-			else if (blob.getWorld() == null)
-			{
-				removeBlob();
-			}
-			else if (blob.isStationary() && webLength < 0)
-			{
-				webLength = (int) Math.hypot((double) (getX() - blob.getX()), (double) (getY() - blob.getY())) + 5;
-			}
-			else if (webLength > 0)
-			{
-				adjustWebLength();
-				calculateWebForce();
-			}
-		}
-		else if (Greenfoot.mouseClicked(null))
-		{
-			MouseInfo mi = Greenfoot.getMouseInfo();
-
-			blob = new WebBlob(20);
-
-			((Level) getWorld()).addLevelActor(blob, getX(), getY());
-			((Level) getWorld()).addLevelActor(new WebString(this, blob), getX(), getY());
-			blob.turnTowards(mi.getX(), mi.getY());
-		}
+		webMechanics();
 
 		int xMove = (int) (xSpeed + xMoveRemaining);
 		int yMove = (int) (ySpeed + yMoveRemaining);
@@ -268,19 +258,88 @@ public class Spider extends Actor
 		}
 	}
 
+	private void webMechanics()
+	{
+		// web
+		MouseInfo mi = Greenfoot.getMouseInfo();
+		Platform mouseOverP = mi != null ? getWorld().getObjectsAt(mi.getX(), mi.getY(), Platform.class).stream().findFirst().orElse(null) : null;
+		Enemy mouseOverE = mi != null ? getWorld().getObjectsAt(mi.getX(), mi.getY(), Enemy.class).stream().findFirst().orElse(null) : null;
+
+		if (mouseOverP != null)
+		{
+			int distance = (int) Math.hypot(getX() - mouseOverP.getX(), getY() - mouseOverP.getY());
+			webBar.setPreviewDelta((int) (distance * WEB_COST_PER_LENGTH));
+		}
+		else if (mouseOverE != null)
+		{
+			webBar.setPreviewDelta(ENEMY_STUN_COST);
+		}
+		else
+		{
+			webBar.setPreviewDelta(0);
+		}
+
+		if (blob != null)
+		{
+			if (isKeyPressed(Keybind.CANCEL_WEB))
+			{
+				// clicking again removes blob
+				((Level) getWorld()).removeLevelActor(blob);
+				removeBlob();
+			}
+			else if (blob.getWorld() == null)
+			{
+				// if the blob reached the edge, or an enemy it will remove itself from the world.
+				removeBlob();
+			}
+			else if (blob.isStationary() && webLength < 0)
+			{
+				double distance = Math.hypot((double) (getX() - blob.getX()), (double) (getY() - blob.getY()));
+
+				// cost to connect
+				int cost = (int) (distance * WEB_COST_PER_LENGTH);
+				if (cost <= webBar.getValue())
+				{
+					// set webLength -> swing around blob.
+					webBar.subtract(cost);
+					webLength = (int) distance + 5;
+				}
+				else
+				{
+					webBar.flash(20);
+					removeBlob();
+				}
+			}
+			else if (webLength > 0)
+			{
+				adjustWebLength();
+				calculateWebForce();
+			}
+		}
+		else if (isKeyPressed(Keybind.SHOOT))
+		{
+			// shoot a new blob
+			blob = new WebBlob(25, damage);
+
+			((Level) getWorld()).addLevelActor(blob, getX(), getY());
+			((Level) getWorld()).addLevelActor(new WebString(this, blob), getX(), getY());
+			blob.turnTowards(mi.getX(), mi.getY());
+		}
+	}
+
 	/**
 	 * Lets the User adjust the web length.
 	 */
 	private void adjustWebLength()
 	{
-		if (Greenfoot.isKeyDown("w") || Greenfoot.isKeyDown("up"))
+		if (isKeyPressed(Keybind.PULL_UP))
 		{
 			if (webLength > WEB_LENGTH_CHANGE)
 			{
 				webLength -= WEB_LENGTH_CHANGE;
 			}
 		}
-		else if (Greenfoot.isKeyDown("s") || Greenfoot.isKeyDown("down"))
+		else if (isKeyPressed(Keybind.ROPE_DOWN))
 		{
 			webLength += WEB_LENGTH_CHANGE;
 		}
@@ -291,6 +350,10 @@ public class Spider extends Actor
 	 */
 	private void removeBlob()
 	{
+		if(blob.getWorld()!=null){
+			((Level)getWorld()).removeLevelActor(blob);
+		}
+		
 		blob = null;
 		webLength = -1;
 	}
@@ -581,17 +644,17 @@ public class Spider extends Actor
 	// TODO
 	public boolean isDead()
 	{
-		return ((Level) getWorld()).hasSpiderFallen() || healthPoints <= 0;
+		return ((Level) getWorld()).hasSpiderFallen() || healthBar.getValue() <= 0;
 	}
 
 	public int getHealth()
 	{
-		return healthPoints;
+		return healthBar.getValue();
 	}
 
 	public void decreaseHealth(int count)
 	{
-		this.healthPoints -= count;
+		this.healthBar.subtract(count);
 	}
 
 	public int getDamage()
@@ -633,5 +696,23 @@ public class Spider extends Actor
 	public Level getCurrentLevel()
 	{
 		return (Level) getWorld();
+	}
+
+	public WebBar getWebBar()
+	{
+		return webBar;
+	}
+
+	public Bar getHealthBar()
+	{
+		return healthBar;
+	}
+
+	public boolean isKeyPressed(Keybind key)
+	{
+		MouseInfo mi = Greenfoot.getMouseInfo();
+		if ((key.isMouseAction() && mi != null && Greenfoot.mousePressed(null) && mi.getButton() == key.getMouseButton()) || (!key.isMouseAction() && Greenfoot.isKeyDown(key.getKey())))
+			return true;
+		return false;
 	}
 }
