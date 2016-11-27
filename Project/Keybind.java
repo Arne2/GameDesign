@@ -1,7 +1,7 @@
 
 public enum Keybind
 {
-	MOVE_LEFT("left"), MOVE_RIGHT("right"), JUMP("space"), SHOOT("LMB"), PULL_UP("w"), ROPE_DOWN("s"), CANCEL_WEB("space");
+	MOVE_LEFT("a"), MOVE_RIGHT("d"), JUMP("space"), SHOOT("LMB"), PULL_UP("w"), ROPE_DOWN("s"), CANCEL_WEB("LMB");
 
 	private String key;
 
