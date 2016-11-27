@@ -62,7 +62,11 @@ public class Spider extends Actor
 
 	private WebBlob				blob				= null;
 	private double				webLength			= -1;
-	private final WebBar		webBar				= new WebBar(1000, 1000);
+
+	private final int STARTWEB = 0;
+	private final int MAXWEB = 1000;
+
+	private final WebBar        webBar              = new WebBar(STARTWEB, MAXWEB);
 
 	public static final int		ENEMY_STUN_COST		= 50;
 	public static final double	WEB_COST_PER_LENGTH	= 0.5;

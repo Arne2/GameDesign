@@ -24,7 +24,12 @@ public class WebBlob extends LevelActor
 			Actor platform = getOneObjectAtOffset(0, 0, Platform.class);
 			if (platform != null)
 			{
-				stationary = true;
+				 if(((Platform)platform).getType().isSticky()){
+                    stationary = true;
+                } else {
+                     ((Level)getWorld()).removeLevelActor(this);
+                     return;
+                }
 			}
 
 			Actor enemyActor = getOneObjectAtOffset(0, 0, Enemy.class);
