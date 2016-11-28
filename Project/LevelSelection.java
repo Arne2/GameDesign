@@ -40,6 +40,10 @@ public class LevelSelection extends Level
     	levels.add(new LevelInfo(Platform.Type.GRASS, Level1_1.class));
     	levels.add(new LevelInfo(Platform.Type.GRASS, Level1_2.class));
     	
+    	
+    	
+    	levels.add(new LevelInfo(Platform.Type.STONE, Level2_1.class));
+    	
     	for(int i = 0; i<SIDE_HEIGHT; i++){
     		Platform left = new Platform(Platform.Type.BRICK, 0, i*Platform.SIZE);
     		Platform right = new Platform(Platform.Type.BRICK, levels.size()*PLATFORMS_PER_LEVEL*Platform.SIZE+Platform.SIZE, i*Platform.SIZE);

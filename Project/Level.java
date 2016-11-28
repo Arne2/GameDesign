@@ -161,6 +161,8 @@ public abstract class Level extends SplorrtWorld
             return null;
         } else if(color.equals(new Color(128,0,0))){
             return new Consumable(Consumable.Type.BUG, x, y);
+        } else if(color.equals(new Color(71,130,32))){
+            return new Consumable(Consumable.Type.LARVA, x, y);
         } else if(color.equals(new Color(246,150,121))){
             return new Platform(Platform.Type.BRICK, x, y);
         } else if(color.equals(Color.GREEN)){
