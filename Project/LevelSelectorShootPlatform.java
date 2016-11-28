@@ -6,16 +6,16 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author maximilian-zollbrecht
  * @version 16.11.2016
  */
-public class LevelSelectorClickPlatform extends Platform
+public class LevelSelectorShootPlatform extends Platform
 {
 	
 	private final Class<? extends SplorrtWorld> worldToLoad;
 	
-	public LevelSelectorClickPlatform(Platform.Type type, Class<? extends SplorrtWorld> worldToLoad){
+	public LevelSelectorShootPlatform(Platform.Type type, Class<? extends SplorrtWorld> worldToLoad){
 		this(type, 0, 0, worldToLoad);
 	}
 	
-	public LevelSelectorClickPlatform(Platform.Type type, int levelX, int levelY, Class<? extends SplorrtWorld> worldToLoad){
+	public LevelSelectorShootPlatform(Platform.Type type, int levelX, int levelY, Class<? extends SplorrtWorld> worldToLoad){
 		super(type, levelX, levelY);
 		this.worldToLoad = worldToLoad;
 	}
@@ -26,7 +26,7 @@ public class LevelSelectorClickPlatform extends Platform
      */
     public void act() 
     {
-        if(Greenfoot.mouseClicked(this)){
+        if(getOneIntersectingObject(WebBlob.class)!=null){
         	World world = getWorld();
             if(world != null && world instanceof SplorrtWorld){
          	   ((SplorrtWorld)world).loadWorld(SplorrtWorld.getWorld(worldToLoad));

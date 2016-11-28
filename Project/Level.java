@@ -24,11 +24,6 @@ public abstract class Level extends SplorrtWorld
     
     private int spawnY = 100;
     
-    /**
-     * The background music
-     */
-    private GreenfootSound music = new GreenfootSound("Constance.mp3");
-    
     private String map = null;
     
     /**
@@ -53,9 +48,12 @@ public abstract class Level extends SplorrtWorld
         else
             this.spider = new Spider();
         
+        setBackground(getBackgroundImage());
         setPaintOrder(Spider.class, WebBar.class, Bar.class, SpiderMenu.class, Enemy.class, Web.class, Platform.class);
-        
-        prepare();
+    }
+    
+    public void load(){
+    	prepare();
         update();
     }
 
@@ -99,6 +97,10 @@ public abstract class Level extends SplorrtWorld
 
     }
     
+    protected void setWorldHeight(int heightInPlatforms) {
+		this.worldHeight = Platform.SIZE * heightInPlatforms;
+	}
+    
     public void addLevelActor(LevelActor actor){
         addObject(actor, actor.getLevelX()-xPosition, actor.getLevelY()-yPosition);
         actors.add(actor);
@@ -132,9 +134,8 @@ public abstract class Level extends SplorrtWorld
         return yPosition;
     }
     
-    public GreenfootSound getBackgroundMusic(){
-        return music;
-    }
+    public abstract GreenfootSound getBackgroundMusic();
+    public abstract GreenfootImage getBackgroundImage();
     
     private void removeAll(){
     	actors.clear();
@@ -203,12 +204,12 @@ public abstract class Level extends SplorrtWorld
     
     @Override
     public void started(){
-        music.playLoop();
+        getBackgroundMusic().playLoop();
     }
     
     @Override
     public void stopped(){
-        music.stop();
+    	getBackgroundMusic().stop();
     }
     
     public Spider getSpider()

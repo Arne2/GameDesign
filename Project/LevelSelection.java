@@ -13,18 +13,36 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class LevelSelection extends Level
 {
-	private static final int SIDE_HEIGHT = 10;
-	private static final int PLATFORMS_PER_LEVEL = 7;
+	private static final int SIDE_HEIGHT = 20;
+	private static final int SIDE_WIDTH = 10;
+	private static final int PLATFORM_DEPTH = 12;
+	private static final int WIDTH_PER_LEVEL = 9;
+	
 	private final List<LevelInfo> levels = new ArrayList<>();
+	private final int unlockedAreas;
+    
+	private int currentLevel = 0;
+    private GreenfootImage background = new GreenfootImage("Sky_blue.png");
+	private GreenfootSound music = new GreenfootSound("Constance.mp3");
 	
 	private class LevelInfo{
-		private final Platform.Type type;
-		private final Class<? extends SplorrtWorld> world;
+		private final Platform.Type surfaceType;
+		private final Platform.Type[] types;
+		private final SplorrtWorld world;
 		
-		private LevelInfo(Platform.Type type, Class<? extends SplorrtWorld> world) {
+		private LevelInfo(SplorrtWorld world, Platform.Type surfaceType, Platform.Type... types) {
 			super();
-			this.type = type;
+			this.surfaceType = surfaceType;
+			this.types = types;
 			this.world = world;
+		}
+		
+		private Platform.Type getType(boolean surface){
+			if(surface || types==null || types.length==0){
+				return surfaceType;
+			} else {
+				return types[Greenfoot.getRandomNumber(types.length)];
+			}
 		}
 	}
 	
@@ -32,34 +50,105 @@ public class LevelSelection extends Level
      * Constructor for objects of class LevelSelection.
      * 
      */
-    public LevelSelection()
+    public LevelSelection(int unlockedAreas)
     {
     	super(null, false);
     	
+    	setBackground(getBackgroundImage());
+    	
+    	this.unlockedAreas = unlockedAreas;
+    	
+    	setWorldHeight(SIDE_HEIGHT+PLATFORM_DEPTH);
+    	getSpider().getWebBar().add(getSpider().getWebBar().getMaximumValue());
+    	
     	// add all the levels, that are supposed to be selectable here.
-    	levels.add(new LevelInfo(Platform.Type.GRASS, Level1_1.class));
-    	levels.add(new LevelInfo(Platform.Type.GRASS, Level1_2.class));
+    	levels.add(new LevelInfo(new Level1_1(), Platform.Type.GRASS, Platform.Type.DIRT));
+    	levels.add(new LevelInfo(new Level1_2(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+    	levels.add(null);
     	
     	
     	
-    	levels.add(new LevelInfo(Platform.Type.STONE, Level2_1.class));
+    	levels.add(new LevelInfo(new Level2_1(), Platform.Type.STONE));
     	
-    	for(int i = 0; i<SIDE_HEIGHT; i++){
-    		Platform left = new Platform(Platform.Type.BRICK, 0, i*Platform.SIZE);
-    		Platform right = new Platform(Platform.Type.BRICK, levels.size()*PLATFORMS_PER_LEVEL*Platform.SIZE+Platform.SIZE, i*Platform.SIZE);
-    		addLevelActor(left);
-    		addLevelActor(right);
+    	for(int y = 0; y<SIDE_HEIGHT+PLATFORM_DEPTH; y++){
+    		for(int x = -SIDE_WIDTH+1; x<=0; x++){
+    			Platform left = new Platform(levels.get(0).getType(false), x*Platform.SIZE, y*Platform.SIZE);
+	    		addLevelActor(left);
+    		}
+    		for(int x = 0; x<SIDE_WIDTH; x++){
+    			Platform right = new Platform(levels.get(levels.size()-1).getType(false), (levels.size()*WIDTH_PER_LEVEL + 1 + x)*Platform.SIZE, y*Platform.SIZE);
+	    		addLevelActor(right);
+    		}
     	}
     	
-    	int y = SIDE_HEIGHT*Platform.SIZE;
+    	int area = 0;
+    	int yStart = SIDE_HEIGHT*Platform.SIZE;
     	for(int i = 0; i<levels.size(); i++){
-    		Platform.Type type = levels.get(i).type;
-    		for(int j = 0; j<PLATFORMS_PER_LEVEL; j++){
-    			Platform next = new Platform(type, PLATFORMS_PER_LEVEL*Platform.SIZE*i+(j+1)*Platform.SIZE, y);
-    			addLevelActor(next);
+    		LevelInfo info = levels.get(i);
+    		
+    		if(info!=null){
+	    		for(int x = 0; x<WIDTH_PER_LEVEL; x++){
+	    			for(int y = 0; y<PLATFORM_DEPTH; y++){
+		    			Platform next = new Platform(info.getType(y==0),
+		    					WIDTH_PER_LEVEL*Platform.SIZE*i+(x+1)*Platform.SIZE, 
+		    					y*Platform.SIZE+yStart);
+		    			addLevelActor(next);
+	    			}
+	    		}
+	    		
+		    	int y = yStart-3*Platform.SIZE-Greenfoot.getRandomNumber(7)*Platform.SIZE;
+	    		if(area <= unlockedAreas){
+		    		Platform selector = new LevelSelectorShootPlatform(info.surfaceType, WIDTH_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(WIDTH_PER_LEVEL/2+1), y, levels.get(i).world.getClass());
+		    		addLevelActor(selector);
+	    		} else {
+	    			Platform platform = new Platform(info.surfaceType, WIDTH_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(WIDTH_PER_LEVEL/2+1), y);
+		    		addLevelActor(platform);
+	    		}
+    		} else {
+    			if(area++ < unlockedAreas) {
+    				for(int x = 0; x<WIDTH_PER_LEVEL; x++){
+		    			Platform next = new Platform(x<WIDTH_PER_LEVEL/2 ? levels.get(i-1).getType(true) : levels.get(i+1).getType(true),
+		    					WIDTH_PER_LEVEL*Platform.SIZE*i+(x+1)*Platform.SIZE, 
+		    					yStart-(x==0 || x==WIDTH_PER_LEVEL-1 ? Platform.SIZE/2 : Platform.SIZE));
+		    			addLevelActor(next);
+    	    		}
+    			}
     		}
-    		LevelSelectorClickPlatform selector = new LevelSelectorClickPlatform(type, PLATFORMS_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(PLATFORMS_PER_LEVEL/2+1), 0, levels.get(i).world);
-    		addLevelActor(selector);
+    	}
+    	
+    	super.load();
+    }
+    
+    @Override
+    public void act() {
+    	super.act();
+    	
+    	int index = (super.getXPosition()+getWidth()/2)/(Platform.SIZE*WIDTH_PER_LEVEL);
+    	if(currentLevel != index && levels.get(index)!=null){
+	    	GreenfootSound newMusic = ((Level)levels.get(index).world).getBackgroundMusic();
+	    	
+	    	String newName = newMusic.toString().split(" ")[2];
+	    	String oldName = music.toString().split(" ")[2];
+	    	if(!newName.equals(oldName)){
+	    		this.music.stop();
+	    		this.music = newMusic;
+		    	this.music.playLoop();
+	    	}
+    		
+    		this.background = ((Level)levels.get(index).world).getBackgroundImage();
+	    	this.setBackground(this.background);
+	    	
+	    	currentLevel = index;
     	}
     }
+
+	@Override
+	public GreenfootSound getBackgroundMusic() {
+		return music;
+	}
+
+	@Override
+	public GreenfootImage getBackgroundImage() {
+		return background;
+	}
 }

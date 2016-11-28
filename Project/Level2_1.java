@@ -1,3 +1,6 @@
+import greenfoot.GreenfootImage;
+import greenfoot.GreenfootSound;
+
 /**
  * Write a description of class Level1 here.
  * 
@@ -10,11 +13,24 @@ public class Level2_1 extends Level
 	public Level2_1(Spider spider)
 	{
 		super(spider);
-		setBackground("Cave_grey.png");
 	}
 
 	public Level2_1()
 	{
 		this(null);
+	}
+	
+	private static final GreenfootImage background = new GreenfootImage("Cave_grey.png");
+	private static final GreenfootSound music = new GreenfootSound("Indore.mp3");
+
+
+	@Override
+	public GreenfootSound getBackgroundMusic() {
+		return music;
+	}
+
+	@Override
+	public GreenfootImage getBackgroundImage() {
+		return background;
 	}
 }

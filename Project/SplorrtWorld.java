@@ -31,6 +31,9 @@ public abstract class SplorrtWorld extends World
     public void loadWorld(SplorrtWorld world){
     	stopped();
     	Greenfoot.setWorld(world);
+    	if(world instanceof Level){
+    		((Level) world).load();
+    	}
     	world.started();
     }
     
