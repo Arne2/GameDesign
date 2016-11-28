@@ -50,7 +50,7 @@ public class KeybindingActor extends Actor
 	public void act()
 	{
 		// Add your action code here.
-		if (!selected && Greenfoot.mouseClicked(this))
+		if (!selected && Greenfoot.mousePressed(this))
 		{
 			setImage(new GreenfootImage(text + ":                 assign key now", 18, Color.BLACK, new Color(0, 0, 0, 0)));
 			selected = true;
@@ -60,7 +60,7 @@ public class KeybindingActor extends Actor
 		{
 			MouseInfo mi = Greenfoot.getMouseInfo();
 			String newKey = Greenfoot.getKey();
-			if (mi != null && mi.getButton() != 0)
+			if (mi != null && Greenfoot.mousePressed(null) && mi.getButton() != 0)
 			{
 				if (mi.getButton() == 1)
 				{
