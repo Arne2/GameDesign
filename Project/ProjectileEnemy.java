@@ -42,7 +42,7 @@ public class ProjectileEnemy extends Enemy
             if(!isStunned() && isSpiderInSight())
             {
                 
-                System.out.println("shoot at " +  this.getLevelX() + " " +  this.getLevelY());
+                
                 Projectile p = new Projectile(this.getLevelX(), this.getLevelY(), projectileSpeed);
                 Level l = (Level) getWorld();
                 l.addLevelActor(p, this.getX(), this.getY());

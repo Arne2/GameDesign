@@ -33,9 +33,11 @@ public class LevelActorLoader
     
     private static final Color SPAWN = Color.YELLOW;
     
-    private static final Color ENEMY_WASP = new Color(255,0,0);
+    private static final Color ENEMY_WASP_MOVEABLE = new Color(255,0,0);
     
-    private static final Color ENEMY_SCORPION = new Color(254, 0, 0);
+    private static final Color ENEMY_WASP = new Color(254,0,0);
+    
+    private static final Color ENEMY_SCORPION = new Color(250, 0, 0);
     
     private static final Color GOAL = Color.ORANGE;
     
@@ -111,6 +113,11 @@ public class LevelActorLoader
             level.setSpawn(x, y);
         } 
         
+        else if(color.equals(ENEMY_WASP_MOVEABLE))
+        {
+        	return new EnemySpawner(EnemyID.WASP_MOVEABLE, x, y);
+        } 
+        
         else if(color.equals(ENEMY_WASP))
         {
         	return new EnemySpawner(EnemyID.WASP, x, y);
@@ -128,7 +135,7 @@ public class LevelActorLoader
         
         else 
         {
-            throw new IllegalArgumentException("Unknown Color" + color.toString() + " " + x + " " + y);
+            throw new IllegalArgumentException("Unknown Color" + color.toString() + " " + x + " " + y + "     " + ENEMY_WASP.toString());
         }
         
         return null;

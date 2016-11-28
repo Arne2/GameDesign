@@ -26,7 +26,14 @@ public class EnemyWasp extends ProjectileEnemy{
     
     private final AnimationSet  images = new AnimationSet(FRAMES_PER_PICTURE);
 
+    private boolean moveable;
+    
     public EnemyWasp(int x, int y)
+    {
+     this(x,y,false);   
+    }
+    
+    public EnemyWasp(int x, int y, boolean moveable)
     {
         super(x, y, true, true, new Consumable(Consumable.Type.WASP, x, y));
 
@@ -40,6 +47,8 @@ public class EnemyWasp extends ProjectileEnemy{
         
         targetX = x;
         targetY = y;
+        
+        this.moveable = moveable;
     }
 
     
@@ -58,6 +67,7 @@ public class EnemyWasp extends ProjectileEnemy{
 
         animate();
         movement();
+        
     }
 
 
@@ -88,7 +98,7 @@ public class EnemyWasp extends ProjectileEnemy{
 
     private void movement()
     {
-        if(!isStunned() && isSpiderInSight())
+        if(moveable && !isStunned() && isSpiderInSight())
         {
             checkSpiderTarget();
             move();
@@ -97,6 +107,7 @@ public class EnemyWasp extends ProjectileEnemy{
     
     private void move()
     {
+        
         int x = getLevelX();
         int y = getLevelY();
         
@@ -113,7 +124,7 @@ public class EnemyWasp extends ProjectileEnemy{
                 
             int mX = mulX * movementSpeed;
             setLevelX(getLevelX() + mX);
-           // System.out.println("mx: " + mX);
+
         }
 
         if(Math.abs(dY) > offset)
@@ -127,8 +138,6 @@ public class EnemyWasp extends ProjectileEnemy{
 
         }
 
-        //System.out.println("dx: " + dX + "  dy: " + dY);
-        
 
     }
     
@@ -136,7 +145,10 @@ public class EnemyWasp extends ProjectileEnemy{
     {
         Spider s = ((Level)getWorld()).getSpider();
         targetX = s.getLevelX();
-        targetY = s.getLevelY();          
+        targetY = s.getLevelY();    
+        
+        Level l = (Level) getWorld();
+        
     }
   
 
