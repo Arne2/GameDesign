@@ -53,7 +53,7 @@ public abstract class Level extends SplorrtWorld
         else
             this.spider = new Spider();
         
-        setPaintOrder(Spider.class, Enemy.class, Web.class, WebBar.class, Bar.class, SpiderMenu.class, Platform.class);
+        setPaintOrder(Spider.class, WebBar.class, Bar.class, SpiderMenu.class, Enemy.class, Web.class, Platform.class);
         
         prepare();
         update();

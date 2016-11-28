@@ -8,8 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Consumable extends LevelActor
 {
-	
-	public static final int ANIMATION_FRAMES = 20;
+    public static final int ANIMATION_FRAMES = 10;
 	
     public enum Type{
     	BUG(70, 0, "dead_fly.png"),
@@ -22,14 +21,14 @@ public class Consumable extends LevelActor
     	
     	private Type(int web, int health, String... images){
     		this.images = images;
+    		
     		this.web = web;
     		this.health = health;
     	}
     }
     
     private final Type type;
-    private int animationImage = 0;
-    private int animationFramesLeft = ANIMATION_FRAMES;
+    private final Animation animation;
     
     public Consumable(Type type){
     	this(type, 0, 0);
@@ -39,8 +38,13 @@ public class Consumable extends LevelActor
     	super(x, y);
         
     	this.type = type;
-    	if(type.images!=null && type.images.length>0)
-    		setImage(new GreenfootImage(type.images[0]));
+    	
+    	this.animation = new Animation(ANIMATION_FRAMES);
+		for(String next : type.images){
+			animation.addImage(new GreenfootImage(next));
+		}
+    	
+    	setImage(animation.getImage());
     }
     
     /**
@@ -49,13 +53,9 @@ public class Consumable extends LevelActor
      */
     public void act() 
     {
-    	if(type.images!=null && type.images.length>1){
-	    	animationFramesLeft--;
-	    	
-	    	if(animationFramesLeft <= 0){
-	    		animationFramesLeft = ANIMATION_FRAMES;
-	    		animationImage = animationImage++ % type.images.length;
-	    	}
+    	animation.next();
+    	if(animation.hasChanged()){
+    		setImage(animation.getImage());
     	}
     	
         Spider spider = (Spider)getOneIntersectingObject(Spider.class);
