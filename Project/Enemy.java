@@ -1,7 +1,8 @@
 import greenfoot.Actor;
 
-public abstract class Enemy extends LevelActor
+public abstract class Enemy extends LevelActor implements IDamageable
 {
+
     protected int stunnedTicksLeft = 0;
     
     protected int healthPoints = 1;
@@ -28,6 +29,10 @@ public abstract class Enemy extends LevelActor
     
     private final LevelActor spawnOnDeath;
     
+    private int sightRadius = 300;
+    
+    
+        
     public Enemy(int x, int y, boolean stunnable, boolean defeatable)
     {
         this(x, y, stunnable, defeatable, null);
@@ -41,6 +46,21 @@ public abstract class Enemy extends LevelActor
         this.spawnOnDeath = spawnOnDeath;
     }
 
+    protected void setDamage(int d)
+    {
+        this.damage = d;
+    }
+    
+    public int getSightRadius()
+    {
+        return this.sightRadius;
+    }
+    
+    protected void setSightRadius(int r)
+    {
+        this.sightRadius = r;
+    }
+       
     /**
      * Act - do whatever the Enemy wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.
      */
@@ -57,12 +77,14 @@ public abstract class Enemy extends LevelActor
         
     }
     
-    public int getHealthPoints()
+    @Override
+    public int getHealth()
     {
         return healthPoints;
                                
     }
     
+    @Override
     public void decreaseHealth()
     {
         if(defeatable){
@@ -71,6 +93,7 @@ public abstract class Enemy extends LevelActor
         }
     }
     
+    @Override
     public void decreaseHealth(int i)
     {
         if(defeatable){
@@ -80,7 +103,8 @@ public abstract class Enemy extends LevelActor
         }
     }
     
-    protected void setHealthPoints(int healthPoints)
+    @Override
+    public void setHealth(int healthPoints)
     {
         if(defeatable){
             this.healthPoints = healthPoints;
@@ -102,18 +126,19 @@ public abstract class Enemy extends LevelActor
                    if(enemyDamageTimer == 0)
                    {
                        
-                       s.decreaseHealth(damage);
+                       damageSpider(s);
                        enemyDamageTimer = getHitInterval();
-                       s.knockback(getLevelX(), getLevelY());
                    }
                
                 }
                 else
                 {
+                    System.out.println("collision");
                    if(spiderDamageTimer == 0)
                    {
                        
                        decreaseHealth(s.getDamage());
+                       
                        spiderDamageTimer = s.getHitInterval();
                        spiderKnockbackTimer = 10;
                    }
@@ -132,6 +157,12 @@ public abstract class Enemy extends LevelActor
           {
                spiderDamageTimer--;
           }
+    }
+    
+    public void damageSpider(Spider s)
+    {
+        s.decreaseHealth(damage);              
+        s.knockback(getLevelX(), getLevelY());
     }
     
     public void checkStunned()
@@ -201,7 +232,7 @@ public abstract class Enemy extends LevelActor
         {
             Level l = (Level) getWorld();
             if(spawnOnDeath!=null){
-            	l.addLevelActor(spawnOnDeath, getX(), getY());
+                l.addLevelActor(spawnOnDeath, getX(), getY());
             }
             l.removeLevelActor(this);
             return;
@@ -212,5 +243,59 @@ public abstract class Enemy extends LevelActor
     public int getHitInterval()
     {
         return hitInterval;
+    }
+    
+    
+    @Override
+    public int getMaxHealth()
+    {
+        return 1;
+    }
+    @Override
+    public void instantKill()
+    {
+        
+        setHealth(0);
+    }
+    
+    @Override
+    public boolean isDead()
+    {
+        return getHealth() <= 0;
+    }
+    
+    public boolean isSpiderInSight()
+    {
+        int distance = getSpiderDistance();
+        
+        
+        
+        
+        if(distance < sightRadius)
+            return true;
+        else
+            return false;
+    }
+    
+    public int getSpiderDistance()
+    {
+        Spider s = ((Level)getWorld()).getSpider();
+        if(s == null)
+        return 0;
+        
+        int sX = s.getLevelX();
+        int sY = s.getLevelY();
+        
+        int x = getLevelX();
+        int y = getLevelY();
+        
+        double dX = sX -x;
+        double dY = sY - y;
+        
+        double a = Math.pow(dX, 2.0);
+        double b = Math.pow(dY , 2.0);
+        int distance = (int) Math.sqrt(a + b);
+       
+        return distance;
     }
 }

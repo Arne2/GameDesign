@@ -24,6 +24,8 @@ public abstract class Level extends SplorrtWorld
     
     private int spawnY = 100;
     
+    private LevelActorLoader loader;
+    
     /**
      * The background music
      */
@@ -46,6 +48,9 @@ public abstract class Level extends SplorrtWorld
     
     public Level(Spider spider, boolean loadFromImage)
     {
+        
+        loader = new LevelActorLoader(this);
+        
     	if(loadFromImage)
     		this.map = "levels" + File.separatorChar + getClass().getName().toLowerCase()+".png";
         if(spider != null)
@@ -157,40 +162,7 @@ public abstract class Level extends SplorrtWorld
     
     // Recognize colors in the level to create blocks. 
     public LevelActor getActor(Color color, int x, int y){
-        if(color.equals(Color.WHITE)){
-            return null;
-        } else if(color.equals(new Color(128,0,0))){
-            return new Consumable(Consumable.Type.BUG, x, y);
-        } else if(color.equals(new Color(246,150,121))){
-            return new Platform(Platform.Type.BRICK, x, y);
-        } else if(color.equals(Color.GREEN)){
-            return new Platform(Platform.Type.GRASS, x, y);
-        } else if(color.equals(Color.LIGHT_GRAY)){
-            return new Platform(Platform.Type.DIRT, x, y);
-        } else if(color.equals(new Color(151,149,92))){
-            return new Platform(Platform.Type.SAND, x, y);
-        } else if(color.equals(new Color(246,49,121))){
-            return new EnemySpawner(EnemyID.SPIKES, x, y);
-        } else if(color.equals(new Color(17,149,92))){
-            return new Platform(Platform.Type.CACTUS, x, y);
-        } else if(color.equals(new Color(125,125,125))){
-            return new Platform(Platform.Type.COBBLE, x, y);
-        } else if(color.equals(new Color(81,81,81))){
-            return new Platform(Platform.Type.STONE, x, y);
-        } else if(color.equals(new Color(0,78,0))){
-            return new Platform(Platform.Type.LEAVES, x, y);
-        } else if(color.equals(Color.YELLOW)){
-            spawnX = x;
-            spawnY = y;
-        } else if(color.equals(Color.RED)){
-        	return new EnemySpawner(EnemyID.WASP, x, y);
-        } else if(color.equals(Color.ORANGE)){
-        	return new Goal(x, y, getNextLevel());
-        }else {
-            throw new IllegalArgumentException("Unknown Color" + color.toString() + " " + x + " " + y);
-        }
-        
-        return null;
+        return loader.loadLevelActor(color, x, y);
     }
     
     public boolean hasSpiderFallen(){
@@ -217,6 +189,11 @@ public abstract class Level extends SplorrtWorld
      */
     public Class<? extends SplorrtWorld> getNextLevel(){
     	return SplorrtWorld.DEFAULT_WORLD;
+    }
+    
+    public void setSpawn(int x, int y){
+        this.spawnX = x;
+        this.spawnY = y;
     }
 
 }
