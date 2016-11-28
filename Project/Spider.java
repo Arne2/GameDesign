@@ -511,7 +511,7 @@ public class Spider extends Actor
 		if (xSpeed != 0)
 		{
 			// Check, if the spider has moved off its platform and is falling
-			if (ground != null && (getX() - ground.getX() > (ground.getImage().getWidth() + getImage().getWidth()) / 2 || ground.getX() - getX() > (ground.getImage().getWidth() + getImage().getWidth()) / 2))
+			if (ground != null && (getX() - ground.getX() + 1 > (ground.getImage().getWidth() + getImage().getWidth()) / 2 || ground.getX() - getX() + 1 > (ground.getImage().getWidth() + getImage().getWidth()) / 2))
 			{
 				ground = null;
 			}
