@@ -9,13 +9,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class LevelSelectorClickPlatform extends Platform
 {
 	
-	private final Class<? extends SplorrtWorld> worldToLoad;
+	private final SplorrtWorld worldToLoad;
 	
-	public LevelSelectorClickPlatform(Platform.Type type, Class<? extends SplorrtWorld> worldToLoad){
+	public LevelSelectorClickPlatform(Platform.Type type, SplorrtWorld worldToLoad){
 		this(type, 0, 0, worldToLoad);
 	}
 	
-	public LevelSelectorClickPlatform(Platform.Type type, int levelX, int levelY, Class<? extends SplorrtWorld> worldToLoad){
+	public LevelSelectorClickPlatform(Platform.Type type, int levelX, int levelY, SplorrtWorld worldToLoad){
 		super(type, levelX, levelY);
 		this.worldToLoad = worldToLoad;
 	}
@@ -29,7 +29,7 @@ public class LevelSelectorClickPlatform extends Platform
         if(Greenfoot.mouseClicked(this)){
         	World world = getWorld();
             if(world != null && world instanceof SplorrtWorld){
-         	   ((SplorrtWorld)world).loadWorld(SplorrtWorld.getWorld(worldToLoad));
+         	   ((SplorrtWorld)world).loadWorld(worldToLoad);
             }
         }
     }

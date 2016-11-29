@@ -32,4 +32,9 @@ public class Level1_1 extends Level
 	public GreenfootImage getBackgroundImage() {
 		return background;
 	}
+	
+	@Override
+	public SplorrtWorld getNextLevel() {
+		return new InfoScreen(new GreenfootImage("PostLevel1_1.jpg"), new Level1_2());
+	}
 }

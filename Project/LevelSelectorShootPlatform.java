@@ -9,13 +9,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class LevelSelectorShootPlatform extends Platform
 {
 	
-	private final Class<? extends SplorrtWorld> worldToLoad;
+	private final SplorrtWorld worldToLoad;
 	
-	public LevelSelectorShootPlatform(Platform.Type type, Class<? extends SplorrtWorld> worldToLoad){
+	public LevelSelectorShootPlatform(Platform.Type type, SplorrtWorld worldToLoad){
 		this(type, 0, 0, worldToLoad);
 	}
 	
-	public LevelSelectorShootPlatform(Platform.Type type, int levelX, int levelY, Class<? extends SplorrtWorld> worldToLoad){
+	public LevelSelectorShootPlatform(Platform.Type type, int levelX, int levelY, SplorrtWorld worldToLoad){
 		super(type, levelX, levelY);
 		this.worldToLoad = worldToLoad;
 	}
@@ -29,7 +29,7 @@ public class LevelSelectorShootPlatform extends Platform
         if(getOneIntersectingObject(WebBlob.class)!=null){
         	World world = getWorld();
             if(world != null && world instanceof SplorrtWorld){
-         	   ((SplorrtWorld)world).loadWorld(SplorrtWorld.getWorld(worldToLoad));
+         	   ((SplorrtWorld)world).loadWorld(worldToLoad);
             }
         }
     }

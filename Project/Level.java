@@ -2,6 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import java.io.File;
 
@@ -51,8 +52,8 @@ public abstract class Level extends SplorrtWorld
         setBackground(getBackgroundImage());
         setPaintOrder(Spider.class, WebBar.class, Bar.class, SpiderMenu.class, Enemy.class, Web.class, Platform.class);
     }
-    
-    public void load(){
+
+	public void load(){
     	prepare();
         update();
     }
@@ -99,6 +100,11 @@ public abstract class Level extends SplorrtWorld
     
     protected void setWorldHeight(int heightInPlatforms) {
 		this.worldHeight = Platform.SIZE * heightInPlatforms;
+	}
+    
+    protected void setSpawn(int x, int y) {
+		this.spawnX = x;
+		this.spawnY = y;
 	}
     
     public void addLevelActor(LevelActor actor){
@@ -220,8 +226,8 @@ public abstract class Level extends SplorrtWorld
     /**
      * Override this to change the default Screen(SplorrtWorld) for loaded goal-tiles.
      */
-    public Class<? extends SplorrtWorld> getNextLevel(){
-    	return SplorrtWorld.DEFAULT_WORLD;
+    public SplorrtWorld getNextLevel(){
+    	return SplorrtWorld.getWorld(DEFAULT_WORLD);
     }
 
 }

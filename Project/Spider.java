@@ -141,7 +141,7 @@ public class Spider extends Actor
 			SplorrtWorld world = (SplorrtWorld) getWorld();
 			if (world != null && world instanceof SplorrtWorld)
 			{
-				((SplorrtWorld) world).loadWorld(new EndScreen(world.getClass()));
+				((SplorrtWorld)world).loadWorld(new EndScreen(((Level)world).getClass()));
 			}
 			return;
 		}

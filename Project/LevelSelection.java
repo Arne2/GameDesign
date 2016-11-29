@@ -6,10 +6,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Level to allow choosing a Level.
  * Will have a wall on either side and a walkway between.
- * Above the walkway there are Blocks that will load a Level, when clicked on.
+ * Above the walkway there are Blocks that will load a Level, when shot with web.
  * 
  * @author maximilian-zollbrecht
- * @version 16.11.2016
+ * @version 28.11.2016
  */
 public class LevelSelection extends Level
 {
@@ -18,8 +18,9 @@ public class LevelSelection extends Level
 	private static final int PLATFORM_DEPTH = 12;
 	private static final int WIDTH_PER_LEVEL = 9;
 	
+	public static int unlockedAreas = 0;
+	
 	private final List<LevelInfo> levels = new ArrayList<>();
-	private final int unlockedAreas;
     
 	private int currentLevel = 0;
     private GreenfootImage background = new GreenfootImage("Sky_blue.png");
@@ -46,6 +47,11 @@ public class LevelSelection extends Level
 		}
 	}
 	
+	public LevelSelection()
+    {
+		this(unlockedAreas);
+    }
+	
     /**
      * Constructor for objects of class LevelSelection.
      * 
@@ -56,17 +62,18 @@ public class LevelSelection extends Level
     	
     	setBackground(getBackgroundImage());
     	
-    	this.unlockedAreas = unlockedAreas;
-    	
     	setWorldHeight(SIDE_HEIGHT+PLATFORM_DEPTH);
     	getSpider().getWebBar().add(getSpider().getWebBar().getMaximumValue());
     	
+    	super.setSpawn((WIDTH_PER_LEVEL/2+WIDTH_PER_LEVEL%2)*Platform.SIZE, (SIDE_HEIGHT-2)*Platform.SIZE);
+    	
     	// add all the levels, that are supposed to be selectable here.
-    	levels.add(new LevelInfo(new Level1_1(), Platform.Type.GRASS, Platform.Type.DIRT));
+    	levels.add(new LevelInfo(new InfoScreen(new GreenfootImage("PreLevel1_1.jpg"),  new Level1_1()), 
+    			Platform.Type.GRASS, Platform.Type.DIRT));
     	levels.add(new LevelInfo(new Level1_2(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+    	
+    	// separator to create a bridge (DO NOT PUT BRIDGES AT THE FIRST AND LAST PLACE)
     	levels.add(null);
-    	
-    	
     	
     	levels.add(new LevelInfo(new Level2_1(), Platform.Type.STONE));
     	
@@ -98,7 +105,7 @@ public class LevelSelection extends Level
 	    		
 		    	int y = yStart-3*Platform.SIZE-Greenfoot.getRandomNumber(7)*Platform.SIZE;
 	    		if(area <= unlockedAreas){
-		    		Platform selector = new LevelSelectorShootPlatform(info.surfaceType, WIDTH_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(WIDTH_PER_LEVEL/2+1), y, levels.get(i).world.getClass());
+		    		Platform selector = new LevelSelectorShootPlatform(info.surfaceType, WIDTH_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(WIDTH_PER_LEVEL/2+1), y, levels.get(i).world);
 		    		addLevelActor(selector);
 	    		} else {
 	    			Platform platform = new Platform(info.surfaceType, WIDTH_PER_LEVEL*Platform.SIZE*i+Platform.SIZE*(WIDTH_PER_LEVEL/2+1), y);
@@ -115,16 +122,12 @@ public class LevelSelection extends Level
     			}
     		}
     	}
-    	
-    	super.load();
     }
     
     @Override
     public void act() {
-    	super.act();
-    	
     	int index = (super.getXPosition()+getWidth()/2)/(Platform.SIZE*WIDTH_PER_LEVEL);
-    	if(currentLevel != index && levels.get(index)!=null){
+    	if(currentLevel != index && currentLevel>0 && currentLevel<levels.size() && levels.get(index)!=null){
 	    	GreenfootSound newMusic = ((Level)levels.get(index).world).getBackgroundMusic();
 	    	
 	    	String newName = newMusic.toString().split(" ")[2];
@@ -139,6 +142,12 @@ public class LevelSelection extends Level
 	    	this.setBackground(this.background);
 	    	
 	    	currentLevel = index;
+    	}
+    }
+    
+    public static void unlock(int area){
+    	if(unlockedAreas<area){
+    		unlockedAreas = area;
     	}
     }
 

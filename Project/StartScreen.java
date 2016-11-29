@@ -31,7 +31,7 @@ public class StartScreen extends SplorrtWorld
 
 		if (delay <= 0 && (Greenfoot.getKey() != null || Greenfoot.mouseClicked(null)))
 		{
-			loadWorld(SplorrtWorld.getWorld(Level1_1.class));
+			loadWorld(new LevelSelection(0));
 		}
 	}
 }

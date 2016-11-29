@@ -9,7 +9,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public abstract class SplorrtWorld extends World
 {
-	
 	public static final int WIDTH = 1200;
 	public static final int HEIGHT = 800;
 	
@@ -23,6 +22,13 @@ public abstract class SplorrtWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(WIDTH, HEIGHT, 1, false); 
+    }
+    
+    /**
+     * Loads the given world into Greenfoot.
+     */
+    public void loadWorld(Class<? extends SplorrtWorld> next){
+    	loadWorld(getWorld(next));
     }
     
     /**
@@ -46,6 +52,7 @@ public abstract class SplorrtWorld extends World
 			world = clazz.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			try {
+				System.out.println("Couldn't create world of class: "+clazz.getName());
 				world = DEFAULT_WORLD.newInstance();
 			} catch (InstantiationException | IllegalAccessException e1) {
 				Greenfoot.stop();
@@ -55,7 +62,7 @@ public abstract class SplorrtWorld extends World
     	if(world instanceof SplorrtWorld){
     		return (SplorrtWorld)world;
     	} else {
-    		throw new IllegalArgumentException("Given name doesn't refer to a SplorrtWorld.");
+    		throw new IllegalArgumentException("Given class doesn't extend SplorrtWorld.");
     	}
     }
 
@@ -68,6 +75,7 @@ public abstract class SplorrtWorld extends World
 			world = Class.forName(name).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			try {
+				System.out.println("Couldn't create world with name: "+name);
 				world = DEFAULT_WORLD.newInstance();
 			} catch (InstantiationException | IllegalAccessException e1) {
 				Greenfoot.stop();
