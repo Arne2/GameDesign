@@ -25,14 +25,6 @@ public class Level1_2 extends Level
 	private static final GreenfootImage background = new GreenfootImage("Sky_blue.png");
 	private static final GreenfootSound music = new GreenfootSound("On My Way.mp3");
 
-	
-	@Override
-	public void stopped() {
-		System.out.println("unlock");
-		super.stopped();
-		LevelSelection.unlock(1);
-	}
-
 	@Override
 	public GreenfootSound getBackgroundMusic() {
 		return music;
