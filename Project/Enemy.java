@@ -207,9 +207,12 @@ public abstract class Enemy extends LevelActor
             return;
         }
     }
-    
         
-    public int getHitInterval()
+    public LevelActor getSpawnOnDeath() {
+		return spawnOnDeath;
+	}
+
+	public int getHitInterval()
     {
         return hitInterval;
     }

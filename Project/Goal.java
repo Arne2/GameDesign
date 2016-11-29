@@ -30,8 +30,9 @@ public class Goal extends LevelActor
 		if (s != null)
 		{
 			World world = getWorld();
-			if (world != null && world instanceof SplorrtWorld)
+			if (world != null && world instanceof Level)
 			{
+				((Level)world).finish();
 				((SplorrtWorld)world).loadWorld(next);
 			}
 		}

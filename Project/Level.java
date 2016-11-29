@@ -2,7 +2,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 import java.util.Collection;
 import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
 import java.io.File;
 
@@ -26,6 +25,17 @@ public abstract class Level extends SplorrtWorld
     private int spawnY = 100;
     
     private String map = null;
+    
+    private int maxEnemyNumber;
+    private int leftEnemyNumber;
+    
+    private int maxConsumableScore;
+    private int maxConsumableNumber;
+    
+    private int leftConsumableNumber;
+    private int leftConsumableScore;
+    
+    private int ticks = 0;
     
     /**
      * Constructor.
@@ -158,6 +168,18 @@ public abstract class Level extends SplorrtWorld
                 if(next!=null){
                     actors.add(next);
                 }
+                
+                // calculate max scores
+                if(next instanceof Enemy && ((Enemy)next).defeatable){
+                	maxEnemyNumber++;
+                }
+                while(next instanceof Enemy){
+                	next = ((Enemy)next).getSpawnOnDeath();
+                }
+                if(next instanceof Consumable){
+                	maxConsumableScore += ((Consumable)next).getScore();
+                	maxConsumableNumber++;
+                }
             }
         }
     }
@@ -194,7 +216,7 @@ public abstract class Level extends SplorrtWorld
             spawnX = x;
             spawnY = y;
         } else if(color.equals(Color.RED)){
-        	return new EnemySpawner(EnemyID.WASP, x, y);
+        	return new EnemyWasp(x, y);
         } else if(color.equals(Color.ORANGE)){
         	return new Goal(x, y, getNextLevel());
         }else {
@@ -222,12 +244,76 @@ public abstract class Level extends SplorrtWorld
     {
         return spider;
     }
+    
+    public void calculateScore(){
+    	leftConsumableScore = 0;
+    	
+    	for(LevelActor next : actors) {
+            // calculate left scores
+            if(next instanceof Enemy && ((Enemy)next).defeatable){
+            	leftEnemyNumber++;
+            }
+            while(next instanceof Enemy){
+            	next = ((Enemy)next).getSpawnOnDeath();
+            }
+            if(next instanceof Consumable){
+            	leftConsumableScore += ((Consumable)next).getScore();
+            	leftConsumableNumber++;
+            }
+        }
+    }
+
+    /** Only Available after load was called. */
+	public int getMaxEnemyNumber() {
+		return maxEnemyNumber;
+	}
+
+	/** Only Available after load was called. */
+	public int getLeftEnemyNumber() {
+		return leftEnemyNumber;
+	}
+
+	/** Only Available after load was called. */
+	public int getMaxConsumableScore() {
+		return maxConsumableScore;
+	}
+
+	/** Only Available after calculateScore was called. */
+	public int getMaxConsumableNumber() {
+		return maxConsumableNumber;
+	}
+
+	/** Only Available after calculateScore was called. */
+	public int getLeftConsumableNumber() {
+		return leftConsumableNumber;
+	}
+
+	/** Only Available after calculateScore was called. */
+	public int getLeftConsumableScore() {
+		return leftConsumableScore;
+	}
+
+	public void finish() {
+		calculateScore();
+		
+    	System.out.println("Took "+ticks+" ticks to complete the Level.");
+    	System.out.println("Collected consumables worth "+(maxConsumableScore-leftConsumableScore)+". ("+maxConsumableScore+" available)");
+    	System.out.println("Collected "+(maxConsumableNumber-leftConsumableNumber)+" consumables. ("+maxConsumableNumber+" available)");
+    	System.out.println("Killed "+(maxEnemyNumber-leftEnemyNumber)+" enemies. ("+maxEnemyNumber+" available)");
+    }
 
     /**
      * Override this to change the default Screen(SplorrtWorld) for loaded goal-tiles.
      */
     public SplorrtWorld getNextLevel(){
     	return SplorrtWorld.getWorld(DEFAULT_WORLD);
+    }
+    
+    @Override
+    public void act() {
+    	super.act();
+    	
+    	ticks++;
     }
 
 }
