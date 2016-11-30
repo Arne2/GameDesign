@@ -62,4 +62,10 @@ public class EnemyScorpion extends ProjectileEnemy
             setImage(images.getImage());
         }
     }
+    
+    @Override
+    public Projectile getProjectile()
+    {
+        return new ScorpionProjectile(this);
+    }
 }

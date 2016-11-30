@@ -33,11 +33,11 @@ public class LevelActorLoader
     
     private static final Color SPAWN = Color.YELLOW;
     
-    private static final Color ENEMY_WASP_MOVEABLE = new Color(255,0,0);
+    private static final Color ENEMY_WASP_MOVEABLE = new Color(250,0,0);
     
     private static final Color ENEMY_WASP = new Color(254,0,0);
     
-    private static final Color ENEMY_SCORPION = new Color(250, 0, 0);
+    private static final Color ENEMY_SCORPION = new Color(240, 0, 0);
     
     private static final Color GOAL = Color.ORANGE;
     

@@ -133,7 +133,7 @@ public abstract class Enemy extends LevelActor implements IDamageable
                 }
                 else
                 {
-                    System.out.println("collision");
+                   
                    if(spiderDamageTimer == 0)
                    {
                        

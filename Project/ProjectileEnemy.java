@@ -6,13 +6,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class ProjectileEnemy extends Enemy
+public abstract class ProjectileEnemy extends Enemy
 {
     public static final int TICKS_PER_SHOOT = 100;
     
     private int projectileShootTimer = TICKS_PER_SHOOT;
-    
-    private int projectileSpeed = 5;
     
 
     public ProjectileEnemy(int x, int y, boolean stunnable, boolean defeatable)
@@ -43,7 +41,7 @@ public class ProjectileEnemy extends Enemy
             {
                 
                 
-                Projectile p = new Projectile(this.getLevelX(), this.getLevelY(), projectileSpeed);
+                Projectile p = getProjectile();
                 Level l = (Level) getWorld();
                 l.addLevelActor(p, this.getX(), this.getY());
                    
@@ -57,7 +55,6 @@ public class ProjectileEnemy extends Enemy
         
     }
     
-    
-    
+    public abstract Projectile getProjectile();
 
 }

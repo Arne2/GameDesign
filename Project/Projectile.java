@@ -1,3 +1,4 @@
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
@@ -6,23 +7,28 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Projectile extends LevelActor
+public abstract class Projectile extends LevelActor
 {
     
     private boolean moving = false;
     
-    private final int speed;
-    
-    private final int damage = 1;
-    
     private boolean destroyed = false;
+
+    private ProjectileEnemy shooter = null;
     
-    public Projectile(int x, int y, int speed)
+    public Projectile(ProjectileEnemy shooter)
     {
-        super(x, y);
-        this.speed = speed;
-        setImage("enemy_projectile.png");
+        super(shooter.getLevelX(), shooter.getLevelY());
+        setImage(getProjectileImage());
     }
+    
+    
+    public abstract int getSpeed();
+    
+    public abstract int getDamage();
+    
+    public abstract String getProjectileImage();
+    
     
     public void setMoving()
     {
@@ -37,6 +43,8 @@ public class Projectile extends LevelActor
     {
         if(!destroyed)
             move();
+       if(!destroyed)
+            checkCollision();
         if(!destroyed)
             checkDamage();
     }  
@@ -56,11 +64,26 @@ public class Projectile extends LevelActor
             }
             else
             {
-                move(speed);
+                move(getSpeed());
                 updatePosition();
             }
 
         }
+    }
+    
+    public void checkCollision()
+    {
+         if(destroyed)
+            return;
+        
+         Actor a = null;
+         a = getOneIntersectingObject(Platform.class);
+         if(a != null)
+         {
+             ((Level) getWorld()).removeLevelActor(this);
+               destroyed = true;
+               return;
+            }
     }
     
     public void checkDamage()
@@ -74,7 +97,7 @@ public class Projectile extends LevelActor
            {
                Spider s = (Spider) sA;
 
-               s.decreaseHealth(damage);
+               s.decreaseHealth(getDamage());
                s.knockback(getLevelX(), getLevelY());
                ((Level) getWorld()).removeLevelActor(this);
                destroyed = true;

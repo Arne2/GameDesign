@@ -12,6 +12,8 @@ public class EnemyWasp extends ProjectileEnemy{
     
     private static final int MAX_HEALTH = 3;
     
+    private static final int MOVEMENT_SPEED = 1;
+    
     private static final int FRAMES_PER_PICTURE = 5;
     
     private static final int SIGHT_RADIUS = 500;
@@ -22,7 +24,7 @@ public class EnemyWasp extends ProjectileEnemy{
     
     private int targetY;
 
-    private int movementSpeed = 2;
+    private int movementSpeed = MOVEMENT_SPEED;
     
     private final AnimationSet  images = new AnimationSet(FRAMES_PER_PICTURE);
 
@@ -151,5 +153,10 @@ public class EnemyWasp extends ProjectileEnemy{
         
     }
   
+    @Override
+    public Projectile getProjectile()
+    {
+        return new WaspProjectile(this);
+    }
 
 }
