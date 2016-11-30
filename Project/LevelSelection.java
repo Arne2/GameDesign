@@ -71,6 +71,9 @@ public class LevelSelection extends Level
     	levels.add(new LevelInfo(new InfoScreen(new GreenfootImage("PreLevel1_1.jpg"),  new Level1_1()), 
     			Platform.Type.GRASS, Platform.Type.DIRT));
     	levels.add(new LevelInfo(new Level1_2(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+    	levels.add(new LevelInfo(new Level1_3(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+    	levels.add(new LevelInfo(new Level1_4(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+    	levels.add(new LevelInfo(new Level1_5(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
     	
     	// separator to create a bridge (DO NOT PUT BRIDGES AT THE FIRST AND LAST PLACE)
     	levels.add(null);
