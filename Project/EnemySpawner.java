@@ -76,6 +76,9 @@ public class EnemySpawner extends LevelActor
 			case WASP:
 				ret = new EnemyWasp(this.getX(), this.getY());
 				break;
+		    case WASP_MOVEABLE:
+				ret = new EnemyWasp(this.getX(), this.getY(), true);
+				break;
 			case SPIDER:
 				ret = new EnemySpider(this.getX(), this.getY());
 				break;
