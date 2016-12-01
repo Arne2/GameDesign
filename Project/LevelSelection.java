@@ -79,7 +79,9 @@ public class LevelSelection extends Level
     	levels.add(null);
     	
     	levels.add(new LevelInfo(new Level2_1(), Platform.Type.STONE));
+
     	
+    	levels.add(new LevelInfo(new Level2_4(), Platform.Type.STONE));
     	for(int y = 0; y<SIDE_HEIGHT+PLATFORM_DEPTH; y++){
     		for(int x = -SIDE_WIDTH+1; x<=0; x++){
     			Platform left = new Platform(levels.get(0).getType(false), x*Platform.SIZE, y*Platform.SIZE);
