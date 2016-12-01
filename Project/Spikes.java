@@ -12,4 +12,9 @@ public class Spikes extends Enemy
 		super(x, y, false, false);
 		setImage("Spikes32x32.png");
 	}
+	
+	@Override
+	public void act() {
+		super.act();
+	}
 }

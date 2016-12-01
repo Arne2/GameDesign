@@ -13,6 +13,7 @@ import java.io.File;
 public abstract class Level extends SplorrtWorld
 {
     private final Collection<LevelActor> actors = new ArrayList<>();
+    private final Collection<SpawnPoint> spawnPoints = new ArrayList<>();
     
     private int xPosition, yPosition;
     
@@ -36,6 +37,8 @@ public abstract class Level extends SplorrtWorld
     private int leftConsumableScore;
     
     private int ticks = 0;
+    
+    private boolean loaded = false;
     
     /**
      * Constructor.
@@ -64,8 +67,13 @@ public abstract class Level extends SplorrtWorld
     }
 
 	public void load(){
-    	prepare();
-        update();
+		if(!loaded){
+	    	prepare();
+	        update();
+	        loaded = true;
+		} else {
+			spiderDie();
+		}
     }
 
     /**
@@ -97,6 +105,7 @@ public abstract class Level extends SplorrtWorld
         int yMax = yPosition + getHeight();
         
         for(LevelActor next : actors){
+        	
             removeObject(next);
             if(next.getLevelX()+next.getImage().getWidth()/2 > xPosition &&
                 next.getLevelX() < xMax+next.getImage().getWidth()/2 &&
@@ -165,6 +174,11 @@ public abstract class Level extends SplorrtWorld
         for(int x = 0; x<map.getWidth(); x++) {
             for(int y = 0; y<map.getHeight(); y++) {
                 next = getActor(map.getColorAt(x, y), x*Platform.SIZE+Platform.SIZE/2, y*Platform.SIZE+Platform.SIZE/2);
+
+                if(next instanceof SpawnPoint){
+                	spawnPoints.add((SpawnPoint)next);
+                	next = ((SpawnPoint)next).getSpawn();
+                }
                 if(next!=null){
                     actors.add(next);
                 }
@@ -202,9 +216,7 @@ public abstract class Level extends SplorrtWorld
             return new Platform(Platform.Type.DIRT, x, y);
         } else if(color.equals(new Color(151,149,92))){
             return new Platform(Platform.Type.SAND, x, y);
-        } else if(color.equals(new Color(246,49,121))){
-            return new EnemySpawner(EnemyID.SPIKES, x, y);
-        } else if(color.equals(new Color(17,149,92))){
+        }else if(color.equals(new Color(17,149,92))){
             return new Platform(Platform.Type.CACTUS, x, y);
         } else if(color.equals(new Color(125,125,125))){
             return new Platform(Platform.Type.COBBLE, x, y);
@@ -215,8 +227,10 @@ public abstract class Level extends SplorrtWorld
         } else if(color.equals(Color.YELLOW)){
             spawnX = x;
             spawnY = y;
+        } else if(color.equals(new Color(246,49,121))){
+            return new Spikes(x, y);
         } else if(color.equals(Color.RED)){
-        	return new EnemyWasp(x, y);
+        	return new SpawnPoint(new EnemyWasp(x, y));
         } else if(color.equals(Color.ORANGE)){
         	return new Goal(x, y, getNextLevel());
         }else {
@@ -301,6 +315,21 @@ public abstract class Level extends SplorrtWorld
     	System.out.println("Collected "+(maxConsumableNumber-leftConsumableNumber)+" consumables. ("+maxConsumableNumber+" available)");
     	System.out.println("Killed "+(maxEnemyNumber-leftEnemyNumber)+" enemies. ("+maxEnemyNumber+" available)");
     }
+	
+	public void spiderDie(){
+		// respawn everything
+		for(SpawnPoint next : spawnPoints){
+			if(!next.isSpawned()){
+				actors.add(next.getSpawn());
+			}
+		}
+		
+		getSpider().reload();
+		
+		xPosition = spawnX-getWidth()/2;
+		yPosition = spawnY-getHeight()/2;
+		update();
+	}
 
     /**
      * Override this to change the default Screen(SplorrtWorld) for loaded goal-tiles.

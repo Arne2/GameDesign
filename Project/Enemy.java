@@ -8,7 +8,7 @@ public abstract class Enemy extends LevelActor
 
     protected int damage = 1;
     
-    protected boolean activated = false;
+    protected boolean activated = true;
 
     /** timer for the damage interval which the enemy deals*/
     protected int enemyDamageTimer = 0;
@@ -90,7 +90,6 @@ public abstract class Enemy extends LevelActor
     
     private void checkSpiderCollision()
     {
-        
            Actor sA = null;
            sA = getOneIntersectingObject(Spider.class);
            if(sA != null && sA instanceof Spider)

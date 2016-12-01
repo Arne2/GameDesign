@@ -141,7 +141,7 @@ public class Spider extends Actor
 			SplorrtWorld world = (SplorrtWorld) getWorld();
 			if (world != null && world instanceof SplorrtWorld)
 			{
-				((SplorrtWorld)world).loadWorld(new EndScreen(((Level)world).getClass()));
+				((SplorrtWorld)world).loadWorld(new EndScreen((Level)world));
 			}
 			return;
 		}
@@ -354,7 +354,7 @@ public class Spider extends Actor
 	 */
 	private void removeBlob()
 	{
-		if(blob.getWorld()!=null){
+		if(blob!=null && blob.getWorld()!=null){
 			((Level)getWorld()).removeLevelActor(blob);
 		}
 		
@@ -718,5 +718,15 @@ public class Spider extends Actor
 		if ((key.isMouseAction() && mi != null && Greenfoot.mousePressed(null) && mi.getButton() == key.getMouseButton()) || (!key.isMouseAction() && Greenfoot.isKeyDown(key.getKey())))
 			return true;
 		return false;
+	}
+
+	public void reload() {
+		getHealthBar().setValue(getHealthBar().getMaximumValue());
+		xSpeed = 0;
+		ySpeed = 0;
+		ground = null;
+		removeBlob();
+		knockbackX = 0;
+		knockbackY = 0;
 	}
 }
