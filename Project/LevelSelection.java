@@ -24,7 +24,7 @@ public class LevelSelection extends Level
     
 	private int currentLevel = 0;
     private GreenfootImage background = new GreenfootImage("Sky_blue.png");
-	private GreenfootSound music = new GreenfootSound("On My Way.mp3");
+	private GreenfootSound music = new GreenfootSound("On My Way.wav");
 	
 	private class LevelInfo{
 		private final Platform.Type surfaceType;
