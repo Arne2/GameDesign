@@ -13,7 +13,7 @@ public class KeybindScreen extends SplorrtWorld
 	 */
 	public KeybindScreen()
 	{
-		setBackground("KeybindScreen.png");
+		setBackground("OptionScreen.jpg");
 
 		prepare();
 	}
