@@ -19,18 +19,19 @@ public class Level2_1 extends Level
 	{
 		this(null);
 	}
-	
-	private static final GreenfootImage background = new GreenfootImage("Cave_grey.png");
-	private static final GreenfootSound music = new GreenfootSound("Professor Umlaut.mp3");
 
+	private static final GreenfootImage	background	= new GreenfootImage("Cave_grey.png");
+	private static final GreenfootSound	music		= new GreenfootSound("Professor Umlaut.wav");
 
 	@Override
-	public GreenfootSound getBackgroundMusic() {
+	public GreenfootSound getBackgroundMusic()
+	{
 		return music;
 	}
 
 	@Override
-	public GreenfootImage getBackgroundImage() {
+	public GreenfootImage getBackgroundImage()
+	{
 		return background;
 	}
 }
