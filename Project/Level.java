@@ -2,7 +2,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 import java.util.Collection;
 import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
 import java.io.File;
 
@@ -18,8 +17,9 @@ public abstract class Level extends SplorrtWorld
     private int xPosition, yPosition;
     
     private final Spider spider;
-    
+
     private int worldHeight;
+    private int worldWidth;
     
     private int spawnX = 100;
     
@@ -102,6 +102,10 @@ public abstract class Level extends SplorrtWorld
 		this.worldHeight = Platform.SIZE * heightInPlatforms;
 	}
     
+    protected void setWorldWidth(int widthInPlatforms) {
+		this.worldWidth = Platform.SIZE * widthInPlatforms;
+	}
+    
     protected void setSpawn(int x, int y) {
 		this.spawnX = x;
 		this.spawnY = y;
@@ -129,6 +133,16 @@ public abstract class Level extends SplorrtWorld
      */
     public void movePosition(int dx, int dy){
         this.xPosition += dx;
+        
+        int xPos = this.xPosition+getWidth()/2;
+        if(xPos<0){
+        	System.out.println("left");
+        	this.xPosition = -getWidth()/2;
+        } else if(worldWidth>0 && xPos>worldWidth){
+        	System.out.println("right");
+        	this.xPosition = worldWidth+getWidth()/2;
+        }
+        
         this.yPosition += dy;
     }
     
@@ -150,6 +164,7 @@ public abstract class Level extends SplorrtWorld
     
     private void loadFromImage(GreenfootImage map){
         worldHeight = map.getHeight()*Platform.SIZE;
+        worldWidth = map.getWidth()*Platform.SIZE;
         
         LevelActor next;
         for(int x = 0; x<map.getWidth(); x++) {
