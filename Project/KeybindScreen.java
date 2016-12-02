@@ -1,3 +1,6 @@
+import greenfoot.Greenfoot;
+import greenfoot.MouseInfo;
+
 /**
  * Write a description of class KeybindScreen here.
  * 
@@ -13,7 +16,7 @@ public class KeybindScreen extends SplorrtWorld
 	 */
 	public KeybindScreen()
 	{
-		setBackground("KeybindScreen.png");
+		setBackground("OptionScreen.jpg");
 
 		prepare();
 	}
@@ -40,5 +43,31 @@ public class KeybindScreen extends SplorrtWorld
 
 		kb = new KeybindingActor(Keybind.ROPE_DOWN, "Rope down on web", Keybind.ROPE_DOWN.getKey(), Keybind.ROPE_DOWN.isMouseAction());
 		addObject(kb, 213, 500);
+	}
+
+	@Override
+	public void act()
+	{
+		if (Greenfoot.mousePressed(null))
+		{
+			MouseInfo mi = Greenfoot.getMouseInfo();
+			int clickX = mi.getX();
+			int clickY = mi.getY();
+
+			if (isBetween(clickX, 40, 250) && isBetween(clickY, 700, 770))
+			{
+				loadWorld(new StartScreen());
+			}
+		}
+		/*
+		 * X Coord: 43 - Y Coord: 707 X Coord: 267 - Y Coord: 764
+		 */
+	}
+
+	private boolean isBetween(int target, int lowerValue, int upperValue)
+	{
+		if (lowerValue < target && target < upperValue)
+			return true;
+		return false;
 	}
 }

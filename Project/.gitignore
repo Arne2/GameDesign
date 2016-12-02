@@ -7,3 +7,4 @@
 *.idea/*
 /standalone.properties
 /.classpath
+/soundindex.list

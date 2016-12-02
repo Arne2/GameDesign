@@ -15,8 +15,9 @@ import greenfoot.World;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Spider extends Actor
+public class Spider extends Actor implements IDamageable
 {
+
 	private static boolean		DEBUG				= false;
 
 	/** Width of the spider in pixels **/
@@ -35,6 +36,10 @@ public class Spider extends Actor
 	 **/
 	private static final int	X_SPEED_MAX			= 6;
 
+	/** The max Health of the spider. */
+
+    private static final int MAX_HEALTH = 5;
+	
 	/** Maximum falling speed in pixels per frame. **/
 	private static final int	Y_SPEED_MAX			= 16;
 
@@ -651,20 +656,51 @@ public class Spider extends Actor
 		return ((Level) getWorld()).hasSpiderFallen() || healthBar.getValue() <= 0;
 	}
 
-	public int getHealth()
-	{
-		return healthBar.getValue();
-	}
+	@Override
+    public int getHealth()
+    {
 
-	public void decreaseHealth(int count)
-	{
-		this.healthBar.subtract(count);
-	}
+        return healthBar.getValue();
+    }
 
-	public int getDamage()
-	{
-		return damage;
-	}
+    @Override
+    public void decreaseHealth(int count)
+    {
+
+        this.healthBar.subtract(count);
+    }
+
+
+    @Override
+    public void decreaseHealth()
+    {
+        int h = this.healthBar.getValue() - 1;
+        this.healthBar.subtract(h);
+    }
+    
+    @Override
+    public void setHealth(int h)
+    {
+
+        this.healthBar.setValue(h);
+    }
+    
+    @Override
+    public void instantKill()
+    {
+        setHealth(0);
+    }
+    
+    @Override
+    public int getMaxHealth()
+    {
+        return MAX_HEALTH;
+    }
+    
+    public int getDamage()
+    {
+        return damage;
+    }
 
 	public int getHitInterval()
 	{
