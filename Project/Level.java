@@ -215,6 +215,11 @@ public abstract class Level extends SplorrtWorld
 			for (int y = 0; y < map.getHeight(); y++)
 			{
 				next = getActor(map.getColorAt(x, y), x * Platform.SIZE + Platform.SIZE / 2, y * Platform.SIZE + Platform.SIZE / 2);
+				
+				if(next instanceof SpawnPoint){
+                	spawnPoints.add((SpawnPoint)next);
+                	next = ((SpawnPoint)next).getSpawn();
+                }
 				if (next != null)
 				{
 					actors.add(next);
@@ -317,10 +322,28 @@ public abstract class Level extends SplorrtWorld
     }
 	
 	public void spiderDie(){
+		// update all killed enemies to their consumables
+		for(SpawnPoint next : spawnPoints){
+			if(next.getSpawn() instanceof Enemy && ((Enemy)next.getSpawn()).isDead()){
+				next.killSpawn();
+			}
+		}
+		
+		// remove all consumables and enemies
+		Collection<LevelActor> toRemove = new ArrayList<>();
+		for(LevelActor next : actors){
+			if((next instanceof Enemy && ((Enemy)next).defeatable) ||  next instanceof Consumable){
+				toRemove.add(next);
+			}
+		}
+		for(LevelActor next : toRemove){
+			removeLevelActor(next);
+		}
+		
 		// respawn everything
 		for(SpawnPoint next : spawnPoints){
-			if(!next.isSpawned()){
-				actors.add(next.getSpawn());
+			if(next.getSpawn()!=null){
+				addLevelActor(next.getSpawn());
 			}
 		}
 		
@@ -328,6 +351,7 @@ public abstract class Level extends SplorrtWorld
 		
 		xPosition = spawnX-getWidth()/2;
 		yPosition = spawnY-getHeight()/2;
+		
 		update();
 	}
     

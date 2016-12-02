@@ -24,11 +24,4 @@ public class SpawnPoint extends LevelActor {
 	public LevelActor getSpawn(){
 		return spawn;
 	}
-	
-	public boolean isSpawned(){
-		if(spawn==null || (spawn!=null && spawn.getWorld()==null)){
-			return true;
-		}
-		return false;
-	}
 }
