@@ -40,7 +40,7 @@ public class StartScreen extends SplorrtWorld
 			}
 			else if (isBetween(clickX, 510, 715) && isBetween(clickY, 615, 640))
 			{
-				loadWorld(new KeybindScreen());
+				loadWorld(new OptionScreen());
 			}
 			else if (isBetween(clickX, 560, 665) && isBetween(clickY, 665, 700))
 			{

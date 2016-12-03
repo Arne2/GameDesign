@@ -7,14 +7,14 @@ import greenfoot.MouseInfo;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class KeybindScreen extends SplorrtWorld
+public class OptionScreen extends SplorrtWorld
 {
 
 	/**
 	 * Constructor for objects of class KeybindScreen.
 	 * 
 	 */
-	public KeybindScreen()
+	public OptionScreen()
 	{
 		setBackground("OptionScreen.jpg");
 
