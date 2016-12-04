@@ -13,6 +13,8 @@ public class Level2_1 extends Level
 	public Level2_1(Spider spider)
 	{
 		super(spider);
+		
+		getSpider().getWebBar().add(300);
 	}
 
 	public Level2_1()
