@@ -7,36 +7,36 @@ import java.io.PrintWriter;
 
 public class Setting
 {
-	private static int	sfxvolume	= 100;
+	private static int	SFXVolume	= 100;
 
-	private static int	musicvolume	= 100;
+	private static int	musicVolume	= 100;
 
-	public static int getMusicvolume()
+	public static int getMusicVolume()
 	{
-		return musicvolume;
+		return musicVolume;
 	}
 
-	public static int getSfxvolume()
+	public static int getSFXVolume()
 	{
-		return sfxvolume;
+		return SFXVolume;
 	}
 
-	public static void setMusicvolume(int musicvolume)
+	public static void setMusicVolume(int musicvolume)
 	{
-		Setting.musicvolume = musicvolume;
+		Setting.musicVolume = musicvolume;
 	}
 
-	public static void setSfxvolume(int sfxvolume)
+	public static void setSFXVolume(int sfxvolume)
 	{
-		Setting.sfxvolume = sfxvolume;
+		Setting.SFXVolume = sfxvolume;
 	}
 
 	public static void loadSettings()
 	{
 		try (BufferedReader reader = new BufferedReader(new FileReader("splorrt.settings")))
 		{
-			setSfxvolume(Integer.valueOf(reader.readLine()));
-			setMusicvolume(Integer.valueOf(reader.readLine()));
+			setSFXVolume(Integer.valueOf(reader.readLine()));
+			setMusicVolume(Integer.valueOf(reader.readLine()));
 		}
 		catch (FileNotFoundException e)
 		{
@@ -54,8 +54,8 @@ public class Setting
 	{
 		try (PrintWriter pw = new PrintWriter(new FileWriter("splorrt.settings")))
 		{
-			pw.println(sfxvolume);
-			pw.println(musicvolume);
+			pw.println(SFXVolume);
+			pw.println(musicVolume);
 		}
 		catch (IOException e)
 		{

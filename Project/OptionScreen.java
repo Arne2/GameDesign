@@ -68,7 +68,7 @@ public class OptionScreen extends SplorrtWorld
 		sfxVolume.setTextColor(Color.black);
 		sfxVolume.setSafeColor(Color.black);
 		sfxVolume.setDangerColor(Color.black);
-		sfxVolume.setValue(Setting.getSfxvolume());
+		sfxVolume.setValue(Setting.getSFXVolume());
 		addObject(sfxVolume, 800, 250);
 
 		musicVolume = new MouseActBar("Music Volume", "", 1, 100);
@@ -78,7 +78,7 @@ public class OptionScreen extends SplorrtWorld
 		musicVolume.setTextColor(Color.black);
 		musicVolume.setSafeColor(Color.black);
 		musicVolume.setDangerColor(Color.black);
-		musicVolume.setValue(Setting.getMusicvolume());
+		musicVolume.setValue(Setting.getMusicVolume());
 		addObject(musicVolume, 800, 300);
 	}
 
@@ -93,8 +93,8 @@ public class OptionScreen extends SplorrtWorld
 
 			if (isBetween(clickX, 40, 250) && isBetween(clickY, 700, 770))
 			{
-				Setting.setMusicvolume(musicVolume.getValue());
-				Setting.setSfxvolume(sfxVolume.getValue());
+				Setting.setMusicVolume(musicVolume.getValue());
+				Setting.setSFXVolume(sfxVolume.getValue());
 				Setting.saveSettings();
 				// TODO: set haungs mode
 				loadWorld(new StartScreen());
