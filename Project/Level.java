@@ -218,6 +218,7 @@ public abstract class Level extends SplorrtWorld
 	@Override
 	public void started()
 	{
+		getBackgroundMusic().setVolume(Setting.getMusicVolume());
 		getBackgroundMusic().playLoop();
 	}
 
