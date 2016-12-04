@@ -19,6 +19,8 @@ public class StartScreen extends SplorrtWorld
 	public StartScreen()
 	{
 		setBackground("StartScreen.jpg");
+		Keybind.loadKeybinds();
+		Setting.loadSettings();
 	}
 
 	@Override

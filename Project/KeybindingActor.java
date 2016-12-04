@@ -41,7 +41,20 @@ public class KeybindingActor extends Actor
 
 	private void update()
 	{
-		setImage(new GreenfootImage(text + ":                 " + key, 18, Color.BLACK, new Color(0, 0, 0, 0)));
+		// setImage(new GreenfootImage(text + ": " + key, 18, Color.BLACK, new Color(0, 0, 0, 0)));
+
+		GreenfootImage textBackground = new GreenfootImage(200, 50);
+		GreenfootImage textFront = new GreenfootImage(textBackground);
+		textFront.drawImage(new GreenfootImage(text + ":", 18, Color.BLACK, new Color(0, 0, 0, 0)), 25, 5);
+
+		GreenfootImage keyBackground = new GreenfootImage(200, 50);
+		GreenfootImage keyFront = new GreenfootImage(keyBackground);
+		keyFront.drawImage(new GreenfootImage(key, 18, Color.BLACK, new Color(0, 0, 0, 0)), 25, 5);
+
+		GreenfootImage combined = new GreenfootImage(400, 50);
+		combined.drawImage(textFront, 0, 0);
+		combined.drawImage(keyFront, 200, 0);
+		setImage(combined);
 	}
 
 	/**
@@ -52,7 +65,21 @@ public class KeybindingActor extends Actor
 		// Add your action code here.
 		if (!selected && Greenfoot.mousePressed(this))
 		{
-			setImage(new GreenfootImage(text + ":                 assign key now", 18, Color.BLACK, new Color(0, 0, 0, 0)));
+			setImage(new GreenfootImage(text + ":                                 assign key now", 18, Color.BLACK, new Color(0, 0, 0, 0)));
+
+			GreenfootImage textBackground = new GreenfootImage(200, 50);
+			GreenfootImage textFront = new GreenfootImage(textBackground);
+			textFront.drawImage(new GreenfootImage(text + ":", 18, Color.BLACK, new Color(0, 0, 0, 0)), 25, 5);
+
+			GreenfootImage keyBackground = new GreenfootImage(200, 50);
+			GreenfootImage keyFront = new GreenfootImage(keyBackground);
+			keyFront.drawImage(new GreenfootImage("assign key now", 18, Color.BLACK, new Color(0, 0, 0, 0)), 25, 5);
+
+			GreenfootImage combined = new GreenfootImage(400, 50);
+			combined.drawImage(textFront, 0, 0);
+			combined.drawImage(keyFront, 200, 0);
+			setImage(combined);
+
 			selected = true;
 			Greenfoot.getKey();
 		}
@@ -83,5 +110,66 @@ public class KeybindingActor extends Actor
 			}
 
 		}
+	}
+
+	private GreenfootImage getLabelImage()
+	{
+		String[] texts = getTextArray();
+		String[] splitText = text.split(" ");
+		int imageCount = splitText.length;
+		GreenfootImage[] images = new GreenfootImage[imageCount];
+		int widest = 1;
+		for (int i = 0; i < imageCount; i++)
+		{
+			images[i] = new GreenfootImage(texts[i], 20, null, null);
+			if (images[i].getWidth() > widest)
+				widest = images[i].getWidth();
+		}
+		GreenfootImage img = new GreenfootImage(20 * imageCount, widest);
+		for (int i = 0; i < imageCount; i++)
+		{
+			img.drawImage(images[i], 0, 20 * i);
+		}
+		return img;
+	}
+
+	private int getKeyWidth()
+	{
+		int widest = 0;
+		for (String key : getKeyArray())
+			if (key.length() > widest)
+				widest = key.length();
+		return widest;
+	}
+
+	private String[] getKeyArray()
+	{
+		Keybind[] values = Keybind.values();
+		String[] keys = new String[values.length];
+		for (int i = 0; i < keys.length; i++)
+		{
+			keys[i] = values[i].getKey();
+		}
+		return keys;
+	}
+
+	private int getTextWidth()
+	{
+		int widest = 0;
+		for (String text : getTextArray())
+			if (text.length() > widest)
+				widest = text.length();
+		return widest;
+	}
+
+	private String[] getTextArray()
+	{
+		Keybind[] values = Keybind.values();
+		String[] texts = new String[values.length];
+		for (int i = 0; i < texts.length; i++)
+		{
+			texts[i] = values[i].getText();
+		}
+		return texts;
 	}
 }
