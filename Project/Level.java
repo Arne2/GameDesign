@@ -30,11 +30,6 @@ public abstract class Level extends SplorrtWorld
 
 	private LevelActorLoader				loader;
 
-	/**
-	 * The background music
-	 */
-	private GreenfootSound					music	= new GreenfootSound("Constance.wav");
-
 	private String							map		= null;
 
 	/**
