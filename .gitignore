@@ -6,3 +6,4 @@
 *.idea/*
 /standalone.properties
 /.classpath
+/splorrt.settings
