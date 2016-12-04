@@ -18,23 +18,25 @@ public class Level1_1 extends Level
 	{
 		this(null);
 	}
-	
-	private static final GreenfootImage background = new GreenfootImage("Sky_blue.png");
-	private static final GreenfootSound music = new GreenfootSound("On My Way.wav");
 
+	private static final GreenfootImage	background	= new GreenfootImage("Sky_blue.png");
+	private static final GreenfootSound	music		= new GreenfootSound("On My Way.wav");
 
 	@Override
-	public GreenfootSound getBackgroundMusic() {
+	public GreenfootSound getBackgroundMusic()
+	{
 		return music;
 	}
 
 	@Override
-	public GreenfootImage getBackgroundImage() {
+	public GreenfootImage getBackgroundImage()
+	{
 		return background;
 	}
-	
+
 	@Override
-	public SplorrtWorld getNextLevel() {
+	public SplorrtWorld getNextLevel()
+	{
 		return new InfoScreen(new GreenfootImage("PostLevel1_1.jpg"), new Level1_2());
 	}
 }

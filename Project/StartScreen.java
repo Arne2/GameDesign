@@ -11,7 +11,6 @@ import greenfoot.MouseInfo;
  */
 public class StartScreen extends SplorrtWorld
 {
-	private int delay = 10;
 
 	/**
 	 * Constructor for objects of class StartScreen.
@@ -25,46 +24,27 @@ public class StartScreen extends SplorrtWorld
 	@Override
 	public void act()
 	{
-		if (delay > 0)
+		if (Greenfoot.mousePressed(null))
 		{
-			delay--;
-			Greenfoot.getKey();
-		}
+			MouseInfo mi = Greenfoot.getMouseInfo();
+			int clickX = mi.getX();
+			int clickY = mi.getY();
 
-//		if (delay <= 0 && (Greenfoot.getKey() != null || Greenfoot.mouseClicked(null)))
-//		{
-//			loadWorld(new LevelSelection(0));
-//		}
-
-		if (delay <= 0)
-		{
-			if (Greenfoot.getKey() != null)
+			if (isBetween(clickX, 550, 680) && isBetween(clickY, 510, 540))
 			{
-				System.out.println("start game");
+				loadWorld(new Level1_1());
 			}
-			else if (Greenfoot.mousePressed(null))
+			else if (isBetween(clickX, 450, 800) && isBetween(clickY, 565, 595))
 			{
-				MouseInfo mi = Greenfoot.getMouseInfo();
-				int clickX = mi.getX();
-				int clickY = mi.getY();
-
-				if (isBetween(clickX, 550, 680) && isBetween(clickY, 510, 540))
-				{
-					loadWorld(new Level1_1());
-				}
-				else if (isBetween(clickX, 450, 800) && isBetween(clickY, 565, 595))
-				{
-					loadWorld(new LevelSelection(0));
-				}
-				else if (isBetween(clickX, 510, 715) && isBetween(clickY, 615, 640))
-				{
-					loadWorld(new KeybindScreen());
-				}
-				else if (isBetween(clickX, 560, 665) && isBetween(clickY, 665, 700))
-				{
-					System.exit(0);
-				}
-
+				loadWorld(new LevelSelection(0));
+			}
+			else if (isBetween(clickX, 510, 715) && isBetween(clickY, 615, 640))
+			{
+				loadWorld(new KeybindScreen());
+			}
+			else if (isBetween(clickX, 560, 665) && isBetween(clickY, 665, 700))
+			{
+				System.exit(0);
 			}
 		}
 //		if (Greenfoot.mousePressed(null))
