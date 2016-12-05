@@ -13,7 +13,7 @@ public class Level2_1 extends Level
 	public Level2_1(Spider spider)
 	{
 		super(spider);
-		
+
 		getSpider().getWebBar().add(300);
 	}
 
@@ -35,5 +35,11 @@ public class Level2_1 extends Level
 	public GreenfootImage getBackgroundImage()
 	{
 		return background;
+	}
+
+	@Override
+	public SplorrtWorld getNextLevel()
+	{
+		return new Level2_2();
 	}
 }
