@@ -135,7 +135,7 @@ public class LevelActorLoader
         
         else if(color.equals(GOAL))
         {
-        	return new Goal(x, y, level.getNextLevel());
+        	return new Goal(x, y);
         }
         
         else if(color.equals(LARVA))

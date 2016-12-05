@@ -10,13 +10,9 @@ import greenfoot.World;
  */
 public class Goal extends LevelActor
 {
-	/* The SplorrtWorld to load, when a spider reaches this goal. */
-	private final SplorrtWorld next;
-
-	public Goal(int x, int y, SplorrtWorld next)
+	public Goal(int x, int y)
 	{
 		super(x, y);
-		this.next = next;
 		setImage("SpiderExit.png");
 	}
 
@@ -33,7 +29,6 @@ public class Goal extends LevelActor
 			if (world != null && world instanceof Level)
 			{
 				((Level)world).finish();
-				((SplorrtWorld)world).loadWorld(next);
 			}
 		}
 	}
