@@ -30,7 +30,9 @@ public abstract class ProjectileEnemy extends Enemy
     public void act() 
     {
         super.act();
-//        shoot();
+        
+        if(canShoot())
+            shoot();
     } 
     
     private void shoot()
@@ -57,4 +59,5 @@ public abstract class ProjectileEnemy extends Enemy
     
     public abstract Projectile getProjectile();
 
+    public abstract boolean canShoot();
 }

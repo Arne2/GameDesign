@@ -31,8 +31,10 @@ public abstract class Enemy extends LevelActor implements IDamageable
     
     private int sightRadius = 300;
     
-    
+    private boolean seeSpider = false;
         
+    private Direction facingDirection = Direction.LEFT;
+    
     public Enemy(int x, int y, boolean stunnable, boolean defeatable)
     {
         this(x, y, stunnable, defeatable, null);
@@ -68,6 +70,7 @@ public abstract class Enemy extends LevelActor implements IDamageable
     {
         if(activated)     
         {
+            lookForSpider();
             checkSpiderCollision();
             if(stunnable){
                 checkStunned();
@@ -211,6 +214,14 @@ public abstract class Enemy extends LevelActor implements IDamageable
         
     }
     
+    /**
+     * Called when the enemy can see the player;
+     */
+    public void onPlayerSee()
+    {
+        
+    }
+    
     public boolean isStunned()
     {
         return stunnedTicksLeft != 0;
@@ -267,12 +278,9 @@ public abstract class Enemy extends LevelActor implements IDamageable
     public boolean isSpiderInSight()
     {
         int distance = getSpiderDistance();
-        
-        
-        
-        
+
         if(distance < sightRadius)
-            return true;
+            return true;         
         else
             return false;
     }
@@ -297,5 +305,33 @@ public abstract class Enemy extends LevelActor implements IDamageable
         int distance = (int) Math.sqrt(a + b);
        
         return distance;
+    }
+    
+    public void lookForSpider()
+    {
+        if(isSpiderInSight())
+        {
+            onPlayerSee();
+            seeSpider = true;
+        }
+        else
+        {
+            seeSpider = false;
+        }
+    }
+    
+    public boolean canSeeSpider()
+    {
+        return seeSpider;
+    }
+    
+    public Direction getFacingDirection()
+    {
+        return facingDirection;
+    }
+    
+    public void setFacingDirection(Direction d)
+    {
+        this.facingDirection = d;
     }
 }

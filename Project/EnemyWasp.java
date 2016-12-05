@@ -30,12 +30,14 @@ public class EnemyWasp extends ProjectileEnemy{
 
     private boolean moveable;
     
+    private boolean shootable;
+    
     public EnemyWasp(int x, int y)
     {
-     this(x,y,false);   
+     this(x,y,false, false);   
     }
     
-    public EnemyWasp(int x, int y, boolean moveable)
+    public EnemyWasp(int x, int y, boolean moveable, boolean shootable)
     {
         super(x, y, true, true, new Consumable(Consumable.Type.WASP, x, y));
 
@@ -51,6 +53,7 @@ public class EnemyWasp extends ProjectileEnemy{
         targetY = y;
         
         this.moveable = moveable;
+        this.shootable = shootable;
     }
 
     
@@ -100,7 +103,7 @@ public class EnemyWasp extends ProjectileEnemy{
 
     private void movement()
     {
-        if(moveable && !isStunned() && isSpiderInSight())
+        if(moveable && !isStunned() && canSeeSpider())
         {
             checkSpiderTarget();
             move();
@@ -158,5 +161,12 @@ public class EnemyWasp extends ProjectileEnemy{
     {
         return new WaspProjectile(this);
     }
+    
+    @Override
+    public boolean canShoot()
+    {
+        return shootable;
+    }
+    
 
 }

@@ -16,36 +16,48 @@ public class EnemyScorpion extends ProjectileEnemy
         
     private final AnimationSet  images = new AnimationSet(FRAMES_PER_PICTURE);
 
+    private boolean moveable;
+    
+    private boolean shootable;
         
-	public EnemyScorpion(int x, int y)
-	{
-		super(x, y, true, true, new Consumable(Consumable.Type.SCORPION, x, y));
+    
+    public EnemyScorpion(int x, int y)
+    {
+        this(x,y, false, false);
+    }
+    
+    public EnemyScorpion(int x, int y, boolean moveable, boolean shootable)
+    {
+        super(x, y, true, true, new Consumable(Consumable.Type.SCORPION, x, y));
 
-		setImage("scorp1.png");
-		
-		images.addImage(new GreenfootImage("scorp1.png"));
+        setImage("scorp1.png");
+        
+        images.addImage(new GreenfootImage("scorp1.png"));
         images.addImage(new GreenfootImage("scorp2.png"));
         
-		setDamage(DAMAGE);
-		setHealth(MAX_HEALTH);
-	}
-	
-	@Override
-	public int getMaxHealth()
-	{
-	    return MAX_HEALTH;
-	   }
+        setDamage(DAMAGE);
+        setHealth(MAX_HEALTH);
+        
+        this.moveable = moveable;
+        this.shootable = shootable;
+    }
+    
+    @Override
+    public int getMaxHealth()
+    {
+        return MAX_HEALTH;
+       }
 
-	/**
-	 * Act - do whatever the EnemyScorpion wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.
-	 */
-	public void act()
-	{
-		super.act();
-		animate();
-	}
-	
-	@Override
+    /**
+     * Act - do whatever the EnemyScorpion wants to do. This method is called whenever the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    public void act()
+    {
+        super.act();
+        animate();
+    }
+    
+    @Override
     public void setStunned()
     {
         if(!isStunned()){
@@ -67,5 +79,11 @@ public class EnemyScorpion extends ProjectileEnemy
     public Projectile getProjectile()
     {
         return new ScorpionProjectile(this);
+    }
+    
+    @Override
+    public boolean canShoot()
+    {
+        return shootable;
     }
 }
