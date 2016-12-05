@@ -59,7 +59,7 @@ public class OptionScreen extends SplorrtWorld
 		SwitchBar sb = new SwitchBar("Haungs Mode", false);
 		sb.setAltSafeColor(Color.black);
 		sb.setAltTextColor(Color.black);
-		addObject(sb, 800, 200);
+		// addObject(sb, 800, 200);
 
 		sfxVolume = new MouseActBar("SFX Volume", "", 1, 100);
 		sfxVolume.setAltDangerColor(Color.black);
