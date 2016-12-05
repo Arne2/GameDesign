@@ -7,9 +7,11 @@ import java.io.PrintWriter;
 
 public class Setting
 {
-	private static int	SFXVolume	= 100;
+	private static int		SFXVolume	= 100;
 
-	private static int	musicVolume	= 100;
+	private static int		musicVolume	= 100;
+
+	private static boolean	haungsMode	= false;
 
 	public static int getMusicVolume()
 	{
@@ -21,6 +23,11 @@ public class Setting
 		return SFXVolume;
 	}
 
+	public static boolean isHaungsMode()
+	{
+		return haungsMode;
+	}
+
 	public static void setMusicVolume(int musicvolume)
 	{
 		Setting.musicVolume = musicvolume;
@@ -29,6 +36,11 @@ public class Setting
 	public static void setSFXVolume(int sfxvolume)
 	{
 		Setting.SFXVolume = sfxvolume;
+	}
+
+	public static void setHaungsMode(boolean haungsMode)
+	{
+		Setting.haungsMode = haungsMode;
 	}
 
 	public static void loadSettings()

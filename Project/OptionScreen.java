@@ -11,6 +11,8 @@ import greenfoot.MouseInfo;
  */
 public class OptionScreen extends SplorrtWorld
 {
+	private SwitchBar	haungsMode;
+
 	private MouseActBar	sfxVolume;
 
 	private MouseActBar	musicVolume;
@@ -56,10 +58,12 @@ public class OptionScreen extends SplorrtWorld
 		// addObject(kb, 213, 500);
 		addObject(kb, 250, 500);
 
-		SwitchBar sb = new SwitchBar("Haungs Mode", false);
-		sb.setAltSafeColor(Color.black);
-		sb.setAltTextColor(Color.black);
-		// addObject(sb, 800, 200);
+		haungsMode = new SwitchBar("Haungs Mode", false);
+		haungsMode.setAltSafeColor(Color.black);
+		haungsMode.setAltTextColor(Color.black);
+		haungsMode.setSafeColor(Color.black);
+		haungsMode.setAltDangerColor(Color.black);
+		addObject(haungsMode, 800, 200);
 
 		sfxVolume = new MouseActBar("SFX Volume", "", 1, 100);
 		sfxVolume.setAltDangerColor(Color.black);
@@ -95,6 +99,7 @@ public class OptionScreen extends SplorrtWorld
 			{
 				Setting.setMusicVolume(musicVolume.getValue());
 				Setting.setSFXVolume(sfxVolume.getValue());
+				Setting.setHaungsMode(haungsMode.getState());
 				Setting.saveSettings();
 				// TODO: set haungs mode
 				loadWorld(new StartScreen());

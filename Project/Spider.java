@@ -95,11 +95,17 @@ public class Spider extends Actor implements IDamageable
 
 	private int					soundVolume;
 
+	private boolean				haungsMode;
+
 	public Spider()
 	{
 		loadKeybinds();
 
 		soundVolume = Setting.getSFXVolume();
+		haungsMode = Setting.isHaungsMode();
+
+		if (haungsMode)
+			webBar.add(MAXWEB - STARTWEB);
 
 		healthBar.setTextColor(Color.WHITE);
 		healthBar.setSafeColor(Color.RED);
@@ -321,7 +327,8 @@ public class Spider extends Actor implements IDamageable
 				if (cost <= webBar.getValue())
 				{
 					// set webLength -> swing around blob.
-					webBar.subtract(cost);
+					if (!haungsMode)
+						webBar.subtract(cost);
 					webLength = (int) distance + 5;
 				}
 				else
@@ -682,22 +689,25 @@ public class Spider extends Actor implements IDamageable
 	@Override
 	public void decreaseHealth(int count)
 	{
-
-		this.healthBar.subtract(count);
+		if (!haungsMode)
+			this.healthBar.subtract(count);
 	}
 
 	@Override
 	public void decreaseHealth()
 	{
-		int h = this.healthBar.getValue() - 1;
-		this.healthBar.subtract(h);
+		if (!haungsMode)
+		{
+			int h = this.healthBar.getValue() - 1;
+			this.healthBar.subtract(h);
+		}
 	}
 
 	@Override
 	public void setHealth(int h)
 	{
-
-		this.healthBar.setValue(h);
+		if (!haungsMode)
+			this.healthBar.setValue(h);
 	}
 
 	@Override
@@ -724,16 +734,19 @@ public class Spider extends Actor implements IDamageable
 
 	public void knockback(int x, int y)
 	{
-		int spiderX = getLevelX();
-		int spiderY = getLevelY();
+		if (!haungsMode)
+		{
+			int spiderX = getLevelX();
+			int spiderY = getLevelY();
 
-		int diffX = x - spiderX;
-		int diffY = y - spiderY;
+			int diffX = x - spiderX;
+			int diffY = y - spiderY;
 
-		knockbackX = -diffX / 5;
-		knockbackY = -diffY / 2;
+			knockbackX = -diffX / 5;
+			knockbackY = -diffY / 2;
 
-		knockbackCounter = 10;
+			knockbackCounter = 10;
+		}
 	}
 
 	public int getLevelX()
