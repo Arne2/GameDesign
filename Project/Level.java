@@ -243,7 +243,7 @@ public abstract class Level extends SplorrtWorld
                 }
 			}
 		}
-		score = new Score("splorrt.scores."+getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber);
+		score = new Score("splorrt.scores."+getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getSpider().getWebBar().getMaximumValue());
 	}
 
 	// Recognize colors in the level to create blocks.
@@ -311,7 +311,7 @@ public abstract class Level extends SplorrtWorld
 
 	public void finish() {
 		calculateScore();
-		loadWorld(getNextLevel());
+		loadWorld(new ScoreScreen(score, getNextLevel()));
     }
 	
 	public void spiderDie(){

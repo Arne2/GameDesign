@@ -16,21 +16,26 @@ public class Score {
 	private final int consumableNumber;
 	private final int consumableScore;
 	private final int enemyNumber;
+	private final int maxWeb;
 	
 	private int consumableLeftNumber;
 	private int consumableLeftScore;
 	private int enemyLeftNumber;
-	
 	private int leftWeb;
 	
 	private int deaths;
 	private int frames;
 	
-	public Score(String saveName, int consumableNumber, int consumableScore, int enemyNumber) {
+	public Score(String saveName, int consumableNumber, int consumableScore, int enemyNumber, int maxWeb) {
 		this.saveName = saveName;
 		this.consumableNumber = consumableNumber;
 		this.consumableScore = consumableScore;
 		this.enemyNumber = enemyNumber;
+		this.maxWeb = maxWeb;
+		
+		this.consumableLeftNumber = consumableNumber;
+		this.consumableLeftScore = consumableScore;
+		this.enemyLeftNumber = enemyNumber;
 	}
 	
 	public int getDeaths() {
@@ -97,20 +102,20 @@ public class Score {
 		return saveName;
 	}
 	
-	private int calculateScore(){
-		int score = 0;
-		
-		score = getConsumableScore()-getConsumableLeftScore();
-    	
-    	score += getLeftWeb()*SCORE_PER_WEB;
-    	
-    	score /= getDeaths()+1;
-    	
-    	return score;
+	public int getMaxWeb() {
+		return maxWeb;
+	}
+
+	public int getScore(){
+		return (int)(getConsumableScore() - getConsumableLeftScore() + getLeftWeb()*SCORE_PER_WEB) / (getDeaths()+1);
+	}
+	
+	public int getMaxScore(){
+		return (int)(getConsumableScore() + getMaxWeb()*SCORE_PER_WEB);
 	}
 	
 	public void save(){
-		int score = calculateScore();
+		int score = getScore();
     	
     	int oldScore = load();
     	
