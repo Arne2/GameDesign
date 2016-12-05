@@ -309,14 +309,32 @@ public abstract class Enemy extends LevelActor implements IDamageable
     
     public void lookForSpider()
     {
-        if(isSpiderInSight())
+        if(! isStunned() && isSpiderInSight())
         {
             onPlayerSee();
             seeSpider = true;
+            checkDirection();
         }
         else
         {
             seeSpider = false;
+        }
+    }
+    
+    public void checkDirection()
+    {
+        Spider s = ((Level)getWorld()).getSpider();
+        int spiderX = s.getLevelX();
+        int x = getLevelX();
+        
+        int diff = x - spiderX;
+        if(diff >= 0)
+        {
+            setFacingDirection(Direction.LEFT);
+        }
+        else
+        {
+            setFacingDirection(Direction.RIGHT);
         }
     }
     

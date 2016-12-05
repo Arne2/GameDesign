@@ -41,6 +41,10 @@ public class LevelActorLoader
     
     private static final Color ENEMY_SCORPION = new Color(240, 0, 0);
     
+    private static final Color ENEMY_SCORPION_SHOOTING = new Color(230, 0, 0);
+    
+    private static final Color ENEMY_SCORPION_MOVEABLE = new Color(235, 0, 0);
+    
     private static final Color GOAL = Color.ORANGE;
     
     private static final Color LARVA = new Color(71,130,32);
@@ -116,7 +120,6 @@ public class LevelActorLoader
         
         else if(color.equals(SPAWN))
         {
-            
             level.setSpawn(x, y);
         } 
         
@@ -133,6 +136,16 @@ public class LevelActorLoader
         else if(color.equals(ENEMY_SCORPION))
         {
             return new EnemySpawner(EnemyID.SCORPION, x, y);
+        }
+        
+        else if(color.equals(ENEMY_SCORPION_MOVEABLE))
+        {
+            return new EnemySpawner(EnemyID.SCORPION_MOVEABLE, x, y);
+        }  
+        
+        else if(color.equals(ENEMY_SCORPION_SHOOTING))
+        {
+            return new EnemySpawner(EnemyID.SCORPION_SHOOTING, x, y);
         }
         
         else if(color.equals(GOAL))

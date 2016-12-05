@@ -26,8 +26,12 @@ public class EnemyWasp extends ProjectileEnemy{
 
     private int movementSpeed = MOVEMENT_SPEED;
     
-    private final AnimationSet  images = new AnimationSet(FRAMES_PER_PICTURE);
+    private AnimationSet images;
 
+    private final AnimationSet imagesLeft;
+    
+    private final AnimationSet imagesRight;
+    
     private boolean moveable;
     
     private boolean shootable;
@@ -41,12 +45,20 @@ public class EnemyWasp extends ProjectileEnemy{
     {
         super(x, y, true, true, new Consumable(Consumable.Type.WASP, x, y));
 
-        images.addImage(new GreenfootImage("wasp1_64.png"));
-        images.addImage(new GreenfootImage("wasp2_64.png"));
+        imagesLeft = new AnimationSet(FRAMES_PER_PICTURE);
+        imagesRight = new AnimationSet(FRAMES_PER_PICTURE);
+        
+        images = imagesLeft;
+        
+        imagesLeft.addImage(new GreenfootImage("wasp1_64_left.png"));
+        imagesLeft.addImage(new GreenfootImage("wasp2_64_left.png"));
+        
+        imagesRight.addImage(new GreenfootImage("wasp1_64_right.png"));
+        imagesRight.addImage(new GreenfootImage("wasp2_64_right.png"));
         
         setDamage(DAMAGE);
         setHealth(MAX_HEALTH);
-        setImage("wasp1_64.png");
+        setImage("wasp1_64_left.png");
         setSightRadius(SIGHT_RADIUS);
         
         targetX = x;
@@ -80,16 +92,23 @@ public class EnemyWasp extends ProjectileEnemy{
     @Override
     public void setStunned()
     {
-        if(!isStunned()){
+        if(!isStunned())
+        {
             super.setStunned();
-            images.addImageForFrames(new GreenfootImage("wasp_stunned_64.png"), 100, false);
+            if(getFacingDirection() == Direction.LEFT)
+                images.addImageForFrames(new GreenfootImage("wasp_stunned_64_left.png"), 100, false);
+            else
+                images.addImageForFrames(new GreenfootImage("wasp_stunned_64_right.png"), 100, false);
         }
     }
 
     @Override
     public void onDamaged()
     {
-        images.addImageForFrames(new GreenfootImage("wasp_hit_64.png"), 40, false);
+        if(getFacingDirection() == Direction.LEFT)
+            images.addImageForFrames(new GreenfootImage("wasp_hit_64_left.png"), 40, false);
+        else
+            images.addImageForFrames(new GreenfootImage("wasp_hit_64_right.png"), 40, false); 
     }
 
     private void animate()
@@ -166,6 +185,16 @@ public class EnemyWasp extends ProjectileEnemy{
     public boolean canShoot()
     {
         return shootable;
+    }
+    
+    @Override
+    public void onPlayerSee()
+    {
+        super.onPlayerSee();
+        if(getFacingDirection() == Direction.LEFT)
+            images = imagesLeft;
+        else
+            images = imagesRight;
     }
     
 
