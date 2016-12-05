@@ -75,7 +75,7 @@ public class LevelSelection extends Level
 		super.setSpawn((WIDTH_PER_LEVEL / 2 + WIDTH_PER_LEVEL % 2) * Platform.SIZE, (SIDE_HEIGHT - 2) * Platform.SIZE);
 
 		// add all the levels, that are supposed to be selectable here.
-		levels.add(new LevelInfo(new InfoScreen(new GreenfootImage("PreLevel1_1.jpg"), new Level1_1()), Platform.Type.GRASS, Platform.Type.DIRT));
+		levels.add(new LevelInfo(new Level1_1(), Platform.Type.GRASS, Platform.Type.DIRT));
 		levels.add(new LevelInfo(new Level1_2(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
 
 		// separator to create a bridge (DO NOT PUT BRIDGES AT THE FIRST AND LAST PLACE)
@@ -119,6 +119,18 @@ public class LevelSelection extends Level
 				{
 					Platform selector = new LevelSelectorShootPlatform(info.surfaceType, WIDTH_PER_LEVEL * Platform.SIZE * i + Platform.SIZE * (WIDTH_PER_LEVEL / 2 + 1), y, levels.get(i).world);
 					addLevelActor(selector);
+					
+					if(info.world instanceof Level){
+						Label label = new Label(((Level)info.world).getName(), 32);
+						label.setLevelX(selector.getLevelX());
+						label.setLevelY(selector.getLevelY()-96);
+						addLevelActor(label);
+						
+						LevelRating rating = new LevelRating(((Level)info.world).getStars(), 32);
+						rating.setLevelX(selector.getLevelX());
+						rating.setLevelY(selector.getLevelY()-54);
+						addLevelActor(rating);
+					}
 				}
 				else
 				{

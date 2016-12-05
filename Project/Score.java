@@ -17,6 +17,8 @@ public class Score {
 	private final int consumableScore;
 	private final int enemyNumber;
 	private final int maxWeb;
+	private final int maxScore;
+	private final int scorePerStar;
 	
 	private int consumableLeftNumber;
 	private int consumableLeftScore;
@@ -26,7 +28,7 @@ public class Score {
 	private int deaths;
 	private int frames;
 	
-	public Score(String saveName, int consumableNumber, int consumableScore, int enemyNumber, int maxWeb) {
+	public Score(String saveName, int consumableNumber, int consumableScore, int enemyNumber, int maxWeb, float scorePerStar) {
 		this.saveName = saveName;
 		this.consumableNumber = consumableNumber;
 		this.consumableScore = consumableScore;
@@ -36,8 +38,15 @@ public class Score {
 		this.consumableLeftNumber = consumableNumber;
 		this.consumableLeftScore = consumableScore;
 		this.enemyLeftNumber = enemyNumber;
+		
+		this.maxScore = getMaxScore();
+		this.scorePerStar = (int)(maxScore*scorePerStar);
 	}
 	
+	public int getScorePerStar() {
+		return scorePerStar;
+	}
+
 	public int getDeaths() {
 		return deaths;
 	}
@@ -125,11 +134,33 @@ public class Score {
 	}
 	
 	public int load(){
-		try (BufferedReader reader = new BufferedReader(new FileReader("splorrt.scores."+getClass().getName())))
+		try (BufferedReader reader = new BufferedReader(new FileReader("splorrt.scores."+saveName)))
 		{
 			return Integer.valueOf(reader.readLine());
 		}
-		catch (FileNotFoundException e)
+		catch (NumberFormatException | FileNotFoundException e)
+		{
+			return 0;
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public static int loadStars(Level level){
+		return loadStars(level.getClass().getName());
+	}
+	
+	public static int loadStars(String name){
+		try (BufferedReader reader = new BufferedReader(new FileReader("splorrt.scores."+name)))
+		{
+			reader.readLine();
+			return Integer.valueOf(reader.readLine());
+		}
+		catch (NumberFormatException | FileNotFoundException e)
 		{
 			return 0;
 		}
@@ -142,9 +173,10 @@ public class Score {
 	}
 	
 	private void write(int score){
-		try (PrintWriter pw = new PrintWriter(new FileWriter("splorrt.scores."+getClass().getName())))
+		try (PrintWriter pw = new PrintWriter(new FileWriter("splorrt.scores."+saveName)))
 		{
 			pw.println(score);
+			pw.println((score/scorePerStar)+1);
 			pw.flush();
 		}
 		catch (IOException e)

@@ -37,7 +37,7 @@ public class ScoreScreen extends InfoScreen {
 		this.timeLabel.setFillColor(Color.BLACK);
 		this.timeLabel.setLineColor(new Color(0,0,0,0));
 		
-		this.rating = new LevelRating((int)((score.getScore()/(float)score.getMaxScore())/0.2f)+1);
+		this.rating = new LevelRating(score.getScore()/score.getScorePerStar()+1);
 		
 		this.addObject(deathLabel, X_BASE, Y_BASE);
 		this.addObject(timeLabel, X_BASE, Y_BASE+30);
@@ -50,7 +50,7 @@ public class ScoreScreen extends InfoScreen {
 	}
 	
 	static Score test(){
-		Score test = new Score("test", 20, 100, 5, 1000);
+		Score test = new Score("test", 20, 100, 5, 1000, 0.2f);
 		test.setLeftWeb(1000);
 		return test;
 	}

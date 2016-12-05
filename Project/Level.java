@@ -196,8 +196,16 @@ public abstract class Level extends SplorrtWorld
 
 	public abstract GreenfootImage getBackgroundImage();
 	
-	public float[] getStarPercentages(){
-		return new float[]{0.2f, 0.4f, 0.6f, 0.8f};
+	/**
+	 * As a fraction. 1 means 1 extra star per maximum score.
+	 * 0.2 means 1 extra star for 0.2 of the maximum score.
+	 */
+	public float getRequiredScorePerStar(){
+		return 0.2f;
+	}
+	
+	public String getName(){
+		return getClass().getName();
 	}
     
     public int getStartingWeb(){
@@ -243,7 +251,7 @@ public abstract class Level extends SplorrtWorld
                 }
 			}
 		}
-		score = new Score("splorrt.scores."+getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getSpider().getWebBar().getMaximumValue());
+		score = new Score(getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getSpider().getWebBar().getMaximumValue(), getRequiredScorePerStar());
 	}
 
 	// Recognize colors in the level to create blocks.
@@ -351,6 +359,10 @@ public abstract class Level extends SplorrtWorld
 		yPosition = spawnY-getHeight()/2;
 		
 		update();
+	}
+	
+	public int getStars(){
+		return Score.loadStars(getClass().getName());
 	}
     
     @Override

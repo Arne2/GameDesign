@@ -19,7 +19,7 @@ import java.awt.font.TextLayout;
  * @author Amjad Altadmri 
  * @version 1.1
  */
-public class Label extends Actor
+public class Label extends LevelActor
 {
     private String value;
     private int fontSize;
