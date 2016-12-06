@@ -122,12 +122,12 @@ public class LevelActorLoader
         
         else if(color.equals(ENEMY_WASP_MOVEABLE))
         {
-        	return new SpawnPoint(new EnemyWasp(x, y, false));
+        	return new SpawnPoint(new EnemyWasp(x, y, true));
         } 
         
         else if(color.equals(ENEMY_WASP))
         {
-        	return new SpawnPoint(new EnemyWasp(x, y, true));
+        	return new SpawnPoint(new EnemyWasp(x, y, false));
         } 
         
         else if(color.equals(ENEMY_SCORPION))
@@ -152,7 +152,7 @@ public class LevelActorLoader
         
         else if(color.equals(COIN))
         {
-            return new Consumable(Consumable.Type.COIN, x, y); 
+            return new SpawnPoint(new Consumable(Consumable.Type.COIN, x, y)); 
         }
         
         else 
