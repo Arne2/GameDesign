@@ -47,6 +47,8 @@ public class LevelActorLoader
     
     private static final Color WASP = new Color(200,200,20);
     
+    private static final Color COIN = new Color(61,192,192);
+    
     private final Level level;
     
     public LevelActorLoader(Level l)
@@ -146,6 +148,11 @@ public class LevelActorLoader
         else if(color.equals(WASP))
         {
             return new SpawnPoint(new Consumable(Consumable.Type.WASP, x, y)); 
+        }
+        
+        else if(color.equals(COIN))
+        {
+            return new Consumable(Consumable.Type.COIN, x, y); 
         }
         
         else 

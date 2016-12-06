@@ -34,11 +34,6 @@ public abstract class Level extends SplorrtWorld
     
     private boolean 						loaded = false;
 
-	/**
-	 * The background music
-	 */
-	private GreenfootSound					music	= new GreenfootSound("Constance.wav");
-
 	private String							map		= null;
 
 	/**
@@ -266,6 +261,7 @@ public abstract class Level extends SplorrtWorld
 	@Override
 	public void started()
 	{
+		getBackgroundMusic().setVolume(Setting.getMusicVolume());
 		getBackgroundMusic().playLoop();
 	}
 

@@ -8,9 +8,9 @@ import greenfoot.GreenfootImage;
  */
 public class EnemyScorpion extends ProjectileEnemy
 {
-    private static final int MAX_HEALTH = 10;
+    private static final int MAX_HEALTH = 5;
    
-    private static final int FRAMES_PER_PICTURE = 7;
+    private static final int FRAMES_PER_PICTURE = 25;
     
     private static final int DAMAGE = 2;
         
@@ -19,12 +19,12 @@ public class EnemyScorpion extends ProjectileEnemy
         
 	public EnemyScorpion(int x, int y)
 	{
-		super(x, y, true, true);
+		super(x, y, true, true, new Consumable(Consumable.Type.SCORPION, x, y));
 
 		setImage("scorp1.png");
 		
 		images.addImage(new GreenfootImage("scorp1.png"));
-        //images.addImage(new GreenfootImage("scorp2.png"));
+        images.addImage(new GreenfootImage("scorp2.png"));
         
 		setDamage(DAMAGE);
 		setHealth(MAX_HEALTH);

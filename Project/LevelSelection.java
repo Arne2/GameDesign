@@ -94,11 +94,18 @@ public class LevelSelection extends Level
 		// add all the levels, that are supposed to be selectable here.
 		levels.add(new LevelInfo(new Level1_1(), Platform.Type.GRASS, Platform.Type.DIRT));
 		levels.add(new LevelInfo(new Level1_2(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+		levels.add(new LevelInfo(new Level1_3(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+		levels.add(new LevelInfo(new Level1_4(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+		levels.add(new LevelInfo(new Level1_5(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
 
 		// separator to create a bridge (DO NOT PUT BRIDGES AT THE FIRST AND LAST PLACE)
 		levels.add(null);
 
-		levels.add(new LevelInfo(new Level2_1(), Platform.Type.STONE));
+		levels.add(new LevelInfo(new Level2_1(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
+		levels.add(new LevelInfo(new Level2_2(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
+		levels.add(new LevelInfo(new Level2_3(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
+		levels.add(new LevelInfo(new Level2_4(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
+		levels.add(new LevelInfo(new Level2_5(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
 
 		for (int y = 0; y < SIDE_HEIGHT + PLATFORM_DEPTH; y++)
 		{

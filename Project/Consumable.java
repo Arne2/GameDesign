@@ -11,10 +11,12 @@ public class Consumable extends LevelActor
     public static final int ANIMATION_FRAMES = 10;
 	
     public enum Type{
-    	BUG(1, 70, 0, "dead_fly.png"),
-    	WASP(1, 100, 1, "wasp_dead_64.png"),
-    	LARVA(10, 300, 3, "larva.png");
-    	
+    	BUG(0, 70, 0, "dead_fly.png"),
+    	WASP(0, 100, 1, "wasp_dead_64.png"),
+    	LARVA(10, 300, 3, "larva.png"),
+    	SCORPION(0, 150, 1, "scorp_dead.png"),
+    	COIN(10, 0, 0, "coin.png");
+
     	private final String[] images;
     	private final int score;
     	private final int web;
@@ -67,7 +69,7 @@ public class Consumable extends LevelActor
         	((Level)getWorld()).removeLevelActor(this);
         }
     }
-    
+
     public int getScore(){
     	return type.score;
     }
