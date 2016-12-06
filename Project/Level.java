@@ -170,12 +170,10 @@ public abstract class Level extends SplorrtWorld
 		int xPos = this.xPosition + getWidth() / 2;
 		if (xPos < 0)
 		{
-			System.out.println("left");
 			this.xPosition = -getWidth() / 2;
 		}
 		else if (worldWidth > 0 && xPos > worldWidth)
 		{
-			System.out.println("right");
 			this.xPosition = worldWidth + getWidth() / 2;
 		}
 

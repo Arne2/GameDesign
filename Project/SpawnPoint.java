@@ -13,10 +13,8 @@ public class SpawnPoint extends LevelActor {
 		if(spawn==null){
 			return;
 		} else if(spawn instanceof Enemy){
-			System.out.println("spawn changed");
 			spawn = ((Enemy)spawn).getSpawnOnDeath();
 		} else {
-			System.out.println("spawn nulled");
 			spawn = null;
 		}
 	}
