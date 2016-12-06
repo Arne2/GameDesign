@@ -18,10 +18,6 @@ public class ScoreScreen extends InfoScreen {
 	public static final int X_BASE = 600;
 	public static final int Y_BASE = 200;
 	
-	public ScoreScreen() {
-		this(test(), new StartScreen());
-	}
-	
 	public ScoreScreen(Score score, SplorrtWorld next) {
 		super(new GreenfootImage("ScoreScreen.png"), next);
 		
@@ -47,12 +43,6 @@ public class ScoreScreen extends InfoScreen {
 		this.addObject(webBar, X_BASE, Y_BASE+200);
 		this.addObject(scoreBar, X_BASE, Y_BASE+250);
 		this.addObject(rating, X_BASE, Y_BASE+320);
-	}
-	
-	static Score test(){
-		Score test = new Score("test", 20, 100, 5, 1000, 0.2f);
-		test.setLeftWeb(1000);
-		return test;
 	}
 	
 }

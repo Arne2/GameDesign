@@ -36,7 +36,7 @@ public class StartScreen extends SplorrtWorld
 			}
 			else if (isBetween(clickX, 450, 800) && isBetween(clickY, 565, 595))
 			{
-				loadWorld(new LevelSelection(0));
+				loadWorld(new LevelSelection());
 			}
 			else if (isBetween(clickX, 510, 715) && isBetween(clickY, 615, 640))
 			{
