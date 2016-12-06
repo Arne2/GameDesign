@@ -97,14 +97,18 @@ public class OptionScreen extends SplorrtWorld
 
 			if (isBetween(clickX, 40, 250) && isBetween(clickY, 700, 770))
 			{
-				Setting.setMusicVolume(musicVolume.getValue());
-				Setting.setSFXVolume(sfxVolume.getValue());
-				Setting.setHaungsMode(haungsMode.getState());
-				Setting.saveSettings();
-				// TODO: set haungs mode
+				saveSettings();
 				loadWorld(new StartScreen());
 			}
 		}
+	}
+
+	private void saveSettings()
+	{
+		Setting.setMusicVolume(musicVolume.getValue());
+		Setting.setSFXVolume(sfxVolume.getValue());
+		Setting.setHaungsMode(haungsMode.getState());
+		Setting.saveSettings();
 	}
 
 	private boolean isBetween(int target, int lowerValue, int upperValue)
