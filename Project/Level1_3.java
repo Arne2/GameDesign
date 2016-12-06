@@ -7,23 +7,23 @@ import greenfoot.GreenfootSound;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Level2_1 extends Level
+public class Level1_3 extends Level
 {
 
-	public Level2_1(Spider spider)
+	public Level1_3(Spider spider)
 	{
 		super(spider);
 
-		getSpider().getWebBar().add(300);
+		getSpider().getWebBar().add(450);
 	}
 
-	public Level2_1()
+	public Level1_3()
 	{
 		this(null);
 	}
 
-	private static final GreenfootImage	background	= new GreenfootImage("Cave_grey.png");
-	private static final GreenfootSound	music		= new GreenfootSound("Professor Umlaut.wav");
+	private static final GreenfootImage	background	= new GreenfootImage("Sky_blue.png");
+	private static final GreenfootSound	music		= new GreenfootSound("On My Way.wav");
 
 	@Override
 	public GreenfootSound getBackgroundMusic()
@@ -40,6 +40,6 @@ public class Level2_1 extends Level
 	@Override
 	public SplorrtWorld getNextLevel()
 	{
-		return new Level2_2();
+		return new Level1_4();
 	}
 }

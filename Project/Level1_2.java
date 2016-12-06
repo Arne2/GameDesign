@@ -36,4 +36,10 @@ public class Level1_2 extends Level
 	{
 		return background;
 	}
+
+	@Override
+	public SplorrtWorld getNextLevel()
+	{
+		return new Level1_3();
+	}
 }

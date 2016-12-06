@@ -13,7 +13,9 @@ public class Consumable extends LevelActor
     public enum Type{
     	BUG(70, 0, "dead_fly.png"),
     	WASP(100, 1, "wasp_dead_64.png"),
-    	LARVA(300, 3, "larva.png");
+    	SCORPION(150, 1, "scorp_dead.png"),
+    	LARVA(300, 3, "larva.png"),
+    	COIN(0, 0, "coin.png");
     	
     	private final String[] images;
     	private final int web;

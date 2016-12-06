@@ -7,17 +7,15 @@ import greenfoot.GreenfootSound;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Level2_1 extends Level
+public class Level2_4 extends Level
 {
 
-	public Level2_1(Spider spider)
+	public Level2_4(Spider spider)
 	{
 		super(spider);
-
-		getSpider().getWebBar().add(300);
 	}
 
-	public Level2_1()
+	public Level2_4()
 	{
 		this(null);
 	}
@@ -40,6 +38,6 @@ public class Level2_1 extends Level
 	@Override
 	public SplorrtWorld getNextLevel()
 	{
-		return new Level2_2();
+		return new Level2_5();
 	}
 }
