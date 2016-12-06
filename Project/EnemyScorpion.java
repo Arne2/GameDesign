@@ -17,8 +17,12 @@ public class EnemyScorpion extends ProjectileEnemy implements IMoveable
     
     private static final int DAMAGE = 2;
         
-    private AnimationSet  images = new AnimationSet(FRAMES_PER_PICTURE);
+    private AnimationSet images;
 
+    private final AnimationSet imagesLeft;
+    
+    private final AnimationSet imagesRight;
+    
     private boolean moveable;
     
     private boolean shootable;
@@ -38,10 +42,18 @@ public class EnemyScorpion extends ProjectileEnemy implements IMoveable
     {
         super(x, y, true, true, new Consumable(Consumable.Type.SCORPION, x, y));
 
-        setImage("scorp1.png");
+        imagesLeft = new AnimationSet(FRAMES_PER_PICTURE);
+        imagesRight = new AnimationSet(FRAMES_PER_PICTURE);
         
-        images.addImage(new GreenfootImage("scorp1.png"));
-        images.addImage(new GreenfootImage("scorp2.png"));
+        images = imagesLeft;
+        
+        setImage("scorp1_left.png");
+        
+        imagesLeft.addImage(new GreenfootImage("scorp1_left.png"));
+        imagesLeft.addImage(new GreenfootImage("scorp2_left.png"));
+        
+        imagesRight.addImage(new GreenfootImage("scorp1_right.png"));
+        imagesRight.addImage(new GreenfootImage("scorp2_right.png"));
         
         setDamage(DAMAGE);
         setHealth(MAX_HEALTH);
@@ -71,9 +83,13 @@ public class EnemyScorpion extends ProjectileEnemy implements IMoveable
     @Override
     public void setStunned()
     {
-        if(!isStunned()){
+        if(!isStunned())
+        {
             super.setStunned();
-            images.addImageForFrames(new GreenfootImage("scorp_stunned.png"), 100, false);
+            if(getFacingDirection() == Direction.LEFT)
+                images.addImageForFrames(new GreenfootImage("scorp_stunned_left.png"), 100, false);
+            else
+                images.addImageForFrames(new GreenfootImage("scorp_stunned_right.png"), 100, false);
         }
     }
 
@@ -90,6 +106,12 @@ public class EnemyScorpion extends ProjectileEnemy implements IMoveable
     public Projectile getProjectile()
     {
         return new ScorpionProjectile(this);
+    }
+    
+    @Override
+    public void onDamaged()
+    {
+        
     }
     
     @Override
@@ -193,9 +215,21 @@ public class EnemyScorpion extends ProjectileEnemy implements IMoveable
         return getImage().getHeight();
     }
     
-    public <A> java.util.List<A>	getObjectsAtOffset(int dx, int dy, java.lang.Class<A> cls)
+    public <A> java.util.List<A>    getObjectsAtOffset(int dx, int dy, java.lang.Class<A> cls)
     {
         return super.getObjectsAtOffset(dx, dy, cls);
     }
+    
+    @Override
+    public void onPlayerSee()
+    {
+        super.onPlayerSee();
+        if(getFacingDirection() == Direction.LEFT)
+            images = imagesLeft;
+        else
+            images = imagesRight;
+    }
+    
+
     
 }

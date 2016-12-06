@@ -15,7 +15,9 @@ public class MovementHelper
     
     private boolean collision;
     
+    private int maxFall = 1;
     
+    private boolean canStep = true;
     
     public MovementHelper(IMoveable m)
     {
@@ -33,12 +35,19 @@ public class MovementHelper
         
         boolean canMove = true;
         
+ 
+        
         if(!hasGround())
         {
             moveable.moveToY(moveable.getLevelY() + 5);
             return;
         }
 
+        if(detectCliff())
+        {
+           return;
+        }
+        
         Actor a = null;
         if(moveable.getFacingDirection() == Direction.RIGHT)
         {
@@ -49,7 +58,7 @@ public class MovementHelper
         {
            a = moveable.getOneObjectAtOffset(-moveable.getWidth() / 2 - 2, 0, Actor.class); 
         }
-        if(a != null && a instanceof Platform)
+        if(a != null && a instanceof Platform && canStep)
         {
                 Platform p = (Platform) a;
                 
@@ -89,7 +98,11 @@ public class MovementHelper
     
     public void step(Platform p)
     {
-        moveable.moveTo(moveable.getLevelX() - moveable.getWidth() / 2  - 2, moveable.getLevelY() - p.getImage().getHeight());
+        int mul = 1;
+        if(moveable.getFacingDirection() == Direction.LEFT)
+        mul = -1;
+        
+        moveable.moveTo(moveable.getLevelX() + mul * (moveable.getWidth() / 2  + 2), moveable.getLevelY() - p.getImage().getHeight());
     }
     
     public void move(int moveX, int moveY)
@@ -116,5 +129,29 @@ public class MovementHelper
         }
 
         return false;
+    }
+    
+    boolean detectCliff()
+    {
+ 
+        
+        int mul = 1;
+        if(moveable.getFacingDirection() == Direction.LEFT)
+        mul = -1;
+        
+        for(int i = 1; i <= maxFall; i++)
+        {
+            List<Actor> actors =  moveable.getObjectsAtOffset(mul * moveable.getWidth() / 2, i * moveable.getHeight() + moveable.getHeight() / 2 + 2, Actor.class);
+            for(Actor a : actors)
+            {
+                    if(a != null && a instanceof Platform)
+                    {
+                        return false;
+                    }
+
+            }
+        }
+        
+        return true;
     }
 }
