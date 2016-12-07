@@ -3,9 +3,7 @@ import java.awt.Color;
 import greenfoot.Greenfoot;
 
 /**
- * Class SwitchBar: a subclass of the Bar class that gives the bar user click
- * functionality of a two-way switch. It can display alternating text as switch
- * is toggled.
+ * Class SwitchBar: a subclass of the Bar class that gives the bar user click functionality of a two-way switch. It can display alternating text as switch is toggled.
  */
 public class SwitchBar extends Bar
 {
@@ -22,8 +20,7 @@ public class SwitchBar extends Bar
 	};
 
 	/**
-	 * SwitchBar Constructor: calls the super-class 'Bar' constructor with the
-	 * same parameters
+	 * SwitchBar Constructor: calls the super-class 'Bar' constructor with the same parameters
 	 *
 	 * @param 'ref'
 	 *            the title for the bar
@@ -41,8 +38,7 @@ public class SwitchBar extends Bar
 	}
 
 	/**
-	 * Method 'act': allows the user to perform mouse clicks to change its value
-	 * (and text if alternating text is being used).
+	 * Method 'act': allows the user to perform mouse clicks to change its value (and text if alternating text is being used).
 	 */
 	public void act()
 	{
@@ -78,8 +74,7 @@ public class SwitchBar extends Bar
 	 * Method 'setAltSafeColor': sets a new mouse hovering safe color
 	 *
 	 * @param 'color':
-	 *            the new color to use as safeColor when mouse hovers over the
-	 *            bar
+	 *            the new color to use as safeColor when mouse hovers over the bar
 	 */
 	public void setAltSafeColor(Color color)
 	{
@@ -100,8 +95,7 @@ public class SwitchBar extends Bar
 	 * Method 'setAltDangerColor': sets a new mouse hovering danger color
 	 *
 	 * @param 'color':
-	 *            the new color to use as dangerColor when mouse hovers over the
-	 *            bar
+	 *            the new color to use as dangerColor when mouse hovers over the bar
 	 */
 	public void setAltDangerColor(Color color)
 	{
@@ -122,8 +116,7 @@ public class SwitchBar extends Bar
 	 * Method setAltTextColor': sets a new mouse hovering text color
 	 *
 	 * @param 'color':
-	 *            the new color to use as textColor when mouse hovers over the
-	 *            bar
+	 *            the new color to use as textColor when mouse hovers over the bar
 	 */
 	public void setAltTextColor(Color color)
 	{
@@ -141,12 +134,10 @@ public class SwitchBar extends Bar
 	}
 
 	/**
-	 * Method 'setAltBackgroundColor': sets a new mouse hovering background
-	 * color
+	 * Method 'setAltBackgroundColor': sets a new mouse hovering background color
 	 *
 	 * @param 'color':
-	 *            the new color to use as backgroundColor when mouse hovers over
-	 *            the bar
+	 *            the new color to use as backgroundColor when mouse hovers over the bar
 	 */
 	public void setAltBackgroundColor(Color color)
 	{
@@ -154,8 +145,7 @@ public class SwitchBar extends Bar
 	}
 
 	/**
-	 * Method 'getAltBackgroundColor': gets the current mouse hovering
-	 * background color
+	 * Method 'getAltBackgroundColor': gets the current mouse hovering background color
 	 *
 	 * @return: the current mouse hovering background color
 	 */
@@ -165,9 +155,7 @@ public class SwitchBar extends Bar
 	}
 
 	/**
-	 * Method 'isChanged': gets the current status of whether the value has been
-	 * changed or not. The status is reset to 'false' automatically when this
-	 * method is called
+	 * Method 'isChanged': gets the current status of whether the value has been changed or not. The status is reset to 'false' automatically when this method is called
 	 *
 	 * @return: the current true/false value of 'changed'
 	 */
@@ -180,8 +168,7 @@ public class SwitchBar extends Bar
 	}
 
 	/**
-	 * Method 'setValueText': sets the text to display for both states of the
-	 * switch. The text for false (or off) is listed first.
+	 * Method 'setValueText': sets the text to display for both states of the switch. The text for false (or off) is listed first.
 	 *
 	 * @param 'vText':
 	 *            a String array that contains the text for both switch states
@@ -194,8 +181,7 @@ public class SwitchBar extends Bar
 	}
 
 	/**
-	 * Method 'getState': returns the state (status value) of the switch; 'on'
-	 * (true) or 'off' (false)
+	 * Method 'getState': returns the state (status value) of the switch; 'on' (true) or 'off' (false)
 	 *
 	 * @return: the current 'value' of the switch
 	 */

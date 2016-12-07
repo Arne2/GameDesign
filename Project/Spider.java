@@ -1,13 +1,12 @@
 import java.awt.Color;
 import java.util.List;
 
-
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import greenfoot.GreenfootSound;
 import greenfoot.MouseInfo;
-import greenfoot.World;
 
 /**
  * Write a description of class Spider here.
@@ -18,110 +17,120 @@ import greenfoot.World;
 public class Spider extends Actor implements IDamageable
 {
 
-	private static boolean		DEBUG				= false;
+	private static boolean		DEBUG					= false;
 
 	/** Width of the spider in pixels **/
-	private final int			WIDTH				= 64;
+	private final int			WIDTH					= 64;
 	/** Height of the spider in pixels **/
-	private final int			HEIGHT				= 23;
+	private final int			HEIGHT					= 23;
 
 	/** Downwards acceleration in pixels per frame per frame. **/
-	public static final double	GRAVITY				= 1.5f;
+	public static final double	GRAVITY					= 1.5f;
 
 	/** Pixels the spider can walk up, when colliding right or left. **/
-	private static final int	WALK_UP_LIMIT		= Platform.SIZE + 4;
+	private static final int	WALK_UP_LIMIT			= Platform.SIZE + 4;
 
 	/**
 	 * Maximum speed when moving in X-direction (by pressing a/d or left/right) in pixels per frame. The spider can move faster, but the player cannot accelerate once that speed is reached.
 	 **/
-	private static final int	X_SPEED_MAX			= 6;
+	private static final int	X_SPEED_MAX				= 6;
 
 	/** The max Health of the spider. */
 
-    private static final int MAX_HEALTH = 5;
-	
+	private static final int	MAX_HEALTH				= 5;
+
 	/** Maximum falling speed in pixels per frame. **/
-	private static final int	Y_SPEED_MAX			= 16;
+	private static final int	Y_SPEED_MAX				= 16;
 
 	/** Jumping acceleration in pixels per frame. **/
-	private static final int	JUMP_STRENGTH		= 30;
+	private static final int	JUMP_STRENGTH			= 30;
 
 	/** Current speed in the X-direction in pixels per frame. **/
-	private double				xSpeed				= 0;
+	private double				xSpeed					= 0;
 	/** Movement in x direction, that was not executed the last frame due to pixel precision. **/
 	private double				xMoveRemaining;
 
 	/** Current speed in the Y-direction in pixels per frame. **/
-	private double				ySpeed				= 0;
+	private double				ySpeed					= 0;
 	/** Movement in y direction, that was not executed the last frame due to pixel precision. **/
 	private double				yMoveRemaining;
 
 	/** The platform the spider is currently standing on. Null if the player is in the air. **/
-	private Platform			ground				= null;
+	private Platform			ground					= null;
 
 	/** Whether the player has jumped and not released the button. **/
-	private boolean				jumpButtonReady		= true;
+	private boolean				jumpButtonReady			= true;
 
-	private WebBlob				blob				= null;
-	private double				webLength			= -1;
+	private WebBlob				blob					= null;
+	private double				webLength				= -1;
 
-	private final int STARTWEB = 0;
-	private final int MAXWEB = 1000;
+	private final int			STARTWEB				= 0;
+	private final int			MAXWEB					= 1000;
 
-	private final WebBar        webBar              = new WebBar(STARTWEB, MAXWEB);
+	private final WebBar		webBar					= new WebBar(STARTWEB, MAXWEB);
 
-	public static final int		ENEMY_STUN_COST		= 50;
-	public static final double	WEB_COST_PER_LENGTH	= 0.5;
+	public static final int		ENEMY_STUN_COST			= 50;
+	public static final double	WEB_COST_PER_LENGTH		= 0.5;
 
 	private static final int	FRAMES_PER_PICTURE_MOVE	= 8;
 	private static final int	FRAMES_BEFORE_IDLE		= 24;
 	private static final int	FRAMES_PER_PICTURE_IDLE	= 24;
-	private int 				idleFrames			= 0; 		
-	private final AnimationSet 	images 				= new AnimationSet(FRAMES_PER_PICTURE_IDLE);
+	private int					idleFrames				= 0;
+	private final AnimationSet	images					= new AnimationSet(FRAMES_PER_PICTURE_IDLE);
 
-	private static final double	WEB_LENGTH_CHANGE	= 4;
+	private static final double	WEB_LENGTH_CHANGE		= 4;
 
-	private final Bar			healthBar			= new Bar("Health", "", 5, 5);
+	private final Bar			healthBar				= new Bar("Health", "", 5, 5);
 
-	private int					damage				= 1;
+	private int					damage					= 1;
 
 	/** After how many ticks can the spider attack again. */
-	private int					hitInterval			= 50;
+	private int					hitInterval				= 50;
 
-	private int					knockbackX			= 0;
+	private int					knockbackX				= 0;
 
-	private int					knockbackY			= 0;
+	private int					knockbackY				= 0;
 
-	private int					knockbackCounter	= 0;
+	private int					knockbackCounter		= 0;
+
+	private int					soundVolume;
+
+	private boolean				haungsMode;
 
 	public Spider()
 	{
 		loadKeybinds();
 
+		soundVolume = Setting.getSFXVolume();
+		haungsMode = Setting.isHaungsMode();
+
+		if (haungsMode)
+			webBar.add(MAXWEB - STARTWEB);
+
 		healthBar.setTextColor(Color.WHITE);
 		healthBar.setSafeColor(Color.RED);
 		healthBar.setDangerColor(Color.YELLOW);
 		healthBar.setBreakValue(2);
-	
+
 		images.addImage(new GreenfootImage("front1_64x23.png"));
 		images.addImage(new GreenfootImage("front2_64x23.png"));
-		
+
 		// for front view as start image
 		GreenfootImage right1 = new GreenfootImage("side1_64x23.png");
 		right1.mirrorHorizontally();
 		GreenfootImage right2 = new GreenfootImage("side2_64x23.png");
 		right2.mirrorHorizontally();
-		
+
 		images.useSet("right");
 		images.setFramesPerImage(FRAMES_PER_PICTURE_MOVE);
 		images.addImage(right1);
 		images.addImage(right2);
-		
+
 		images.useSet("left");
 		images.setFramesPerImage(FRAMES_PER_PICTURE_MOVE);
 		images.addImage(new GreenfootImage("side1_64x23.png"));
 		images.addImage(new GreenfootImage("side2_64x23.png"));
-		
+
 		images.useSet(AnimationSet.DEFAULT_SET);
 		setImage(images.getImage());
 	}
@@ -146,7 +155,7 @@ public class Spider extends Actor implements IDamageable
 			SplorrtWorld world = (SplorrtWorld) getWorld();
 			if (world != null && world instanceof SplorrtWorld)
 			{
-				((SplorrtWorld)world).loadWorld(new EndScreen(((Level)world).getClass()));
+				((SplorrtWorld) world).loadWorld(new EndScreen(((Level) world).getClass()));
 			}
 			return;
 		}
@@ -186,7 +195,10 @@ public class Spider extends Actor implements IDamageable
 		{
 			if (ground != null && jumpButtonReady)
 			{
-				Greenfoot.playSound("jump02.wav");
+				GreenfootSound jumpSound = new GreenfootSound("jump02.wav");
+				jumpSound.setVolume(soundVolume);
+				jumpSound.play();
+
 				ySpeed = -JUMP_STRENGTH;
 				jumpButtonReady = false;
 			}
@@ -237,32 +249,37 @@ public class Spider extends Actor implements IDamageable
 		}
 
 		updateWorld();
-		
+
 		animate();
 	}
-	
-	private void animate() {
-		if(xSpeed > 1)
+
+	private void animate()
+	{
+		if (xSpeed > 1)
 		{
 			images.useSet("right");
 			idleFrames = 0;
 		}
-		else if (xSpeed<-1)
+		else if (xSpeed < -1)
 		{
 			images.useSet("left");
 			idleFrames = 0;
-		} 
+		}
 		else
 		{
-			if(idleFrames>FRAMES_BEFORE_IDLE){
+			if (idleFrames > FRAMES_BEFORE_IDLE)
+			{
 				images.useSet(AnimationSet.DEFAULT_SET);
-			} else {
+			}
+			else
+			{
 				idleFrames++;
 			}
 		}
-		
+
 		images.next();
-		if(images.hasChanged()){
+		if (images.hasChanged())
+		{
 			setImage(images.getImage());
 		}
 	}
@@ -310,7 +327,8 @@ public class Spider extends Actor implements IDamageable
 				if (cost <= webBar.getValue())
 				{
 					// set webLength -> swing around blob.
-					webBar.subtract(cost);
+					if (!haungsMode)
+						webBar.subtract(cost);
 					webLength = (int) distance + 5;
 				}
 				else
@@ -359,10 +377,11 @@ public class Spider extends Actor implements IDamageable
 	 */
 	private void removeBlob()
 	{
-		if(blob.getWorld()!=null){
-			((Level)getWorld()).removeLevelActor(blob);
+		if (blob.getWorld() != null)
+		{
+			((Level) getWorld()).removeLevelActor(blob);
 		}
-		
+
 		blob = null;
 		webLength = -1;
 	}
@@ -592,7 +611,9 @@ public class Spider extends Actor implements IDamageable
 	{
 		if (ySpeed >= Y_SPEED_MAX)
 		{
-			Greenfoot.playSound("landing01.wav");
+			GreenfootSound landingSound = new GreenfootSound("landing01.wav");
+			landingSound.setVolume(soundVolume);
+			landingSound.play();
 		}
 
 		int yOld = getY();
@@ -617,7 +638,9 @@ public class Spider extends Actor implements IDamageable
 	{
 		if (ySpeed >= Y_SPEED_MAX)
 		{
-			Greenfoot.playSound("landing01.wav");
+			GreenfootSound landingSound = new GreenfootSound("landing01.wav");
+			landingSound.setVolume(soundVolume);
+			landingSound.play();
 		}
 
 		ySpeed = 0;
@@ -657,50 +680,52 @@ public class Spider extends Actor implements IDamageable
 	}
 
 	@Override
-    public int getHealth()
-    {
+	public int getHealth()
+	{
 
-        return healthBar.getValue();
-    }
+		return healthBar.getValue();
+	}
 
-    @Override
-    public void decreaseHealth(int count)
-    {
+	@Override
+	public void decreaseHealth(int count)
+	{
+		if (!haungsMode)
+			this.healthBar.subtract(count);
+	}
 
-        this.healthBar.subtract(count);
-    }
+	@Override
+	public void decreaseHealth()
+	{
+		if (!haungsMode)
+		{
+			int h = this.healthBar.getValue() - 1;
+			this.healthBar.subtract(h);
+		}
+	}
 
+	@Override
+	public void setHealth(int h)
+	{
+		if (!haungsMode)
+			this.healthBar.setValue(h);
+	}
 
-    @Override
-    public void decreaseHealth()
-    {
-        int h = this.healthBar.getValue() - 1;
-        this.healthBar.subtract(h);
-    }
-    
-    @Override
-    public void setHealth(int h)
-    {
+	@Override
+	public void instantKill()
+	{
+		setHealth(0);
+	}
 
-        this.healthBar.setValue(h);
-    }
-    
-    @Override
-    public void instantKill()
-    {
-        setHealth(0);
-    }
-    
-    @Override
-    public int getMaxHealth()
-    {
-        return MAX_HEALTH;
-    }
-    
-    public int getDamage()
-    {
-        return damage;
-    }
+	@Override
+	public int getMaxHealth()
+	{
+		return MAX_HEALTH;
+	}
+
+	public int getDamage()
+	{
+		return damage;
+	}
 
 	public int getHitInterval()
 	{
@@ -709,16 +734,19 @@ public class Spider extends Actor implements IDamageable
 
 	public void knockback(int x, int y)
 	{
-		int spiderX = getLevelX();
-		int spiderY = getLevelY();
+		if (!haungsMode)
+		{
+			int spiderX = getLevelX();
+			int spiderY = getLevelY();
 
-		int diffX = x - spiderX;
-		int diffY = y - spiderY;
+			int diffX = x - spiderX;
+			int diffY = y - spiderY;
 
-		knockbackX = -diffX / 5;
-		knockbackY = -diffY / 2;
+			knockbackX = -diffX / 5;
+			knockbackY = -diffY / 2;
 
-		knockbackCounter = 10;
+			knockbackCounter = 10;
+		}
 	}
 
 	public int getLevelX()
