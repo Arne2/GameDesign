@@ -41,6 +41,7 @@ public class InfoScreen extends SplorrtWorld
 	@Override
 	public void act()
 	{
+		super.act();
 		if (delay > 0)
 		{
 			delay--;

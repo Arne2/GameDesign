@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
@@ -58,15 +56,20 @@ public class LevelSelection extends Level
 				return types[Greenfoot.getRandomNumber(types.length)];
 			}
 		}
-		
-		private Level getLevel(){
+
+		private Level getLevel()
+		{
 			SplorrtWorld l = world;
-			while(l instanceof InfoScreen){
-				l = ((InfoScreen)l).getNext();
+			while (l instanceof InfoScreen)
+			{
+				l = ((InfoScreen) l).getNext();
 			}
-			if(l instanceof Level){
-				return (Level)l;
-			} else {
+			if (l instanceof Level)
+			{
+				return (Level) l;
+			}
+			else
+			{
 				return null;
 			}
 		}
@@ -143,18 +146,19 @@ public class LevelSelection extends Level
 				{
 					Platform selector = new LevelSelectorShootPlatform(info.surfaceType, WIDTH_PER_LEVEL * Platform.SIZE * i + Platform.SIZE * (WIDTH_PER_LEVEL / 2 + 1), y, levels.get(i).world);
 					addLevelActor(selector);
-					
+
 					Level level = info.getLevel();
-					
-					if(level !=null){
+
+					if (level != null)
+					{
 						Label label = new Label(level.getName(), 32);
 						label.setLevelX(selector.getLevelX());
-						label.setLevelY(selector.getLevelY()-96);
+						label.setLevelY(selector.getLevelY() - 96);
 						addLevelActor(label);
-						
+
 						LevelRating rating = new LevelRating(level.getStars(), 32);
 						rating.setLevelX(selector.getLevelX());
-						rating.setLevelY(selector.getLevelY()-54);
+						rating.setLevelY(selector.getLevelY() - 54);
 						addLevelActor(rating);
 					}
 				}
@@ -181,6 +185,7 @@ public class LevelSelection extends Level
 	@Override
 	public void act()
 	{
+		super.act();
 		int index = (super.getXPosition() + getWidth() / 2) / (Platform.SIZE * WIDTH_PER_LEVEL);
 		if (currentLevel != index && index >= 0 && index < levels.size() && levels.get(index) != null)
 		{
@@ -201,14 +206,17 @@ public class LevelSelection extends Level
 			currentLevel = index;
 		}
 	}
-	
-	public static void unlockAreas(int area){
-		if(area > loadUnlockedAreas()){
+
+	public static void unlockAreas(int area)
+	{
+		if (area > loadUnlockedAreas())
+		{
 			saveUnlockedAreas(area);
 		}
 	}
-	
-	public static void saveUnlockedAreas(int areas){
+
+	public static void saveUnlockedAreas(int areas)
+	{
 		try (PrintWriter pw = new PrintWriter(new FileWriter("splorrt.areas.unlocked")))
 		{
 			pw.println(areas);
@@ -220,8 +228,9 @@ public class LevelSelection extends Level
 			e.printStackTrace();
 		}
 	}
-	
-	public static int loadUnlockedAreas(){
+
+	public static int loadUnlockedAreas()
+	{
 		try (BufferedReader reader = new BufferedReader(new FileReader("splorrt.areas.unlocked")))
 		{
 			return Integer.valueOf(reader.readLine());
@@ -249,9 +258,10 @@ public class LevelSelection extends Level
 	{
 		return background;
 	}
-	
+
 	@Override
-	public int getStartingWeb() {
+	public int getStartingWeb()
+	{
 		return getSpider().getWebBar().getMaximumValue();
 	}
 }

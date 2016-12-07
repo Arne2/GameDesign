@@ -11,9 +11,9 @@ import greenfoot.Greenfoot;
 public class EndScreen extends SplorrtWorld
 {
 
-	private int delay = 10;
-	
-	private final Level level;
+	private int			delay	= 10;
+
+	private final Level	level;
 
 	/**
 	 * Constructor for objects of class EndScreen.
@@ -28,6 +28,7 @@ public class EndScreen extends SplorrtWorld
 	@Override
 	public void act()
 	{
+		super.act();
 		if (delay > 0)
 		{
 			delay--;
