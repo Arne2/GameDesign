@@ -185,7 +185,9 @@ public class LevelSelection extends Level
 	@Override
 	public void act()
 	{
-		super.act();
+		if (Greenfoot.isKeyDown("escape"))
+			loadWorld(new StartScreen());
+
 		int index = (super.getXPosition() + getWidth() / 2) / (Platform.SIZE * WIDTH_PER_LEVEL);
 		if (currentLevel != index && index >= 0 && index < levels.size() && levels.get(index) != null)
 		{
