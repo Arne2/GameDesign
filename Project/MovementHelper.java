@@ -121,10 +121,13 @@ public class MovementHelper
         List<Actor> actors =  moveable.getObjectsAtOffset(0, moveable.getHeight() / 2 + 2, Actor.class);
         for(Actor a : actors)
         {
-                    if(a != null && a instanceof Platform)
+            if(a != null)
             {
-            return true;
-        }
+                if(a instanceof Spikes)
+                    return false;
+                if(a instanceof Platform)
+                    return true;
+            }
 
         }
 
@@ -141,7 +144,7 @@ public class MovementHelper
         
         for(int i = 1; i <= maxFall; i++)
         {
-            List<Actor> actors =  moveable.getObjectsAtOffset(mul * moveable.getWidth() / 2, i * moveable.getHeight() + moveable.getHeight() / 2 + 2, Actor.class);
+            List<Actor> actors =  moveable.getObjectsAtOffset(mul * moveable.getWidth() / 2, (i-1) * moveable.getHeight() + moveable.getHeight() / 2 + 2, Actor.class);
             for(Actor a : actors)
             {
                     if(a != null && a instanceof Platform)
