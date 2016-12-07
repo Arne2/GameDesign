@@ -13,8 +13,6 @@ public class Level2_2 extends Level
 	public Level2_2(Spider spider)
 	{
 		super(spider);
-
-		getSpider().getWebBar().add(800);
 	}
 
 	public Level2_2()
@@ -25,6 +23,11 @@ public class Level2_2 extends Level
 	private static final GreenfootImage	background	= new GreenfootImage("Cave_grey.png");
 	private static final GreenfootSound	music		= new GreenfootSound("Professor Umlaut.wav");
 
+	@Override
+	public int getStartingWeb(){
+	    return 800;
+	}
+	
 	@Override
 	public GreenfootSound getBackgroundMusic()
 	{

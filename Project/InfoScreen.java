@@ -26,6 +26,10 @@ public class InfoScreen extends SplorrtWorld
 		this.next = next;
 	}
 
+	public SplorrtWorld getNext() {
+		return next;
+	}
+
 	public int getDelay() {
 		return delay;
 	}

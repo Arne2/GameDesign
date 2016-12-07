@@ -155,7 +155,7 @@ public class Spider extends Actor implements IDamageable
 			SplorrtWorld world = (SplorrtWorld) getWorld();
 			if (world != null && world instanceof SplorrtWorld)
 			{
-				((SplorrtWorld) world).loadWorld(new EndScreen(((Level) world).getClass()));
+				((SplorrtWorld)world).loadWorld(new EndScreen((Level)world));
 			}
 			return;
 		}
@@ -377,9 +377,8 @@ public class Spider extends Actor implements IDamageable
 	 */
 	private void removeBlob()
 	{
-		if (blob.getWorld() != null)
-		{
-			((Level) getWorld()).removeLevelActor(blob);
+		if(blob!=null && blob.getWorld()!=null){
+			((Level)getWorld()).removeLevelActor(blob);
 		}
 
 		blob = null;
@@ -784,4 +783,13 @@ public class Spider extends Actor implements IDamageable
 		return false;
 	}
 
+	public void reload() {
+		getHealthBar().setValue(getHealthBar().getMaximumValue());
+		xSpeed = 0;
+		ySpeed = 0;
+		ground = null;
+		removeBlob();
+		knockbackX = 0;
+		knockbackY = 0;
+	}
 }

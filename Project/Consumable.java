@@ -11,19 +11,21 @@ public class Consumable extends LevelActor
     public static final int ANIMATION_FRAMES = 10;
 	
     public enum Type{
-    	BUG(70, 0, "dead_fly.png"),
-    	WASP(100, 1, "wasp_dead_64.png"),
-    	SCORPION(150, 1, "scorp_dead.png"),
-    	LARVA(300, 3, "larva.png"),
-    	COIN(0, 0, "coin.png");
-    	
+    	BUG(0, 70, 0, "dead_fly.png"),
+    	WASP(0, 100, 1, "wasp_dead_64.png"),
+    	LARVA(10, 300, 3, "larva.png"),
+    	SCORPION(0, 150, 1, "scorp_dead.png"),
+    	COIN(10, 0, 0, "coin.png");
+
     	private final String[] images;
+    	private final int score;
     	private final int web;
     	private final int health;
     	
-    	private Type(int web, int health, String... images){
+    	private Type(int score, int web, int health, String... images){
     		this.images = images;
     		
+    		this.score = score;
     		this.web = web;
     		this.health = health;
     	}
@@ -66,5 +68,9 @@ public class Consumable extends LevelActor
         	spider.getHealthBar().add(type.health);
         	((Level)getWorld()).removeLevelActor(this);
         }
+    }
+
+    public int getScore(){
+    	return type.score;
     }
 }

@@ -9,7 +9,7 @@ public abstract class Enemy extends LevelActor implements IDamageable
 
     protected int damage = 1;
     
-    protected boolean activated = false;
+    protected boolean activated = true;
 
     /** timer for the damage interval which the enemy deals*/
     protected int enemyDamageTimer = 0;
@@ -114,7 +114,6 @@ public abstract class Enemy extends LevelActor implements IDamageable
     
     private void checkSpiderCollision()
     {
-        
            Actor sA = null;
            sA = getOneIntersectingObject(Spider.class);
            if(sA != null && sA instanceof Spider)
@@ -238,9 +237,12 @@ public abstract class Enemy extends LevelActor implements IDamageable
             return;
         }
     }
-    
         
-    public int getHitInterval()
+    public LevelActor getSpawnOnDeath() {
+		return spawnOnDeath;
+	}
+
+	public int getHitInterval()
     {
         return hitInterval;
     }

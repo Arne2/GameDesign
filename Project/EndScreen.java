@@ -13,13 +13,13 @@ public class EndScreen extends SplorrtWorld
 
 	private int delay = 10;
 	
-	private final Class<? extends Level> level;
+	private final Level level;
 
 	/**
 	 * Constructor for objects of class EndScreen.
 	 * 
 	 */
-	public EndScreen(Class<? extends Level> level)
+	public EndScreen(Level level)
 	{
 		setBackground("EndScreen.jpg");
 		this.level = level;
