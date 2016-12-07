@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import com.sun.javafx.geom.transform.GeneralTransform3D;
-
 
 public class Score {
 	public static final double SCORE_PER_WEB = 0.1;

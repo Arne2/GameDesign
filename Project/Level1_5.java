@@ -45,4 +45,10 @@ public class Level1_5 extends Level
 	{
 		return new Level2_1();
 	}
+	
+	@Override
+	public void finish(){
+	    super.finish();
+	    LevelSelection.unlockAreas(1);
+	}
 }
