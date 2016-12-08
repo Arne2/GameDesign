@@ -24,6 +24,11 @@ public class Level2_4 extends Level
 	private static final GreenfootSound	music		= new GreenfootSound("Professor Umlaut.wav");
 
 	@Override
+	public int getStartingWeb(){
+	    return 0;
+	}
+	
+	@Override
 	public GreenfootSound getBackgroundMusic()
 	{
 		return music;

@@ -14,8 +14,13 @@ public class Spikes extends Enemy
 	}
 	
 	@Override
+	public void act() {
+		super.act();
+	}
+	
+	@Override
 	public void damageSpider(Spider s)
 	{
 	    s.instantKill();
-	   }
+	}
 }

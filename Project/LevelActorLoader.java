@@ -70,7 +70,7 @@ public class LevelActorLoader
         
         else if(color.equals(CONSUMEABLE_BUG))
         {
-            return new Consumable(Consumable.Type.BUG, x, y);
+            return new SpawnPoint(new Consumable(Consumable.Type.BUG, x, y));
         } 
         
         else if(color.equals(PLATFORM_BRICK))
@@ -95,7 +95,7 @@ public class LevelActorLoader
         
         else if(color.equals(ENEMY_SPIKES))
         {
-            return new EnemySpawner(EnemyID.SPIKES, x, y);
+            return new Spikes(x, y);
         } 
         
         else if(color.equals(PLATFORM_CACTUS))
@@ -125,17 +125,22 @@ public class LevelActorLoader
         
         else if(color.equals(ENEMY_WASP_MOVEABLE))
         {
-        	return new EnemySpawner(EnemyID.WASP_MOVEABLE, x, y);
+        	return new SpawnPoint(new EnemyWasp(x, y, true, false));
         } 
+        
+        else if(color.equals(ENEMY_WASP_SHOOTING))
+        {
+        	return new SpawnPoint(new EnemyWasp(x, y, false, true));
+        }
         
         else if(color.equals(ENEMY_WASP))
         {
-        	return new EnemySpawner(EnemyID.WASP, x, y);
+        	return new SpawnPoint(new EnemyWasp(x, y, false, false));
         } 
         
         else if(color.equals(ENEMY_SCORPION))
         {
-            return new EnemySpawner(EnemyID.SCORPION, x, y);
+        	return new SpawnPoint(new EnemyScorpion(x, y));
         }
         
         else if(color.equals(ENEMY_SCORPION_MOVEABLE))
@@ -150,22 +155,22 @@ public class LevelActorLoader
         
         else if(color.equals(GOAL))
         {
-        	return new Goal(x, y, level.getNextLevel());
+        	return new Goal(x, y);
         }
         
         else if(color.equals(LARVA))
         {
-            return new Consumable(Consumable.Type.LARVA, x, y);
+            return new SpawnPoint(new Consumable(Consumable.Type.LARVA, x, y));
         }
         
         else if(color.equals(WASP))
         {
-            return new Consumable(Consumable.Type.WASP, x, y); 
+            return new SpawnPoint(new Consumable(Consumable.Type.WASP, x, y)); 
         }
         
         else if(color.equals(COIN))
         {
-            return new Consumable(Consumable.Type.COIN, x, y); 
+            return new SpawnPoint(new Consumable(Consumable.Type.COIN, x, y)); 
         }
         
         else 

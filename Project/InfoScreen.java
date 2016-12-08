@@ -26,6 +26,10 @@ public class InfoScreen extends SplorrtWorld
 		this.next = next;
 	}
 
+	public SplorrtWorld getNext() {
+		return next;
+	}
+
 	public int getDelay() {
 		return delay;
 	}
@@ -37,6 +41,7 @@ public class InfoScreen extends SplorrtWorld
 	@Override
 	public void act()
 	{
+		super.act();
 		if (delay > 0)
 		{
 			delay--;

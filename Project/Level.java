@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import greenfoot.Actor;
 import greenfoot.GreenfootImage;
 import greenfoot.GreenfootSound;
 
@@ -15,8 +14,9 @@ import greenfoot.GreenfootSound;
  */
 public abstract class Level extends SplorrtWorld
 {
-
-	private final Collection<LevelActor>	actors	= new ArrayList<>();
+	
+	private final Collection<LevelActor>	actors		= new ArrayList<>();
+	private final Collection<SpawnPoint>	spawnPoints	= new ArrayList<>();
 
 	private int								xPosition, yPosition;
 
@@ -25,13 +25,17 @@ public abstract class Level extends SplorrtWorld
 	private int								worldHeight;
 	private int								worldWidth;
 
-	private int								spawnX	= 100;
+	private int								spawnX		= 100;
 
-	private int								spawnY	= 100;
+	private int								spawnY		= 100;
 
 	private LevelActorLoader				loader;
 
-	private String							map		= null;
+	private Score							score;
+
+	private boolean							loaded		= false;
+
+	private String							map			= null;
 
 	/**
 	 * Constructor.
@@ -64,8 +68,17 @@ public abstract class Level extends SplorrtWorld
 
 	public void load()
 	{
-		prepare();
-		update();
+		if (loaded)
+		{
+			spiderDie();
+			update();
+		}
+		else
+		{
+			prepare();
+			update();
+			loaded = true;
+		}
 	}
 
 	/**
@@ -77,6 +90,8 @@ public abstract class Level extends SplorrtWorld
 		{
 			loadFromImage(new GreenfootImage(map));
 		}
+
+		spider.getWebBar().setValue(Setting.isHaungsMode() ? getSpider().getWebBar().getMaximumValue() : getStartingWeb());
 
 		addObject(spider, getWidth() / 2, getHeight() / 2);
 
@@ -154,12 +169,10 @@ public abstract class Level extends SplorrtWorld
 		int xPos = this.xPosition + getWidth() / 2;
 		if (xPos < 0)
 		{
-			System.out.println("left");
 			this.xPosition = -getWidth() / 2;
 		}
 		else if (worldWidth > 0 && xPos > worldWidth)
 		{
-			System.out.println("right");
 			this.xPosition = worldWidth + getWidth() / 2;
 		}
 
@@ -180,10 +193,22 @@ public abstract class Level extends SplorrtWorld
 
 	public abstract GreenfootImage getBackgroundImage();
 
-	private void removeAll()
+	/**
+	 * As a fraction. 1 means 1 extra star per maximum score. 0.2 means 1 extra star for 0.2 of the maximum score.
+	 */
+	public float getRequiredScorePerStar()
 	{
-		actors.clear();
-		removeObjects(getObjects(Actor.class));
+		return 0.2f;
+	}
+
+	public String getName()
+	{
+		return getClass().getName();
+	}
+
+	public int getStartingWeb()
+	{
+		return 0;
 	}
 
 	private void loadFromImage(GreenfootImage map)
@@ -192,17 +217,44 @@ public abstract class Level extends SplorrtWorld
 		worldWidth = map.getWidth() * Platform.SIZE;
 
 		LevelActor next;
+
+		int maxEnemyNumber = 0;
+		int maxConsumableScore = 0;
+		int maxConsumableNumber = 0;
+
 		for (int x = 0; x < map.getWidth(); x++)
 		{
 			for (int y = 0; y < map.getHeight(); y++)
 			{
 				next = getActor(map.getColorAt(x, y), x * Platform.SIZE + Platform.SIZE / 2, y * Platform.SIZE + Platform.SIZE / 2);
+
+				if (next instanceof SpawnPoint)
+				{
+					spawnPoints.add((SpawnPoint) next);
+					next = ((SpawnPoint) next).getSpawn();
+				}
 				if (next != null)
 				{
 					actors.add(next);
 				}
+
+				// calculate max scores
+				if (next instanceof Enemy && ((Enemy) next).defeatable)
+				{
+					maxEnemyNumber++;
+				}
+				while (next instanceof Enemy)
+				{
+					next = ((Enemy) next).getSpawnOnDeath();
+				}
+				if (next instanceof Consumable)
+				{
+					maxConsumableScore += ((Consumable) next).getScore();
+					maxConsumableNumber++;
+				}
 			}
 		}
+		score = new Score(getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getSpider().getWebBar().getMaximumValue(), getRequiredScorePerStar());
 	}
 
 	// Recognize colors in the level to create blocks.
@@ -240,6 +292,107 @@ public abstract class Level extends SplorrtWorld
 	public SplorrtWorld getNextLevel()
 	{
 		return SplorrtWorld.getWorld(DEFAULT_WORLD);
+	}
+
+	public void calculateScore()
+	{
+		int leftConsumableScore = 0;
+		int leftEnemyNumber = 0;
+		int leftConsumableNumber = 0;
+
+		for (LevelActor next : actors)
+		{
+			// calculate left scores
+			if (next instanceof Enemy && ((Enemy) next).defeatable)
+			{
+				leftEnemyNumber++;
+			}
+			while (next instanceof Enemy)
+			{
+				next = ((Enemy) next).getSpawnOnDeath();
+			}
+			if (next instanceof Consumable)
+			{
+				leftConsumableScore += ((Consumable) next).getScore();
+				leftConsumableNumber++;
+			}
+		}
+
+		this.score.setConsumableLeftNumber(leftConsumableNumber);
+		this.score.setConsumableLeftScore(leftConsumableScore);
+		this.score.setEnemyLeftNumber(leftEnemyNumber);
+		this.score.setLeftWeb(getSpider().getWebBar().getValue());
+
+		score.save();
+	}
+
+	public void finish()
+	{
+		calculateScore();
+		loadWorld(new ScoreScreen(score, getNextLevel()));
+	}
+
+	public void spiderDie()
+	{
+		score.sincreaseDeaths(1);
+
+		// reset web
+		spider.getWebBar().setValue(getStartingWeb());
+
+		// update all killed enemies to their consumables
+		for (SpawnPoint next : spawnPoints)
+		{
+			if (next.getSpawn() instanceof Enemy && ((Enemy) next.getSpawn()).isDead())
+			{
+				next.killSpawn();
+			}
+		}
+
+		// remove all consumables and enemies
+		Collection<LevelActor> toRemove = new ArrayList<>();
+		for (LevelActor next : actors)
+		{
+			if ((next instanceof Enemy && ((Enemy) next).defeatable) || next instanceof Consumable)
+			{
+				toRemove.add(next);
+			}
+		}
+		for (LevelActor next : toRemove)
+		{
+			removeLevelActor(next);
+		}
+
+		// respawn everything
+		for (SpawnPoint next : spawnPoints)
+		{
+			if (next.getSpawn() != null)
+			{
+				addLevelActor(next.getSpawn());
+			}
+		}
+
+		getSpider().reload();
+
+		xPosition = spawnX - getWidth() / 2;
+		yPosition = spawnY - getHeight() / 2;
+
+		update();
+	}
+
+	public int getStars()
+	{
+		return Score.loadStars(getClass().getName());
+	}
+
+	@Override
+	public void act()
+	{
+		super.act();
+
+		if (loaded && score != null)
+		{
+			score.increaseFrames(1);
+		}
 	}
 
 }

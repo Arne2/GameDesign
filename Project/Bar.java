@@ -10,18 +10,18 @@ public class Bar extends LevelActor
     private int breakValue = 20; // in tandem with breakPercent
     private boolean usingBreakValue = false;
     private boolean breakLow = true; // when true, with low-percent values bar is dangerColor, else safeColor; reversed when false
-    private Color backgroundColor = new Color(0, 0, 0, 0); // the background color of the entire object
-    private Color textColor = Color.BLACK; // the color of all text and the frame of the bar itself
+    protected Color backgroundColor = new Color(0, 0, 0, 0); // the background color of the entire object
+    protected Color textColor = Color.BLACK; // the color of all text and the frame of the bar itself
     private Color safeColor = Color.GREEN; // the color of the bar while in the safe range
     private Color dangerColor = Color.RED; // the color of the bar while in the danger range
 //  The color of the bar AT the breakpoint will be the average color between the safe color and the danger color
-    private float fontSize = 18.0f; // the size of the text
-    private int value = 0; // the current value of the bar
-    private int maximumValue = 0; // the maximum value of the bar
-    private int minimumValue = 0; // the minimum value of the bar
-    private String referenceText = ""; // the title string (who or what the meter/bar is for)
-    private String unitOfMeasure = ""; // the unit of measure of the bar (any quantitative standard of measurement) 
-    private boolean showTextualUnits = true; // determines whether or not the textual quantity of the bar is to show
+    protected float fontSize = 18.0f; // the size of the text
+    protected int value = 0; // the current value of the bar
+    protected int maximumValue = 0; // the maximum value of the bar
+    protected int minimumValue = 0; // the minimum value of the bar
+    protected String referenceText = ""; // the title string (who or what the meter/bar is for)
+    protected String unitOfMeasure = ""; // the unit of measure of the bar (any quantitative standard of measurement) 
+    protected boolean showTextualUnits = true; // determines whether or not the textual quantity of the bar is to show
     
     public Bar(String refText, String unitType, int initValue, int maxValue)
     {
@@ -35,8 +35,8 @@ public class Bar extends LevelActor
     {
 //         int barValue = (int) (barWidth * value / maximumValue);
         int barValue = (int) (barWidth * (value - minimumValue) / (maximumValue - minimumValue));
-        GreenfootImage leftImg = new GreenfootImage(referenceText + " ", (int) fontSize, textColor, backgroundColor);
-        GreenfootImage rightImg = (showTextualUnits) ? new GreenfootImage(" " + value + " " + unitOfMeasure, (int) fontSize, textColor, backgroundColor) : new GreenfootImage(1, 1);
+        GreenfootImage leftImg = getLeftImage();
+        GreenfootImage rightImg = (showTextualUnits) ? getRightImage() : new GreenfootImage(1, 1);
         int maxX = (leftImg.getWidth() > rightImg.getWidth()) ? leftImg.getWidth() : rightImg.getWidth();
         GreenfootImage barImg = new GreenfootImage(barWidth + 4, barHeight + 4);
         barImg.setColor(backgroundColor);
@@ -76,6 +76,14 @@ public class Bar extends LevelActor
         image.drawImage(barImg, maxX, (image.getHeight() - barImg.getHeight()) / 2);
         image.drawImage(rightImg, maxX + barImg.getWidth(), (image.getHeight() - rightImg.getHeight()) / 2);
         setImage(image);
+    }
+    
+    protected GreenfootImage getLeftImage(){
+    	return new GreenfootImage(referenceText + " ", (int) fontSize, textColor, backgroundColor);
+    }
+    
+    protected GreenfootImage getRightImage(){
+    	return new GreenfootImage(" " + value + " " + unitOfMeasure, (int) fontSize, textColor, backgroundColor);
     }
     
     public void add(int amount)
