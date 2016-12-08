@@ -38,6 +38,11 @@ public class Level1_1 extends Level
 	{
 		return background;
 	}
+	
+	@Override
+	protected int getMaxWebPossible() {
+		return 400;
+	}
 
 	@Override
 	public SplorrtWorld getNextLevel()

@@ -15,8 +15,8 @@ public class Score {
 	private final int consumableScore;
 	private final int enemyNumber;
 	private final int maxWeb;
-	private final int maxScore;
-	private final int scorePerStar;
+	private final int fiveStarTime;
+	private final int scorePerStar = 20;
 	
 	private int consumableLeftNumber;
 	private int consumableLeftScore;
@@ -25,20 +25,22 @@ public class Score {
 	
 	private int deaths;
 	private int frames;
+
+	private int collectibleScore = 60;
+	private int webScore = 30;
+	private int timeScore = 10;
 	
-	public Score(String saveName, int consumableNumber, int consumableScore, int enemyNumber, int maxWeb, float scorePerStar) {
+	public Score(String saveName, int consumableNumber, int consumableScore, int enemyNumber, int maxWeb, int bestTime) {
 		this.saveName = saveName;
 		this.consumableNumber = consumableNumber;
 		this.consumableScore = consumableScore;
 		this.enemyNumber = enemyNumber;
 		this.maxWeb = maxWeb;
+		this.fiveStarTime = bestTime;
 		
 		this.consumableLeftNumber = consumableNumber;
 		this.consumableLeftScore = consumableScore;
 		this.enemyLeftNumber = enemyNumber;
-		
-		this.maxScore = getMaxScore();
-		this.scorePerStar = (int)(maxScore*scorePerStar);
 	}
 	
 	public int getScorePerStar() {
@@ -112,13 +114,42 @@ public class Score {
 	public int getMaxWeb() {
 		return maxWeb;
 	}
+	
+	public int getMaxWebScore(){
+		return webScore;
+	}
+	
+	public int getReachedWebScore(){
+		System.out.println(getLeftWeb());
+		return (int) (webScore * (getLeftWeb()/(float)getMaxWeb()));
+	}
+	
+	public int getMaxTimeScore(){
+		return timeScore;
+	}
+	
+	public int getReachedTimeScore(){
+		System.out.println(frames+" best ime: "+fiveStarTime);
+		System.out.println((timeScore * (1/(frames/(float)fiveStarTime))));
+		return Math.min(timeScore, (int) (timeScore * (1/(frames/(float)fiveStarTime))));
+	}
+	
+	public int getMaxConsumableScore(){
+		return collectibleScore;
+	}
+	
+	public int getReachedConsumableScore(){
+		System.out.println("left consumables: "+getConsumableLeftScore());
+		return (int) (collectibleScore * ((getConsumableScore() - getConsumableLeftScore())/(float)getConsumableScore()));
+	}
 
 	public int getScore(){
-		return (int)(getConsumableScore() - getConsumableLeftScore() + getLeftWeb()*SCORE_PER_WEB) / (getDeaths()+1);
+		return getReachedConsumableScore()+getReachedTimeScore()+getReachedWebScore();
+//		return (int)(getConsumableScore() - getConsumableLeftScore() + getLeftWeb()*SCORE_PER_WEB) / (getDeaths()+1);
 	}
 	
 	public int getMaxScore(){
-		return (int)(getConsumableScore() + getMaxWeb()*SCORE_PER_WEB);
+		return collectibleScore+webScore+timeScore;
 	}
 	
 	public void save(){
