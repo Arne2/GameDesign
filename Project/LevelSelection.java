@@ -95,9 +95,9 @@ public class LevelSelection extends Level
 		super.setSpawn((WIDTH_PER_LEVEL / 2 + WIDTH_PER_LEVEL % 2) * Platform.SIZE, (SIDE_HEIGHT - 2) * Platform.SIZE);
 
 		// add all the levels, that are supposed to be selectable here.
-		levels.add(new LevelInfo(new Level1_1(), Platform.Type.GRASS, Platform.Type.DIRT));
-		levels.add(new LevelInfo(new Level1_2(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
-		levels.add(new LevelInfo(new Level1_3(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+		levels.add(new LevelInfo(new InfoScreen(new GreenfootImage("MovementHelp.jpg"), new Level1_1()), Platform.Type.GRASS, Platform.Type.DIRT));
+		levels.add(new LevelInfo(new InfoScreen(new GreenfootImage("WebHelp.jpg"), new InfoScreen(new GreenfootImage("EnemyHelp.jpg"), new Level1_2())), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
+		levels.add(new LevelInfo(new InfoScreen(new GreenfootImage("ResourceHelp.jpg"), new Level1_3()), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
 		levels.add(new LevelInfo(new Level1_4(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
 		levels.add(new LevelInfo(new Level1_5(), Platform.Type.GRASS, Platform.Type.DIRT, Platform.Type.SAND));
 

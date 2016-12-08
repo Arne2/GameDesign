@@ -42,6 +42,6 @@ public class Level1_1 extends Level
 	@Override
 	public SplorrtWorld getNextLevel()
 	{
-		return new InfoScreen(new GreenfootImage("PostLevel1_1.jpg"), new Level1_2());
+		return new InfoScreen(new GreenfootImage("WebHelp.jpg"), new InfoScreen(new GreenfootImage("EnemyHelp.jpg"), new Level1_2()));
 	}
 }

@@ -1,6 +1,7 @@
 
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import greenfoot.MouseInfo;
 
 /**
@@ -34,7 +35,7 @@ public class StartScreen extends SplorrtWorld
 
 			if (isBetween(clickX, 550, 680) && isBetween(clickY, 510, 540))
 			{
-				loadWorld(new Level1_1());
+				loadWorld(new InfoScreen(new GreenfootImage("MovementHelp.jpg"), new Level1_1()));
 			}
 			else if (isBetween(clickX, 450, 800) && isBetween(clickY, 565, 595))
 			{
