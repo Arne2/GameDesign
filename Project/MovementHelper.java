@@ -142,9 +142,9 @@ public class MovementHelper
         if(moveable.getFacingDirection() == Direction.LEFT)
         mul = -1;
         
-        for(int i = 1; i <= maxFall; i++)
+        for(int i = 0; i <= maxFall; i++)
         {
-            List<Actor> actors =  moveable.getObjectsAtOffset(mul * moveable.getWidth() / 2, (i-1) * moveable.getHeight() + moveable.getHeight() / 2 + 2, Actor.class);
+            List<Actor> actors =  moveable.getObjectsAtOffset(mul * moveable.getWidth() / 2, (i) * moveable.getHeight() + moveable.getHeight() / 2 + 2, Actor.class);
             for(Actor a : actors)
             {
                     if(a != null && a instanceof Platform)
