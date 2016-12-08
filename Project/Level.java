@@ -90,7 +90,7 @@ public abstract class Level extends SplorrtWorld
 			loadFromImage(new GreenfootImage(map));
 		}
 
-		spider.getWebBar().setValue(getStartingWeb());
+		spider.getWebBar().setValue(Setting.isHaungsMode() ? getSpider().getWebBar().getMaximumValue() : getStartingWeb());
 
 		addObject(spider, getWidth() / 2, getHeight() / 2);
 

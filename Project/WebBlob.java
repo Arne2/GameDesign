@@ -38,7 +38,8 @@ public class WebBlob extends LevelActor
 				WebBar bar = ((Level) getWorld()).getSpider().getWebBar();
 				if (bar.getValue() >= Spider.ENEMY_STUN_COST)
 				{
-					bar.subtract(Spider.ENEMY_STUN_COST);
+					if(!Setting.isHaungsMode())
+						bar.subtract(Spider.ENEMY_STUN_COST);
 
 					Enemy enemy = (Enemy) enemyActor;
 					enemy.setStunned();
