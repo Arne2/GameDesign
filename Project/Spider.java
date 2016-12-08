@@ -155,7 +155,7 @@ public class Spider extends Actor implements IDamageable
 			SplorrtWorld world = (SplorrtWorld) getWorld();
 			if (world != null && world instanceof SplorrtWorld)
 			{
-				((SplorrtWorld)world).loadWorld(new EndScreen((Level)world));
+				((SplorrtWorld) world).loadWorld(new EndScreen((Level) world));
 			}
 			return;
 		}
@@ -330,6 +330,9 @@ public class Spider extends Actor implements IDamageable
 					if (!haungsMode)
 						webBar.subtract(cost);
 					webLength = (int) distance + 5;
+					GreenfootSound sound = new GreenfootSound("web.wav");
+					sound.setVolume(Setting.getSFXVolume());
+					sound.play();
 				}
 				else
 				{
@@ -351,6 +354,9 @@ public class Spider extends Actor implements IDamageable
 			((Level) getWorld()).addLevelActor(blob, getX(), getY());
 			((Level) getWorld()).addLevelActor(new WebString(this, blob), getX(), getY());
 			blob.turnTowards(mi.getX(), mi.getY());
+			GreenfootSound sound = new GreenfootSound("blob1.wav");
+			sound.setVolume(Setting.getSFXVolume());
+			sound.play();
 		}
 	}
 
@@ -377,8 +383,9 @@ public class Spider extends Actor implements IDamageable
 	 */
 	private void removeBlob()
 	{
-		if(blob!=null && blob.getWorld()!=null){
-			((Level)getWorld()).removeLevelActor(blob);
+		if (blob != null && blob.getWorld() != null)
+		{
+			((Level) getWorld()).removeLevelActor(blob);
 		}
 
 		blob = null;
@@ -783,7 +790,8 @@ public class Spider extends Actor implements IDamageable
 		return false;
 	}
 
-	public void reload() {
+	public void reload()
+	{
 		getHealthBar().setValue(getHealthBar().getMaximumValue());
 		xSpeed = 0;
 		ySpeed = 0;
