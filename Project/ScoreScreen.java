@@ -37,7 +37,7 @@ public class ScoreScreen extends InfoScreen {
 		this.webBar = new ScoreBar("Web         ", score.getReachedWebScore(), score.getMaxWebScore());
 		webBar.setDangerColor(Color.LIGHT_GRAY);
 		webBar.setSafeColor(Color.LIGHT_GRAY);
-		this.timeBar = new ScoreBar("Time       ", score.getReachedTimeScore(), score.getMaxTimeScore());
+		this.timeBar = new ScoreBar("Time        ", score.getReachedTimeScore(), score.getMaxTimeScore());
 		timeBar.setDangerColor(Color.YELLOW);
 		timeBar.setSafeColor(Color.YELLOW);
 		

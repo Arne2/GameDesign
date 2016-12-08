@@ -120,7 +120,6 @@ public class Score {
 	}
 	
 	public int getReachedWebScore(){
-		System.out.println(getLeftWeb());
 		return (int) (webScore * (getLeftWeb()/(float)getMaxWeb()));
 	}
 	
@@ -129,8 +128,6 @@ public class Score {
 	}
 	
 	public int getReachedTimeScore(){
-		System.out.println(frames+" best ime: "+fiveStarTime);
-		System.out.println((timeScore * (1/(frames/(float)fiveStarTime))));
 		return Math.min(timeScore, (int) (timeScore * (1/(frames/(float)fiveStarTime))));
 	}
 	
@@ -139,7 +136,6 @@ public class Score {
 	}
 	
 	public int getReachedConsumableScore(){
-		System.out.println("left consumables: "+getConsumableLeftScore());
 		return (int) (collectibleScore * ((getConsumableScore() - getConsumableLeftScore())/(float)getConsumableScore()));
 	}
 
