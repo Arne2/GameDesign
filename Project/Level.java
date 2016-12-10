@@ -192,14 +192,6 @@ public abstract class Level extends SplorrtWorld
 
 	public abstract GreenfootImage getBackgroundImage();
 
-	/**
-	 * As a fraction. 1 means 1 extra star per maximum score. 0.2 means 1 extra star for 0.2 of the maximum score.
-	 */
-	public float getRequiredScorePerStar()
-	{
-		return 0.2f;
-	}
-
 	public String getName()
 	{
 		return getClass().getName();
@@ -253,7 +245,14 @@ public abstract class Level extends SplorrtWorld
 				}
 			}
 		}
-		score = new Score(getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getSpider().getWebBar().getMaximumValue(), getRequiredScorePerStar());
+		score = new Score(getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getMaxWebPossible(), getBestTimePossible());
+	}
+	
+	protected int getMaxWebPossible() {
+		return getSpider().getWebBar().getMaximumValue();
+	}
+	protected int getBestTimePossible() {
+		return 3000;
 	}
 
 	// Recognize colors in the level to create blocks.

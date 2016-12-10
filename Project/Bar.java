@@ -34,7 +34,7 @@ public class Bar extends LevelActor
     private void newImage()
     {
 //         int barValue = (int) (barWidth * value / maximumValue);
-        int barValue = (int) (barWidth * (value - minimumValue) / (maximumValue - minimumValue));
+        int barValue = maximumValue>0 ? (int) (barWidth * (value - minimumValue) / (maximumValue - minimumValue)) : barWidth;
         GreenfootImage leftImg = getLeftImage();
         GreenfootImage rightImg = (showTextualUnits) ? getRightImage() : new GreenfootImage(1, 1);
         int maxX = (leftImg.getWidth() > rightImg.getWidth()) ? leftImg.getWidth() : rightImg.getWidth();
