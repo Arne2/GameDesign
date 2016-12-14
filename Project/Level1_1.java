@@ -41,7 +41,12 @@ public class Level1_1 extends Level
 	
 	@Override
 	protected int getMaxWebPossible() {
-		return 400;
+		return 300;
+	}
+	
+	@Override
+	protected int getBestTimePossible() {
+		return 2200;
 	}
 
 	@Override

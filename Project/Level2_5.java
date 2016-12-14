@@ -27,6 +27,11 @@ public class Level2_5 extends Level
 	public int getStartingWeb(){
 	    return 100;
 	}
+	
+	@Override
+	protected int getMaxWebPossible() {
+		return 850;
+	}
 
 	@Override
 	public GreenfootSound getBackgroundMusic() {

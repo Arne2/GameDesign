@@ -252,7 +252,7 @@ public abstract class Level extends SplorrtWorld
 		return getSpider().getWebBar().getMaximumValue();
 	}
 	protected int getBestTimePossible() {
-		return 3000;
+		return 12000;
 	}
 
 	// Recognize colors in the level to create blocks.
