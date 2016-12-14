@@ -1,6 +1,8 @@
 import java.awt.Color;
 
+import greenfoot.Greenfoot;
 import greenfoot.GreenfootImage;
+import greenfoot.MouseInfo;
 
 public class ScoreScreen extends InfoScreen
 {
@@ -20,14 +22,18 @@ public class ScoreScreen extends InfoScreen
 	public static final int		X_BASE	= 600;
 	public static final int		Y_BASE	= 250;
 
+	private final SplorrtWorld	previous;
+
 	public ScoreScreen()
 	{
-		this(new Score("", 0, 5, 4, 450, 3000), null);
+		this(new Score("", 0, 5, 4, 450, 3000), null, null);
 	}
-	
-	public ScoreScreen(Score score, SplorrtWorld next)
+
+	public ScoreScreen(Score score, SplorrtWorld next, SplorrtWorld previous)
 	{
 		super(new GreenfootImage("ScoreScreen.jpg"), next);
+
+		this.previous = previous;
 
 		this.enemyBar = new ScoreBar("Enemies      ", score.getEnemyNumber() - score.getEnemyLeftNumber(), score.getEnemyNumber());
 		enemyBar.setDangerColor(Color.ORANGE);
@@ -68,10 +74,41 @@ public class ScoreScreen extends InfoScreen
 		this.addObject(timeBar, X_BASE, Y_BASE + 170);
 
 		this.addObject(separatorLabel, X_BASE, Y_BASE + 250);
-		
-		this.addObject(deathLabel, X_BASE, Y_BASE+280);
+
+		this.addObject(deathLabel, X_BASE, Y_BASE + 280);
 		this.addObject(enemyBar, X_BASE, Y_BASE + 310);
 		this.addObject(collectibleBar, X_BASE, Y_BASE + 340);
+	}
+
+	@Override
+	public void act()
+	{
+		if (Greenfoot.mousePressed(null))
+		{
+			MouseInfo mi = Greenfoot.getMouseInfo();
+			int clickX = mi.getX();
+			int clickY = mi.getY();
+
+			if (isBetween(clickX, 200, 400) && isBetween(clickY, 720, 780))
+			{
+				loadWorld(previous);
+			}
+			else if (isBetween(clickX, 500, 700) && isBetween(clickY, 720, 780))
+			{
+				loadWorld(new StartScreen());
+			}
+			else if (isBetween(clickX, 800, 1100) && isBetween(clickY, 720, 780))
+			{
+				loadWorld(super.getNext());
+			}
+		}
+	}
+
+	private boolean isBetween(int target, int lowerValue, int upperValue)
+	{
+		if (lowerValue < target && target < upperValue)
+			return true;
+		return false;
 	}
 
 }

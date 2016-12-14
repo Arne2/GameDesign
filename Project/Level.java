@@ -247,11 +247,14 @@ public abstract class Level extends SplorrtWorld
 		}
 		score = new Score(getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getMaxWebPossible(), getBestTimePossible());
 	}
-	
-	protected int getMaxWebPossible() {
+
+	protected int getMaxWebPossible()
+	{
 		return getSpider().getWebBar().getMaximumValue();
 	}
-	protected int getBestTimePossible() {
+
+	protected int getBestTimePossible()
+	{
 		return 12000;
 	}
 
@@ -292,6 +295,11 @@ public abstract class Level extends SplorrtWorld
 		return SplorrtWorld.getWorld(DEFAULT_WORLD);
 	}
 
+	public SplorrtWorld getCurrentLevel()
+	{
+		return SplorrtWorld.getWorld(DEFAULT_WORLD);
+	}
+
 	public void calculateScore()
 	{
 		int leftConsumableScore = 0;
@@ -327,7 +335,7 @@ public abstract class Level extends SplorrtWorld
 	public void finish()
 	{
 		calculateScore();
-		loadWorld(new ScoreScreen(score, getNextLevel()));
+		loadWorld(new ScoreScreen(score, getNextLevel(), getCurrentLevel()));
 	}
 
 	public void spiderDie()

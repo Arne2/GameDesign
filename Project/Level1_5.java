@@ -24,10 +24,11 @@ public class Level1_5 extends Level
 	private static final GreenfootSound	music		= new GreenfootSound("On My Way.wav");
 
 	@Override
-	public int getStartingWeb(){
-	    return 300;
+	public int getStartingWeb()
+	{
+		return 300;
 	}
-	
+
 	@Override
 	public GreenfootSound getBackgroundMusic()
 	{
@@ -45,15 +46,23 @@ public class Level1_5 extends Level
 	{
 		return new Level2_1();
 	}
-	
+
 	@Override
-	protected int getBestTimePossible() {
+	public SplorrtWorld getCurrentLevel()
+	{
+		return new Level1_5();
+	}
+
+	@Override
+	protected int getBestTimePossible()
+	{
 		return 6500;
 	}
-	
+
 	@Override
-	public void finish(){
-	    super.finish();
-	    LevelSelection.unlockAreas(1);
+	public void finish()
+	{
+		super.finish();
+		LevelSelection.unlockAreas(1);
 	}
 }
