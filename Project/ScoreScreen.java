@@ -29,7 +29,7 @@ public class ScoreScreen extends InfoScreen
 	{
 		super(new GreenfootImage("ScoreScreen.jpg"), next);
 
-		this.enemyBar = new ScoreBar("Enemies     ", score.getEnemyNumber() - score.getEnemyLeftNumber(), score.getEnemyNumber());
+		this.enemyBar = new ScoreBar("Enemies      ", score.getEnemyNumber() - score.getEnemyLeftNumber(), score.getEnemyNumber());
 		enemyBar.setDangerColor(Color.ORANGE);
 		enemyBar.setSafeColor(Color.ORANGE);
 
@@ -40,14 +40,14 @@ public class ScoreScreen extends InfoScreen
 		this.consumableBar = new ScoreBar("Collected  ", score.getReachedConsumableScore(), score.getMaxConsumableScore());
 		consumableBar.setDangerColor(Color.ORANGE);
 		consumableBar.setSafeColor(Color.ORANGE);
-		this.webBar = new ScoreBar("Web           ", score.getReachedWebScore(), score.getMaxWebScore());
+		this.webBar = new ScoreBar("Web          ", score.getReachedWebScore(), score.getMaxWebScore());
 		webBar.setDangerColor(Color.LIGHT_GRAY);
 		webBar.setSafeColor(Color.LIGHT_GRAY);
 		this.timeBar = new ScoreBar("Time          ", score.getReachedTimeScore(), score.getMaxTimeScore());
 		timeBar.setDangerColor(Color.YELLOW);
 		timeBar.setSafeColor(Color.YELLOW);
 
-		this.scoreBar = new ScoreBar("Score         ", score.getScore(), score.getMaxScore());
+		this.scoreBar = new ScoreBar("Score        ", score.getScore(), score.getMaxScore());
 		scoreBar.setSafeColor(Color.GREEN);
 		scoreBar.setDangerColor(Color.GREEN);
 

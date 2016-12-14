@@ -6,8 +6,10 @@ public class LevelRating extends LevelActor {
 	private static final GreenfootImage fullStar = new GreenfootImage("star_full.png");
 	
 	public LevelRating(int stars) {
-		if(stars<0 || stars>5){
-			throw new IllegalArgumentException();
+		if(stars<0){
+			stars = 0;
+		} else if(stars>5) {
+			stars = 5;
 		}
 		
 		int width = emptyStar.getWidth()*(5-stars) + fullStar.getWidth()*stars+8;
@@ -25,8 +27,10 @@ public class LevelRating extends LevelActor {
 	}
 	
 	public LevelRating(int stars, int newHeight) {
-		if(stars<0 || stars>5){
-			throw new IllegalArgumentException();
+		if(stars<0){
+			stars = 0;
+		} else if(stars>5) {
+			stars = 5;
 		}
 		
 		int width = emptyStar.getWidth()*(5-stars) + fullStar.getWidth()*stars+8;

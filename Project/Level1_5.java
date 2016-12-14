@@ -47,6 +47,11 @@ public class Level1_5 extends Level
 	}
 	
 	@Override
+	protected int getBestTimePossible() {
+		return 6500;
+	}
+	
+	@Override
 	public void finish(){
 	    super.finish();
 	    LevelSelection.unlockAreas(1);

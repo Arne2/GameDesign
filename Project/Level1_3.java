@@ -39,6 +39,11 @@ public class Level1_3 extends Level
 	{
 		return background;
 	}
+	
+	@Override
+	protected int getBestTimePossible() {
+		return 4000;
+	}
 
 	@Override
 	public SplorrtWorld getNextLevel()

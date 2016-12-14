@@ -44,6 +44,11 @@ public class Level2_1 extends Level
 	protected int getMaxWebPossible() {
 		return 950;
 	}
+	
+	@Override
+	protected int getBestTimePossible() {
+		return 6100;
+	}
 
 	@Override
 	public SplorrtWorld getNextLevel()

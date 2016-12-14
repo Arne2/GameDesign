@@ -120,7 +120,7 @@ public class Score {
 	}
 	
 	public int getReachedWebScore(){
-		return (int) (webScore * (getLeftWeb()/(float)getMaxWeb()));
+		return Math.min(webScore, (int) (webScore * (getLeftWeb()/(float)getMaxWeb())));
 	}
 	
 	public int getMaxTimeScore(){
@@ -136,7 +136,7 @@ public class Score {
 	}
 	
 	public int getReachedConsumableScore(){
-		return (int) (collectibleScore * ((getConsumableScore() - getConsumableLeftScore())/(float)getConsumableScore()));
+		return Math.min(collectibleScore, (int) (collectibleScore * ((getConsumableScore() - getConsumableLeftScore())/(float)getConsumableScore())));
 	}
 
 	public int getScore(){

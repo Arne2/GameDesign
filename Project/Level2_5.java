@@ -32,6 +32,11 @@ public class Level2_5 extends Level
 	protected int getMaxWebPossible() {
 		return 850;
 	}
+	
+	@Override
+	protected int getBestTimePossible() {
+		return 7000;
+	}
 
 	@Override
 	public GreenfootSound getBackgroundMusic() {
