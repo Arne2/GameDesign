@@ -5,5 +5,6 @@ public enum EnemyID
     WASP_MOVEABLE,
     SCORPION,
     SPIDER,
-    SPIKES
+    SPIKES,
+    THORNS,
 }

@@ -21,7 +21,17 @@ public class LevelActorLoader
     
     private static final Color PLATFORM_SAND = new Color(151,149,92);
     
+    private static final Color PLATFORM_SANDSTONE = new Color(151,132,46);
+    
+    private static final Color PLATFORM_WOOD = new Color(80,63,33);
+    
+    private static final Color PLATFORM_WOOD2 = new Color(57,43,17);
+    
     private static final Color ENEMY_SPIKES = new Color(246,49,121);
+    
+    private static final Color ENEMY_THORNS = new Color(196,135,116);
+    
+    private static final Color ENEMY_QUICKSAND = new Color(196, 140, 120);
     
     private static final Color PLATFORM_CACTUS = new Color(17,149,92);
     
@@ -30,6 +40,8 @@ public class LevelActorLoader
     private static final Color PLATFORM_STONE = new Color(81,81,81);
     
     private static final Color PLATFORM_LEAVES = new Color(0,78,0);
+    
+    private static final Color PLATFORM_LEAVES2 = new Color(0,80,0);
     
     private static final Color SPAWN = Color.YELLOW;
     
@@ -89,11 +101,25 @@ public class LevelActorLoader
             return new Platform(Platform.Type.SAND, x, y);
         } 
         
+        else if(color.equals(PLATFORM_SANDSTONE))
+        {
+            return new Platform(Platform.Type.SANDSTONE, x, y);
+        }
+        
         else if(color.equals(ENEMY_SPIKES))
         {
             return new Spikes(x, y);
         } 
         
+        else if(color.equals(ENEMY_THORNS))
+        {
+        	return new Thorns(x, y);
+        }
+        
+        else if(color.equals(ENEMY_QUICKSAND))
+        {
+        	return new Quicksand(x,y);
+        }
         else if(color.equals(PLATFORM_CACTUS))
         {
             return new Platform(Platform.Type.CACTUS, x, y);
@@ -109,9 +135,24 @@ public class LevelActorLoader
             return new Platform(Platform.Type.STONE, x, y);
         } 
         
+        else if(color.equals(PLATFORM_WOOD))
+        {
+            return new Platform(Platform.Type.WOOD, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_WOOD2))
+        {
+            return new Platform(Platform.Type.WOOD2, x, y);
+        } 
+        
         else if(color.equals(PLATFORM_LEAVES))
         {
             return new Platform(Platform.Type.LEAVES, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_LEAVES2))
+        {
+            return new Platform(Platform.Type.LEAVES2, x, y);
         } 
         
         else if(color.equals(SPAWN))
