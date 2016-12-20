@@ -589,7 +589,7 @@ public class Spider extends Actor implements IDamageable
 					for (Actor next : intersecting)
 					{
 
-						if (next instanceof Platform && ((wall == null || next.getX() + next.getImage().getWidth() / 2 < wall.getX() + wall.getImage().getWidth() / 2)))
+						if (next instanceof Platform && ((wall == null || next.getX() + next.getImage().getWidth() / 2 > wall.getX() + wall.getImage().getWidth() / 2)))
 							wall = (Platform) next;
 					}
 
