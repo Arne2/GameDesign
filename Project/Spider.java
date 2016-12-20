@@ -360,6 +360,13 @@ public class Spider extends Actor implements IDamageable
 		}
 	}
 
+	private boolean areaClear()
+	{
+		if (getObjectsAtOffset(1, 0, Platform.class).isEmpty() && getObjectsAtOffset(-1, 0, Platform.class).isEmpty() && getObjectsAtOffset(0, -1, Platform.class).isEmpty() && getObjectsAtOffset(0, 1, Platform.class).isEmpty())
+			return true;
+		return false;
+	}
+
 	/**
 	 * Lets the User adjust the web length.
 	 */
@@ -367,7 +374,7 @@ public class Spider extends Actor implements IDamageable
 	{
 		if (isKeyPressed(Keybind.PULL_UP))
 		{
-			if (webLength > WEB_LENGTH_CHANGE)
+			if (webLength > WEB_LENGTH_CHANGE && areaClear())
 			{
 				webLength -= WEB_LENGTH_CHANGE;
 			}
