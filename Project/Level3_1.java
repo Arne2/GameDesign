@@ -26,7 +26,7 @@ public class Level3_1 extends Level
 	@Override
 	public int getStartingWeb()
 	{
-		return 0;
+		return 200;
 	}
 
 	@Override

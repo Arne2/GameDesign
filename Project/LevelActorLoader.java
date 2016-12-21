@@ -35,6 +35,14 @@ public class LevelActorLoader
     
     private static final Color PLATFORM_CACTUS = new Color(17,149,92);
     
+    private static final Color PLATFORM_CACTUS_BASE = new Color(17,21,218);
+    
+    private static final Color PLATFORM_CACTUS_SIDE_L = new Color(219,148,255);
+    
+    private static final Color PLATFORM_CACTUS_SIDE_R = new Color(43,148,255);
+    
+    private static final Color PLATFORM_CACTUS_TOP = new Color(217,148,188);
+    
     private static final Color PLATFORM_COBBLE = new Color(125,125,125);
     
     private static final Color PLATFORM_STONE = new Color(81,81,81);
@@ -120,9 +128,30 @@ public class LevelActorLoader
         {
         	return new Quicksand(x,y);
         }
+        
         else if(color.equals(PLATFORM_CACTUS))
         {
             return new Platform(Platform.Type.CACTUS, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_SIDE_L))
+        {
+            return new Platform(Platform.Type.CACTUS_SIDE_L, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_SIDE_R))
+        {
+            return new Platform(Platform.Type.CACTUS_SIDE_R, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_TOP))
+        {
+            return new Platform(Platform.Type.CACTUS_TOP, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_BASE))
+        {
+            return new Platform(Platform.Type.CACTUS_BASE, x, y);
         } 
         
         else if(color.equals(PLATFORM_COBBLE))
