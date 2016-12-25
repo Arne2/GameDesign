@@ -58,4 +58,11 @@ public class Level3_2 extends Level
 	{
 		return new Level3_2();
 	}
+
+	@Override
+	public SplorrtWorld getNextLevel()
+	{
+		return new Level3_3();
+	}
+	
 }

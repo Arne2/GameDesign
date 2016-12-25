@@ -113,8 +113,8 @@ public class LevelSelection extends Level
 		levels.add(null);
 		
 		levels.add(new LevelInfo(new Level3_1(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
-		levels.add(new LevelInfo(new Level3_2(), Platform.Type.SAND, Platform.Type.STONE, Platform.Type.SANDSTONE));
-		//levels.add(new LevelInfo(new Level3_3(), Platform.Type.SAND, Platform.Type.STONE, Platform.Type.SANDSTONE));
+		levels.add(new LevelInfo(new Level3_2(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
+		levels.add(new LevelInfo(new Level3_3(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
 		//levels.add(new LevelInfo(new Level3_4(), Platform.Type.SAND, Platform.Type.STONE, Platform.Type.SANDSTONE));
 		//levels.add(new LevelInfo(new Level3_5(), Platform.Type.SAND, Platform.Type.STONE, Platform.Type.SANDSTONE));
 		
