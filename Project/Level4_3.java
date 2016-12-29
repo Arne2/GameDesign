@@ -7,15 +7,15 @@ import greenfoot.GreenfootSound;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Level4_2 extends Level
+public class Level4_3 extends Level
 {
 
-	public Level4_2(Spider spider)
+	public Level4_3(Spider spider)
 	{
 		super(spider);
 	}
 
-	public Level4_2()
+	public Level4_3()
 	{
 		this(null);
 	}
@@ -26,7 +26,7 @@ public class Level4_2 extends Level
 	@Override
 	public int getStartingWeb()
 	{
-		return 500;
+		return 90;
 	}
 
 	@Override
@@ -44,24 +44,24 @@ public class Level4_2 extends Level
 	@Override
 	protected int getMaxWebPossible()
 	{
-		return 750;
+		return 650;
 	}
 
 	@Override
 	protected int getBestTimePossible()
 	{
-		return 3800;
+		return 5000;
 	}
 
 	@Override
 	public SplorrtWorld getNextLevel()
 	{
-		return new Level4_3();
+		return new Level2_2();
 	}
 
 	@Override
 	public SplorrtWorld getCurrentLevel()
 	{
-		return new Level4_2();
+		return new Level4_3();
 	}
 }
