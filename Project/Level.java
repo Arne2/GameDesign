@@ -14,6 +14,7 @@ import greenfoot.GreenfootSound;
  */
 public abstract class Level extends SplorrtWorld
 {
+
 	private final Collection<LevelActor>	actors		= new ArrayList<>();
 	private final Collection<SpawnPoint>	spawnPoints	= new ArrayList<>();
 
@@ -340,7 +341,8 @@ public abstract class Level extends SplorrtWorld
 
 	public void spiderDie()
 	{
-		score.sincreaseDeaths(1);
+		if (score != null)
+			score.sincreaseDeaths(1);
 
 		// reset web
 		spider.getWebBar().setValue(getStartingWeb());
