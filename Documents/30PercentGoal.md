@@ -1,0 +1,7 @@
+- Web mechanics (swinging and grapple)
+- Start screen
+- Game over screen
+- Levels for playtesting
+- Health system
+- Enemy classes (3 enemies)
+- Playtesting w/ results (last week before deadline)

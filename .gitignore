@@ -6,5 +6,5 @@
 *.idea/*
 /standalone.properties
 /.classpath
-/splorrt.settings
-/splorrt.keybinds
+/.project
+splorrt.*

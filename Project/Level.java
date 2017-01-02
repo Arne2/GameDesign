@@ -14,7 +14,7 @@ import greenfoot.GreenfootSound;
  */
 public abstract class Level extends SplorrtWorld
 {
-	
+
 	private final Collection<LevelActor>	actors		= new ArrayList<>();
 	private final Collection<SpawnPoint>	spawnPoints	= new ArrayList<>();
 
@@ -193,14 +193,6 @@ public abstract class Level extends SplorrtWorld
 
 	public abstract GreenfootImage getBackgroundImage();
 
-	/**
-	 * As a fraction. 1 means 1 extra star per maximum score. 0.2 means 1 extra star for 0.2 of the maximum score.
-	 */
-	public float getRequiredScorePerStar()
-	{
-		return 0.2f;
-	}
-
 	public String getName()
 	{
 		return getClass().getName();
@@ -254,7 +246,17 @@ public abstract class Level extends SplorrtWorld
 				}
 			}
 		}
-		score = new Score(getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getSpider().getWebBar().getMaximumValue(), getRequiredScorePerStar());
+		score = new Score(getClass().getName(), maxConsumableNumber, maxConsumableScore, maxEnemyNumber, getMaxWebPossible(), getBestTimePossible());
+	}
+
+	protected int getMaxWebPossible()
+	{
+		return getSpider().getWebBar().getMaximumValue();
+	}
+
+	protected int getBestTimePossible()
+	{
+		return 12000;
 	}
 
 	// Recognize colors in the level to create blocks.
@@ -294,6 +296,11 @@ public abstract class Level extends SplorrtWorld
 		return SplorrtWorld.getWorld(DEFAULT_WORLD);
 	}
 
+	public SplorrtWorld getCurrentLevel()
+	{
+		return SplorrtWorld.getWorld(DEFAULT_WORLD);
+	}
+
 	public void calculateScore()
 	{
 		int leftConsumableScore = 0;
@@ -329,12 +336,13 @@ public abstract class Level extends SplorrtWorld
 	public void finish()
 	{
 		calculateScore();
-		loadWorld(new ScoreScreen(score, getNextLevel()));
+		loadWorld(new ScoreScreen(score, getNextLevel(), getCurrentLevel()));
 	}
 
 	public void spiderDie()
 	{
-		score.sincreaseDeaths(1);
+		if (score != null)
+			score.sincreaseDeaths(1);
 
 		// reset web
 		spider.getWebBar().setValue(getStartingWeb());

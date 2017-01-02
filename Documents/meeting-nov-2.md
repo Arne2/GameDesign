@@ -1,0 +1,12 @@
+-static enemy spawns
+-1200x800
+-enemies only moving back and forth -> static movement
+-enemy collision detection ( even off screen) LATER
+-enemies will be defeated by webbing first, then walking into them (will take a short time to defeat)
+-you have 3 health, enemies hit for 2
+-health regen by eating
+-enemies have hp
+-you deal damage by walking into them
+-knockback (with strengh - knockback by 10 blocks for example)
+-calling taking damage method of spider in enemy class, and have seperated knockback method
+-pics for enemies: other spider, scorpion, wasp

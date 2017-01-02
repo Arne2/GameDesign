@@ -24,10 +24,11 @@ public class Level2_1 extends Level
 	private static final GreenfootSound	music		= new GreenfootSound("Professor Umlaut.wav");
 
 	@Override
-	public int getStartingWeb(){
-	    return 300;
+	public int getStartingWeb()
+	{
+		return 300;
 	}
-	
+
 	@Override
 	public GreenfootSound getBackgroundMusic()
 	{
@@ -41,8 +42,26 @@ public class Level2_1 extends Level
 	}
 
 	@Override
+	protected int getMaxWebPossible()
+	{
+		return 950;
+	}
+
+	@Override
+	protected int getBestTimePossible()
+	{
+		return 6100;
+	}
+
+	@Override
 	public SplorrtWorld getNextLevel()
 	{
 		return new Level2_2();
+	}
+
+	@Override
+	public SplorrtWorld getCurrentLevel()
+	{
+		return new Level2_1();
 	}
 }
