@@ -31,6 +31,8 @@ public class LevelActorLoader
     
     private static final Color ENEMY_THORNS = new Color(196,135,116);
     
+    private static final Color ENEMY_THORNS2 = new Color(196,130,116);
+    
     private static final Color ENEMY_QUICKSAND = new Color(196, 140, 120);
     
     private static final Color PLATFORM_CACTUS = new Color(17,149,92);
@@ -125,7 +127,12 @@ public class LevelActorLoader
         
         else if(color.equals(ENEMY_THORNS))
         {
-        	return new Thorns(x, y);
+        	return new Thorns(x, y, false);
+        }
+        
+        else if(color.equals(ENEMY_THORNS2))
+        {
+        	return new Thorns(x, y, true);
         }
         
         else if(color.equals(ENEMY_QUICKSAND))
