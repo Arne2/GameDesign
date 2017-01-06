@@ -58,4 +58,17 @@ public class Level3_5 extends Level
 	{
 		return new Level3_5();
 	}
+
+	@Override
+	public SplorrtWorld getNextLevel()
+	{
+		return new Level4_1();
+	}
+
+	@Override
+	public void finish()
+	{
+		super.finish();
+		LevelSelection.unlockAreas(3);
+	}
 }

@@ -56,7 +56,7 @@ public class Level4_5 extends Level
 	@Override
 	public SplorrtWorld getNextLevel()
 	{
-		return new Level4_3();
+		return new Level1_1();
 	}
 
 	@Override
