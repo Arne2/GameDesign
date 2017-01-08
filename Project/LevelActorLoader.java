@@ -16,8 +16,10 @@ public class LevelActorLoader
     private static final Color PLATFORM_BRICK = new Color(246,150,121);
     
     private static final Color PLATFORM_GRASS = Color.GREEN;
-    
+
     private static final Color PLATFORM_DIRT = Color.LIGHT_GRAY;
+    
+    private static final Color PLATFORM_DIRT_BREAKABLE = new Color(152,152,152);
     
     private static final Color PLATFORM_SAND = new Color(151,149,92);
     
@@ -86,6 +88,11 @@ public class LevelActorLoader
         else if(color.equals(PLATFORM_DIRT))
         {
             return new Platform(Platform.Type.DIRT, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_DIRT_BREAKABLE))
+        {
+            return new Platform(Platform.Type.DIRT, x, y, true);
         } 
         
         else if(color.equals(PLATFORM_SAND))
