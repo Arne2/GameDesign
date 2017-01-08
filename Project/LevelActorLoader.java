@@ -28,6 +28,8 @@ public class LevelActorLoader
     private static final Color PLATFORM_CACTUS = new Color(17,149,92);
     
     private static final Color PLATFORM_COBBLE = new Color(125,125,125);
+
+    private static final Color PLATFORM_COBBLE_BREAKABLE = new Color(170,170,170);
     
     private static final Color PLATFORM_STONE = new Color(81,81,81);
     
@@ -113,6 +115,11 @@ public class LevelActorLoader
         else if(color.equals(PLATFORM_COBBLE))
         {
             return new Platform(Platform.Type.COBBLE, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_COBBLE_BREAKABLE))
+        {
+            return new Platform(Platform.Type.COBBLE, x, y, true);
         } 
         
         else if(color.equals(PLATFORM_STONE))
