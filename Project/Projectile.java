@@ -76,14 +76,19 @@ public abstract class Projectile extends LevelActor
          if(destroyed)
             return;
         
-         Actor a = null;
-         a = getOneIntersectingObject(Platform.class);
+         Platform a = null;
+         a = (Platform)getOneIntersectingObject(Platform.class);
          if(a != null)
          {
-             ((Level) getWorld()).removeLevelActor(this);
-               destroyed = true;
-               return;
-            }
+        	 if(a.isBreakable()){
+        		 ((Level) getWorld()).removeLevelActor(a);
+		         return;
+        	 } else {
+		         ((Level) getWorld()).removeLevelActor(this);
+		         destroyed = true;
+		         return;
+        	 }
+	     }
     }
     
     public void checkDamage()
