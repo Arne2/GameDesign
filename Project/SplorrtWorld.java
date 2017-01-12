@@ -1,7 +1,14 @@
 
 // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 import greenfoot.World;
+
+import greenfoot.core.WorldHandler;
+import javax.swing.*;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 
 /**
  * Our basic World. Provides functionality to load a SplorrtWorld into Greenfoot. Any world in Splorrt is supposed to to extend this class.
@@ -16,14 +23,34 @@ public abstract class SplorrtWorld extends World
 
 	public static final Class<? extends SplorrtWorld>	DEFAULT_WORLD	= StartScreen.class;
 
+	private JPanel pan = WorldHandler.getInstance().getWorldCanvas();  
+    /** The new Cursor */
+    private Cursor newCursor;
 	/**
 	 * Constructor for objects of class SplorrtWorld.
 	 * 
 	 */
 	public SplorrtWorld()
 	{
-		// Create a new world with 600x400 cells with a cell size of 1x1 pixels.
 		super(WIDTH, HEIGHT, 1, false);
+		
+		GreenfootImage cursorImg = new GreenfootImage("spiderweb.png");
+		cursorImg.scale(32, 32);
+		
+		/** You need a toolkit to Create a completly new Cursor */
+        Toolkit Tk = Toolkit.getDefaultToolkit();
+        /** The Cursor Point, where the cursor have to click from the left uppon corner of the Cursor Picture */
+        Point CursorPoint= new Point(0,0);
+        /** Now you create the new Cursor */
+        newCursor = 
+            /** With the Toolkit you can Create a new Cursor */
+        Tk.createCustomCursor(
+            /** The Image, the Cursor should have, if you wont to clear the Cursor it have to be an empty Image */
+            cursorImg.getAwtImage(),
+            /** The Cursor Point */
+            CursorPoint,
+            /** A Name for the new Cursor */
+            "Web");
 	}
 
 	/**
@@ -117,6 +144,9 @@ public abstract class SplorrtWorld extends World
 	@Override
 	public void act()
 	{
+		/** Sets the Cursor Image to the New Cursor */
+        pan.setCursor(newCursor);
+        
 		if (Greenfoot.isKeyDown("escape"))
 			loadWorld(new StartScreen());
 	}
