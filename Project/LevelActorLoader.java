@@ -222,12 +222,12 @@ public class LevelActorLoader
         
         else if(color.equals(ENEMY_SCORPION_MOVEABLE))
         {
-            return new EnemySpawner(EnemyID.SCORPION_MOVEABLE, x, y);
+            return new SpawnPoint(new EnemyScorpion(x, y, true, false));
         }  
         
         else if(color.equals(ENEMY_SCORPION_SHOOTING))
         {
-            return new EnemySpawner(EnemyID.SCORPION_SHOOTING, x, y);
+            return new SpawnPoint(new EnemyScorpion(x, y, false, true));
         }
         
         else if(color.equals(GOAL))
