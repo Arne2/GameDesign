@@ -9,6 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Consumable extends LevelActor
 {
     public static final int ANIMATION_FRAMES = 10;
+    
+    private int	soundVolume;
 	
     public enum Type{
     	BUG(0, 70, 0, "dead_fly.png"),
@@ -36,6 +38,7 @@ public class Consumable extends LevelActor
     
     public Consumable(Type type){
     	this(type, 0, 0);
+    	
     }
     
     public Consumable(Type type, int x, int y){
@@ -67,6 +70,17 @@ public class Consumable extends LevelActor
         	spider.getWebBar().add(type.web);
         	spider.getHealthBar().add(type.health);
         	((Level)getWorld()).removeLevelActor(this);
+        	soundVolume = Setting.getSFXVolume();
+        	if(this.type == Consumable.Type.COIN ){
+        		GreenfootSound coinSound = new GreenfootSound("coin.wav");
+				coinSound.setVolume(soundVolume);
+				coinSound.play();
+        	}
+        	else {
+        		GreenfootSound coinSound = new GreenfootSound("mediumCrunch.wav");
+				coinSound.setVolume((int) (soundVolume * 0.8));
+				coinSound.play();
+        	}
         }
     }
 
