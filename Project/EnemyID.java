@@ -8,5 +8,6 @@ public enum EnemyID
     SCORPION_MOVEABLE,
     SCORPION_SHOOTING,
     SPIDER,
-    SPIKES
+    SPIKES,
+    THORNS,
 }

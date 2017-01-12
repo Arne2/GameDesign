@@ -109,6 +109,23 @@ public class LevelSelection extends Level
 		levels.add(new LevelInfo(new Level2_3(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
 		levels.add(new LevelInfo(new Level2_4(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
 		levels.add(new LevelInfo(new Level2_5(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
+		
+		levels.add(null);
+		
+		levels.add(new LevelInfo(new Level3_1(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
+		levels.add(new LevelInfo(new Level3_2(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
+		levels.add(new LevelInfo(new Level3_3(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
+		levels.add(new LevelInfo(new Level3_4(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
+		levels.add(new LevelInfo(new Level3_5(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
+
+		levels.add(null);
+
+		levels.add(new LevelInfo(new Level4_1(), Platform.Type.GRASS, Platform.Type.DIRT));
+		levels.add(new LevelInfo(new Level4_2(), Platform.Type.GRASS, Platform.Type.DIRT));
+		levels.add(new LevelInfo(new Level4_3(), Platform.Type.GRASS, Platform.Type.DIRT));
+		levels.add(new LevelInfo(new Level4_4(), Platform.Type.GRASS, Platform.Type.DIRT));
+		levels.add(new LevelInfo(new Level4_5(), Platform.Type.GRASS, Platform.Type.DIRT));
+
 
 		for (int y = 0; y < SIDE_HEIGHT + PLATFORM_DEPTH; y++)
 		{

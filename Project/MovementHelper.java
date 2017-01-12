@@ -78,7 +78,6 @@ public class MovementHelper
                 else
                 {
                    canMove = false;
-                   System.out.println(s.getX());
                 }
                     
         }

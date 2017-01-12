@@ -21,15 +21,37 @@ public class LevelActorLoader
     
     private static final Color PLATFORM_SAND = new Color(151,149,92);
     
+    private static final Color PLATFORM_SANDSTONE = new Color(151,132,46);
+    
+    private static final Color PLATFORM_WOOD = new Color(80,63,33);
+    
+    private static final Color PLATFORM_WOOD2 = new Color(57,43,17);
+    
     private static final Color ENEMY_SPIKES = new Color(246,49,121);
     
+    private static final Color ENEMY_THORNS = new Color(196,135,116);
+    
+    private static final Color ENEMY_THORNS2 = new Color(196,130,116);
+    
+    private static final Color ENEMY_QUICKSAND = new Color(196, 140, 120);
+    
     private static final Color PLATFORM_CACTUS = new Color(17,149,92);
+    
+    private static final Color PLATFORM_CACTUS_BASE = new Color(17,21,218);
+    
+    private static final Color PLATFORM_CACTUS_SIDE_L = new Color(219,148,255);
+    
+    private static final Color PLATFORM_CACTUS_SIDE_R = new Color(43,148,255);
+    
+    private static final Color PLATFORM_CACTUS_TOP = new Color(217,148,188);
     
     private static final Color PLATFORM_COBBLE = new Color(125,125,125);
     
     private static final Color PLATFORM_STONE = new Color(81,81,81);
     
     private static final Color PLATFORM_LEAVES = new Color(0,78,0);
+    
+    private static final Color PLATFORM_LEAVES2 = new Color(0,80,0);
     
     private static final Color SPAWN = Color.YELLOW;
     
@@ -93,14 +115,54 @@ public class LevelActorLoader
             return new Platform(Platform.Type.SAND, x, y);
         } 
         
+        else if(color.equals(PLATFORM_SANDSTONE))
+        {
+            return new Platform(Platform.Type.SANDSTONE, x, y);
+        }
+        
         else if(color.equals(ENEMY_SPIKES))
         {
             return new Spikes(x, y);
         } 
         
+        else if(color.equals(ENEMY_THORNS))
+        {
+        	return new Thorns(x, y, false);
+        }
+        
+        else if(color.equals(ENEMY_THORNS2))
+        {
+        	return new Thorns(x, y, true);
+        }
+        
+        else if(color.equals(ENEMY_QUICKSAND))
+        {
+        	return new Quicksand(x,y);
+        }
+        
         else if(color.equals(PLATFORM_CACTUS))
         {
             return new Platform(Platform.Type.CACTUS, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_SIDE_L))
+        {
+            return new Platform(Platform.Type.CACTUS_SIDE_L, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_SIDE_R))
+        {
+            return new Platform(Platform.Type.CACTUS_SIDE_R, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_TOP))
+        {
+            return new Platform(Platform.Type.CACTUS_TOP, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_CACTUS_BASE))
+        {
+            return new Platform(Platform.Type.CACTUS_BASE, x, y);
         } 
         
         else if(color.equals(PLATFORM_COBBLE))
@@ -113,9 +175,24 @@ public class LevelActorLoader
             return new Platform(Platform.Type.STONE, x, y);
         } 
         
+        else if(color.equals(PLATFORM_WOOD))
+        {
+            return new Platform(Platform.Type.WOOD, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_WOOD2))
+        {
+            return new Platform(Platform.Type.WOOD2, x, y);
+        } 
+        
         else if(color.equals(PLATFORM_LEAVES))
         {
             return new Platform(Platform.Type.LEAVES, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_LEAVES2))
+        {
+            return new Platform(Platform.Type.LEAVES2, x, y);
         } 
         
         else if(color.equals(SPAWN))
@@ -145,12 +222,12 @@ public class LevelActorLoader
         
         else if(color.equals(ENEMY_SCORPION_MOVEABLE))
         {
-            return new EnemySpawner(EnemyID.SCORPION_MOVEABLE, x, y);
+            return new SpawnPoint(new EnemyScorpion(x, y, true, false));
         }  
         
         else if(color.equals(ENEMY_SCORPION_SHOOTING))
         {
-            return new EnemySpawner(EnemyID.SCORPION_SHOOTING, x, y);
+            return new SpawnPoint(new EnemyScorpion(x, y, false, true));
         }
         
         else if(color.equals(GOAL))

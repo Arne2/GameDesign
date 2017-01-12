@@ -17,10 +17,19 @@ public class Platform extends LevelActor
     	BRICK("Bricks_128x128.png", true),
         //SPIKES("Spikes32x32.png", true),
         SAND("Sand32x32.png", true),
+        SANDSTONE("Sandstone(32x32).png", true),
         CACTUS("Cactus32x32.png", true),
+        CACTUS_BASE("CactusBase(32x32).png", false),
+        CACTUS_SIDE_L("CactusSideL(32x32).png", false),
+        CACTUS_SIDE_R("CactusSideR(32x32).png", false),
+        CACTUS_TOP("CactusTop(32x32).png", false),
         COBBLE("Cobblestone32x32.png", true),
         STONE("Stone32x32.png", true),
-        LEAVES("Leaves32x32.png", false);
+        WOOD("Wood(32x32).png", true),
+        WOOD2("Wood2(32x32).png", true),
+        LEAVES("Leaves32x32.png", false),
+        LEAVES2("Leaves2(32x32).png", false);
+
     	
     	private final String image;
     	private final boolean sticky;
