@@ -158,7 +158,7 @@ public class LevelSelection extends Level
 				}
 
 				int y = yStart - 3 * Platform.SIZE - Greenfoot.getRandomNumber(7) * Platform.SIZE;
-				if (area <= unlockedAreas)
+				if (area <= unlockedAreas || Setting.isHaungsMode())
 				{
 					Platform selector = new LevelSelectorShootPlatform(info.surfaceType, WIDTH_PER_LEVEL * Platform.SIZE * i + Platform.SIZE * (WIDTH_PER_LEVEL / 2 + 1), y, levels.get(i).world);
 					addLevelActor(selector);
@@ -186,7 +186,7 @@ public class LevelSelection extends Level
 			}
 			else
 			{
-				if (area++ < unlockedAreas)
+				if (area++ < unlockedAreas || Setting.isHaungsMode())
 				{
 					for (int x = 0; x < WIDTH_PER_LEVEL; x++)
 					{
