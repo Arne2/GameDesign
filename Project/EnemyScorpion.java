@@ -93,6 +93,15 @@ public class EnemyScorpion extends ProjectileEnemy implements IMoveable
         }
     }
 
+    @Override
+    public void onDamaged()
+    {
+        if(getFacingDirection() == Direction.LEFT)
+            images.addImageForFrames(new GreenfootImage("scorp_hit_left.png"), 40, false);
+        else
+            images.addImageForFrames(new GreenfootImage("scorp_hit_right.png"), 40, false); 
+    }
+
     private void animate()
     {
         images.next();
@@ -106,12 +115,6 @@ public class EnemyScorpion extends ProjectileEnemy implements IMoveable
     public Projectile getProjectile()
     {
         return new ScorpionProjectile(this);
-    }
-    
-    @Override
-    public void onDamaged()
-    {
-        
     }
     
     @Override
