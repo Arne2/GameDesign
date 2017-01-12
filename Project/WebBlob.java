@@ -25,6 +25,7 @@ public class WebBlob extends LevelActor
 			if (platform != null)
 			{
 				if(((Platform)platform).isBreakable()) {
+                	((Level)getWorld()).getSpider().getWebBar().subtract(Spider.BLOCK_BREAK_COST);
                 	((Level)getWorld()).removeLevelActor((Platform)platform);
                 	((Level)getWorld()).removeLevelActor(this);
                     return;
