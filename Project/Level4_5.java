@@ -20,7 +20,7 @@ public class Level4_5 extends Level
 		this(null);
 	}
 
-	private static final GreenfootImage	background	= new GreenfootImage("Forrest_Sky.png");
+	private static final GreenfootImage	background	= new GreenfootImage("Tree_background.png");
 	private static final GreenfootSound	music		= new GreenfootSound("Constance.wav");
 
 	@Override
