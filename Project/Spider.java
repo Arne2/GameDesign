@@ -485,6 +485,14 @@ public class Spider extends Actor implements IDamageable
 	 */
 	public void moveVertically(int ySpeed)
 	{
+	    if(blob != null && blob.getY() <= getY() )
+        {
+            int newY = getY() + ySpeed;
+            if(newY < blob.getY())
+                ySpeed = blob.getY() - getY();
+
+        }
+        
 		if (ySpeed != 0)
 		{
 			// the actual movement
