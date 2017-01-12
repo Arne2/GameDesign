@@ -26,7 +26,7 @@ public class Level2_5 extends Level
 	@Override
 	public int getStartingWeb()
 	{
-		return 100;
+		return 150;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class Level2_5 extends Level
 	@Override
 	protected int getBestTimePossible()
 	{
-		return 7000;
+		return 7100;
 	}
 
 	@Override
