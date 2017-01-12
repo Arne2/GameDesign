@@ -31,9 +31,13 @@ public class LevelActorLoader
     
     private static final Color ENEMY_SPIKES = new Color(246,49,121);
     
+    private static final Color ENEMY_SPIKES2 = new Color(246,44,121);
+    
     private static final Color ENEMY_THORNS = new Color(196,135,116);
     
     private static final Color ENEMY_THORNS2 = new Color(196,130,116);
+    
+    private static final Color DEATH_FIELD = new Color(150,50,50);
     
     private static final Color ENEMY_QUICKSAND = new Color(196, 140, 120);
     
@@ -131,8 +135,13 @@ public class LevelActorLoader
         
         else if(color.equals(ENEMY_SPIKES))
         {
-            return new Spikes(x, y);
+            return new Spikes(x, y, false);
         } 
+        
+        else if(color.equals(ENEMY_SPIKES2))
+        {
+            return new Spikes(x, y, true);
+        }         
         
         else if(color.equals(ENEMY_THORNS))
         {
@@ -147,6 +156,11 @@ public class LevelActorLoader
         else if(color.equals(ENEMY_QUICKSAND))
         {
         	return new Quicksand(x,y);
+        }
+        
+        else if(color.equals(DEATH_FIELD))
+        {
+        	return new DeathField(x,y);
         }
         
         else if(color.equals(PLATFORM_CACTUS))
