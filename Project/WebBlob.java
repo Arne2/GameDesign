@@ -24,11 +24,16 @@ public class WebBlob extends LevelActor
 			Actor platform = getOneObjectAtOffset(0, 0, Platform.class);
 			if (platform != null)
 			{
-				 if(((Platform)platform).getType().isSticky()){
+				if(((Platform)platform).isBreakable()) {
+                	((Level)getWorld()).getSpider().getWebBar().subtract(Spider.BLOCK_BREAK_COST);
+                	((Level)getWorld()).removeLevelActor((Platform)platform);
+                	((Level)getWorld()).removeLevelActor(this);
+                    return;
+	            } else if(((Platform)platform).getType().isSticky()){
                     stationary = true;
                 } else {
-                     ((Level)getWorld()).removeLevelActor(this);
-                     return;
+                	((Level)getWorld()).removeLevelActor(this);
+                	return;
                 }
 			}
 

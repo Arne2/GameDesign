@@ -70,6 +70,7 @@ public class Spider extends Actor implements IDamageable
 	private final WebBar		webBar					= new WebBar(STARTWEB, MAXWEB);
 
 	public static final int		ENEMY_STUN_COST			= 50;
+	public static final int		BLOCK_BREAK_COST		= 50;
 	public static final double	WEB_COST_PER_LENGTH		= 0.5;
 
 	private static final int	FRAMES_PER_PICTURE_MOVE	= 8;

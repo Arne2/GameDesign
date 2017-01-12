@@ -16,8 +16,10 @@ public class LevelActorLoader
     private static final Color PLATFORM_BRICK = new Color(246,150,121);
     
     private static final Color PLATFORM_GRASS = Color.GREEN;
-    
+
     private static final Color PLATFORM_DIRT = Color.LIGHT_GRAY;
+    
+    private static final Color PLATFORM_DIRT_BREAKABLE = new Color(152,152,152);
     
     private static final Color PLATFORM_SAND = new Color(151,149,92);
     
@@ -46,6 +48,8 @@ public class LevelActorLoader
     private static final Color PLATFORM_CACTUS_TOP = new Color(217,148,188);
     
     private static final Color PLATFORM_COBBLE = new Color(125,125,125);
+
+    private static final Color PLATFORM_COBBLE_BREAKABLE = new Color(170,170,170);
     
     private static final Color PLATFORM_STONE = new Color(81,81,81);
     
@@ -110,6 +114,11 @@ public class LevelActorLoader
             return new Platform(Platform.Type.DIRT, x, y);
         } 
         
+        else if(color.equals(PLATFORM_DIRT_BREAKABLE))
+        {
+            return new Platform(Platform.Type.DIRT, x, y, true);
+        } 
+        
         else if(color.equals(PLATFORM_SAND))
         {
             return new Platform(Platform.Type.SAND, x, y);
@@ -168,6 +177,11 @@ public class LevelActorLoader
         else if(color.equals(PLATFORM_COBBLE))
         {
             return new Platform(Platform.Type.COBBLE, x, y);
+        } 
+        
+        else if(color.equals(PLATFORM_COBBLE_BREAKABLE))
+        {
+            return new Platform(Platform.Type.COBBLE, x, y, true);
         } 
         
         else if(color.equals(PLATFORM_STONE))

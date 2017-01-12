@@ -9,7 +9,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Platform extends LevelActor
 {
 	public static final int SIZE = 32;
+	public static final GreenfootImage cracks = new GreenfootImage("platform_cracks.png");
 	private final Type type;
+	private final boolean breakable;
     
     public enum Type{
     	GRASS("GrassBlock_128x128.png", true),
@@ -45,16 +47,28 @@ public class Platform extends LevelActor
     }
     
     public Platform(Type type, int x, int y){
+    	this(type, x, y, false);
+    }
+    
+    public Platform(Type type, int x, int y, boolean breakable){
     	super(x, y);
         
     	this.type = type;
+    	this.breakable = breakable;
         GreenfootImage image = new GreenfootImage(type.image);
         image.scale(SIZE, SIZE);
+        if(breakable){
+        	image.drawImage(cracks, 0, 0);
+        }
         setImage(image);
     }
     
     public Type getType(){
         return type;
+    }
+    
+    public boolean isBreakable(){
+    	return breakable;
     }
     
     /**
