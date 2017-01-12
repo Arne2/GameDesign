@@ -711,8 +711,13 @@ public class Spider extends Actor implements IDamageable
 	@Override
 	public void decreaseHealth(int count)
 	{
-		if (!haungsMode)
+		if (!haungsMode){
 			this.healthBar.subtract(count);
+			soundVolume = Setting.getSFXVolume();
+			GreenfootSound painSound = new GreenfootSound("auw.wav");
+			painSound.setVolume(soundVolume);
+			painSound.play();
+			}
 	}
 
 	@Override
@@ -722,6 +727,10 @@ public class Spider extends Actor implements IDamageable
 		{
 			int h = this.healthBar.getValue() - 1;
 			this.healthBar.subtract(h);
+			soundVolume = Setting.getSFXVolume();
+            GreenfootSound painSound = new GreenfootSound("auw.wav");
+			painSound.setVolume(soundVolume);
+			painSound.play();
 		}
 	}
 

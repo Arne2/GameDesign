@@ -1,4 +1,5 @@
 import greenfoot.Actor;
+import greenfoot.GreenfootSound;
 
 public abstract class Enemy extends LevelActor implements IDamageable
 {
@@ -30,6 +31,8 @@ public abstract class Enemy extends LevelActor implements IDamageable
     private final LevelActor spawnOnDeath;
     
     private int sightRadius = 300;
+    
+    private int	soundVolume;
     
     private boolean seeSpider = false;
         
@@ -245,6 +248,10 @@ public abstract class Enemy extends LevelActor implements IDamageable
                 l.addLevelActor(spawnOnDeath, getX(), getY());
             }
             l.removeLevelActor(this);
+            soundVolume = Setting.getSFXVolume();
+            GreenfootSound painSound = new GreenfootSound("auw.wav");
+			painSound.setVolume(soundVolume);
+			painSound.play();
             return;
         }
     }

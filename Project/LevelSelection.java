@@ -109,9 +109,9 @@ public class LevelSelection extends Level
 		levels.add(new LevelInfo(new Level2_3(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
 		levels.add(new LevelInfo(new Level2_4(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
 		levels.add(new LevelInfo(new Level2_5(), Platform.Type.STONE, Platform.Type.STONE, Platform.Type.COBBLE));
-		
+
 		levels.add(null);
-		
+
 		levels.add(new LevelInfo(new Level3_1(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
 		levels.add(new LevelInfo(new Level3_2(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
 		levels.add(new LevelInfo(new Level3_3(), Platform.Type.SAND, Platform.Type.SANDSTONE, Platform.Type.SANDSTONE));
@@ -125,7 +125,6 @@ public class LevelSelection extends Level
 		levels.add(new LevelInfo(new Level4_3(), Platform.Type.GRASS, Platform.Type.DIRT));
 		levels.add(new LevelInfo(new Level4_4(), Platform.Type.GRASS, Platform.Type.DIRT));
 		levels.add(new LevelInfo(new Level4_5(), Platform.Type.GRASS, Platform.Type.DIRT));
-
 
 		for (int y = 0; y < SIDE_HEIGHT + PLATFORM_DEPTH; y++)
 		{
@@ -159,7 +158,7 @@ public class LevelSelection extends Level
 				}
 
 				int y = yStart - 3 * Platform.SIZE - Greenfoot.getRandomNumber(7) * Platform.SIZE;
-				if (area <= unlockedAreas)
+				if (area <= unlockedAreas || Setting.isHaungsMode())
 				{
 					Platform selector = new LevelSelectorShootPlatform(info.surfaceType, WIDTH_PER_LEVEL * Platform.SIZE * i + Platform.SIZE * (WIDTH_PER_LEVEL / 2 + 1), y, levels.get(i).world);
 					addLevelActor(selector);
@@ -187,7 +186,7 @@ public class LevelSelection extends Level
 			}
 			else
 			{
-				if (area++ < unlockedAreas)
+				if (area++ < unlockedAreas || Setting.isHaungsMode())
 				{
 					for (int x = 0; x < WIDTH_PER_LEVEL; x++)
 					{
@@ -208,6 +207,7 @@ public class LevelSelection extends Level
 		if (currentLevel != index && index >= 0 && index < levels.size() && levels.get(index) != null)
 		{
 			GreenfootSound newMusic = levels.get(index).getLevel().getBackgroundMusic();
+			newMusic.setVolume(Setting.getMusicVolume());
 
 			String newName = newMusic.toString().split(" ")[2];
 			String oldName = music.toString().split(" ")[2];

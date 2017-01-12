@@ -44,7 +44,7 @@ public class Level2_2 extends Level
 	@Override
 	protected int getMaxWebPossible()
 	{
-		return 750;
+		return 700;
 	}
 
 	@Override
