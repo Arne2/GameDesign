@@ -40,7 +40,7 @@ public abstract class SplorrtWorld extends World
 		/** You need a toolkit to Create a completly new Cursor */
         Toolkit Tk = Toolkit.getDefaultToolkit();
         /** The Cursor Point, where the cursor have to click from the left uppon corner of the Cursor Picture */
-        Point CursorPoint= new Point(0,0);
+        Point CursorPoint= new Point(15,15);
         /** Now you create the new Cursor */
         newCursor = 
             /** With the Toolkit you can Create a new Cursor */
