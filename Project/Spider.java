@@ -100,7 +100,6 @@ public class Spider extends Actor implements IDamageable
 
 	public Spider()
 	{
-		loadKeybinds();
 
 		soundVolume = Setting.getSFXVolume();
 		haungsMode = Setting.isHaungsMode();
@@ -134,12 +133,6 @@ public class Spider extends Actor implements IDamageable
 
 		images.useSet(AnimationSet.DEFAULT_SET);
 		setImage(images.getImage());
-	}
-
-	private void loadKeybinds()
-	{
-		// if we want to load keybinds from file
-		// TODO: load keybinds from file
 	}
 
 	/**
@@ -485,14 +478,14 @@ public class Spider extends Actor implements IDamageable
 	 */
 	public void moveVertically(int ySpeed)
 	{
-	    if(blob != null && blob.getY() <= getY() )
-        {
-            int newY = getY() + ySpeed;
-            if(newY < blob.getY())
-                ySpeed = blob.getY() - getY();
+		if (blob != null && blob.getY() <= getY())
+		{
+			int newY = getY() + ySpeed;
+			if (newY < blob.getY())
+				ySpeed = blob.getY() - getY();
 
-        }
-        
+		}
+
 		if (ySpeed != 0)
 		{
 			// the actual movement
@@ -711,13 +704,14 @@ public class Spider extends Actor implements IDamageable
 	@Override
 	public void decreaseHealth(int count)
 	{
-		if (!haungsMode){
+		if (!haungsMode)
+		{
 			this.healthBar.subtract(count);
 			soundVolume = Setting.getSFXVolume();
 			GreenfootSound painSound = new GreenfootSound("auw.wav");
 			painSound.setVolume(soundVolume);
 			painSound.play();
-			}
+		}
 	}
 
 	@Override
@@ -728,7 +722,7 @@ public class Spider extends Actor implements IDamageable
 			int h = this.healthBar.getValue() - 1;
 			this.healthBar.subtract(h);
 			soundVolume = Setting.getSFXVolume();
-            GreenfootSound painSound = new GreenfootSound("auw.wav");
+			GreenfootSound painSound = new GreenfootSound("auw.wav");
 			painSound.setVolume(soundVolume);
 			painSound.play();
 		}
