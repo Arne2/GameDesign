@@ -20,7 +20,7 @@ public class Level1_1 extends Level
 	}
 
 	private static final GreenfootImage	background	= new GreenfootImage("Sky_blue.png");
-	private static final GreenfootSound	music		= new GreenfootSound("On My Way.wav");
+	private static final GreenfootSound	music		= new GreenfootSound("On My Way.mp3");
 
 	@Override
 	public int getStartingWeb()

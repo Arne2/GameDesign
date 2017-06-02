@@ -21,7 +21,7 @@ public class Level4_4 extends Level
 	}
 
 	private static final GreenfootImage	background	= new GreenfootImage("Forrest_Sky.png");
-	private static final GreenfootSound	music		= new GreenfootSound("Constance.wav");
+	private static final GreenfootSound	music		= new GreenfootSound("Constance.mp3");
 
 	@Override
 	public int getStartingWeb()

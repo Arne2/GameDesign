@@ -21,7 +21,7 @@ public class Level2_5 extends Level
 	}
 
 	private static final GreenfootImage	background	= new GreenfootImage("Cave_grey.png");
-	private static final GreenfootSound	music		= new GreenfootSound("Professor Umlaut.wav");
+	private static final GreenfootSound	music		= new GreenfootSound("Professor Umlaut.mp3");
 
 	@Override
 	public int getStartingWeb()
